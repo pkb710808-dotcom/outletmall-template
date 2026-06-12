@@ -39,3 +39,10 @@
 2. Netlify 프로젝트 생성
 3. 새 도메인 연결
 4. 이 PROJECT_RULES.md 파일 유지
+## 배포 방식
+
+- GitHub → Netlify 자동배포만 사용
+- Netlify Drop 사용 금지
+- ZIP 수동 업로드 사용 금지
+- 모든 수정은 GitHub 저장소에 반영
+- 수정 후 GitHub Commit 시 Netlify 자동 배포
