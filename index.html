@@ -1,0 +1,2671 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PKB71 PREMIUM LUXURY SELECTION</title>
+    <!-- 패션 매거진 감성의 세련된 Outfit 영문 및 Noto Sans KR 국문 폰트 적용 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Outfit:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- 🌟 [무설치 최첨단 Supabase 라이브러리 탑재] 🌟 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- 🔒 [CryptoJS 전세계 표준 암호화 라이브러리 탑재] 🔒 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    
+    <!-- 📊 [Chart.js 시각화 차트 라이브러리 탑재] 📊 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- 📊 [SheetJS 엑셀 대량 파싱 및 내보내기 라이브러리 탑재] 📊 -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    
+    <!-- 세련된 미니멀 패션 스타일시트 로드 -->
+    <link rel="stylesheet" href="style.css?v=3.0.18">
+</head>
+<body>
+
+    <!-- 🏰 [쇼핑몰 전체 컨테이너] 🏰 -->
+    <div id="app">
+        
+        <!-- 1. [상단 로고 & 헤더 - 최상단 네비바 및 하단 로고 레이아웃 대개편] -->
+        <header class="fashion-header">
+            <!-- [1단: 최상단이 된 카테고리/게시판 네비바 및 일체형 검색창] -->
+            <!-- 인라인 보더 스타일을 제거하고 style.css에서 클래스로 통합 제어하도록 변경했습니다. -->
+            <div class="header-bottom-nav">
+                <div class="bottom-nav-container">
+                    <!-- 하단 메뉴 목록: 대표님의 요청에 따라 LOGIN/JOIN US가 NOTICE, Q&A 앞으로 오도록 순서를 재배치했습니다. -->
+                    <div class="bottom-nav-links">
+                        <!-- 🌟 [이식] 최상단 네비바에 부착된 로그인 / 회원가입 메뉴 (비로그인 상태 노출) -->
+                        <!-- display: contents 스타일을 통해 span 컨테이너가 부모 flex 정렬을 방해하지 않고 일렬 배치가 되게 만듭니다. -->
+                        <span id="header-guest-menu" style="display: contents;">
+                            <a href="#" class="bottom-nav-item" onclick="openAuthModal('signin')">LOGIN</a>
+                            <a href="#" class="bottom-nav-item" onclick="openAuthModal('signup')">JOIN US</a>
+                        </span>
+                        <!-- 로그인 성공 시의 마이페이지 / 로그아웃 메뉴 (로그인 상태 노출) -->
+                        <span id="header-user-menu" style="display: none;">
+                            <a href="#" class="bottom-nav-item" id="nav-mypage" onclick="navigateTo('mypage')">MY PAGE</a>
+                            <a href="#" class="bottom-nav-item" onclick="handleLogout()">LOGOUT</a>
+                        </span>
+
+                        <!-- 공지사항 메뉴 버튼 -->
+                        <a href="#" class="bottom-nav-item" id="nav-notice" onclick="navigateTo('notice')">NOTICE</a>
+                        <!-- Q&A 게시판 스크롤 이동 버튼 -->
+                        <a href="#" class="bottom-nav-item" onclick="scrollToQnaSection()">Q&A</a>
+                    </div>
+
+                    <!-- 장바구니 및 우측 검색창 섹션 -->
+                    <div class="bottom-nav-actions">
+                        <!-- 럭셔리 미니멀 검색 바 -->
+                        <div class="header-search-box">
+                            <input type="text" id="header-search-input" placeholder="SEARCH..." onkeyup="handleHeaderSearchKeyUp(event)">
+                            <button class="header-search-btn" onclick="executeHeaderSearch()">🔍</button>
+                        </div>
+                        
+                        <!-- 장바구니 버튼 (동적 뱃지 포함) -->
+                        <a href="#" class="nav-cart-btn-luxury" onclick="toggleCartModal()">
+                            <span class="cart-icon">🛒</span>
+                            <span class="cart-count-badge" id="header-cart-count">0</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- [2단: 하단으로 내려온 중앙 패션 매거진 로고 비주얼] -->
+            <div class="header-center-logo" onclick="navigateTo('home')">
+                <span class="logo-mag-subtitle">HIGH-END CURATED OUTLET</span>
+                <h1 class="logo-mag-title">OUTLETMALL</h1>
+            </div>
+            
+            <!-- [신설: 4단 스티키 필터 바] 상단 헤더 내부에 탑재하여 스크롤 시 상단 자동 고정 -->
+            <div class="shop-filter-bar" id="main-shop-filter-bar" style="flex-direction: column; align-items: stretch; gap: 10px; padding: 15px 24px;">
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <!-- 카테고리 대분류 탭 메뉴 (Supabase 및 로컬스토리지 카테고리 테이블과 연동되어 동적 렌더링됩니다) -->
+                    <div class="category-tabs" id="category-tabs-container" style="border: none; margin: 0; padding: 0;"></div>
+                    
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <!-- 👑 [신설 2단계 고도화] 브랜드 수집 필터 드롭다운 및 럭셔리 라벨 -->
+                        <div class="brand-box-luxury" style="display: flex; align-items: center; gap: 8px;">
+                            <span class="filter-label-luxury">BRAND</span>
+                            <select id="brand-select" onchange="executeBrandFilter()">
+                                <option value="">ALL (전체)</option>
+                            </select>
+                        </div>
+
+                        <!-- 정렬 드롭다운 메뉴 -->
+                        <div class="sort-box">
+                            <select id="sort-select" onchange="executeSort()">
+                                <option value="latest">최신 등록순</option>
+                                <option value="price-asc">가격 낮은순</option>
+                                <option value="price-desc">가격 높은순</option>
+                                <option value="brand">브랜드 이름순</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🏷️ [신설 3단계 대중소 고도화] 중분류 탭 영역 (대분류 선택 시 슬라이딩 노출) -->
+                <div class="subcategory-tabs" id="subcategory-tabs-container" style="display: none;"></div>
+                
+                <!-- 🏷️ [신설 3단계 대중소 고도화] 소분류 탭 영역 (중분류 선택 시 슬라이딩 노출) -->
+                <div class="microcategory-tabs" id="microcategory-tabs-container" style="display: none;"></div>
+            </div>
+        </header>
+
+        <!-- ⚡ [신설 4차 고도화] 우측 따라다니는 최근 본 상품 럭셔리 퀵 바 (Quick Bar) -->
+        <div id="recent-quick-bar" class="recent-quick-bar-wrapper">
+            <h4 class="quick-bar-title">LATEST VIEW</h4>
+            <div class="quick-divider"></div>
+            <div class="quick-items-container" id="quick-recent-list">
+                <!-- 최근 본 상품 피드백 전시 -->
+                <p class="quick-empty-text">비어있음</p>
+            </div>
+        </div>
+
+        <!-- 2. [메인 배너 영역 (Gentleman & Golf 2페이징 페이드 캐러셀 슬라이더)] -->
+        <!-- 대표님의 요청에 따라 2페이지 슬라이더로 변경하였으며, 화면이 번쩍이지 않고 차분하게 바뀌는 페이드(Fade) 방식을 채택했습니다. -->
+        <section id="hero-banner" class="hero-section">
+            <!-- 슬라이더 트랙: absolute로 겹쳐진 슬라이드들을 묶어주는 전체 컨테이너입니다. -->
+            <div class="hero-slider-track" id="hero-slider-track">
+                <!-- [1페이지 슬라이드: 남성 프리미엄 의류 & 골프웨어] -->
+                <!-- active 클래스가 붙은 슬라이드가 브라우저 화면에 우선적으로 나타납니다. -->
+                <div class="hero-slide active" style="background-image: url('mens_luxury_banner.png');">
+                    <div class="hero-image-overlay"></div>
+                    <div class="hero-content">
+                        <p class="hero-subtitle">PREMIUM MENSWEAR & GOLF</p>
+                        <h2 class="hero-title">The Modern Gentleman</h2>
+                        <p class="hero-desc">필드와 일상을 유연하게 넘나드는 정교한 실루엣, 타협 없는 원단 퀄리티가 깃든 남성 하이엔드 셀렉션</p>
+                        <div class="hero-divider"></div>
+                    </div>
+                </div>
+
+                <!-- [2페이지 슬라이드: 남성 시그니처 가죽 잡화 & 골프 액세서리] -->
+                <div class="hero-slide" style="background-image: url('mens_accessory_banner.png');">
+                    <div class="hero-image-overlay"></div>
+                    <div class="hero-content">
+                        <p class="hero-subtitle">LUXURY LEATHER & ACCESSORIES</p>
+                        <h2 class="hero-title">Signature Details</h2>
+                        <p class="hero-desc">선택된 최고급 가죽 소재와 감각적인 실용성, 완벽한 필드 스타일을 완성하는 하이엔드 잡화 라인업</p>
+                        <div class="hero-divider"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 미니멀 씬 라인 화살표 버튼 (수동 슬라이드 전환용) -->
+            <button class="hero-slide-btn prev-btn" onclick="moveHeroSlide(-1)">⟨</button>
+            <button class="hero-slide-btn next-btn" onclick="moveHeroSlide(1)">⟩</button>
+
+            <!-- 하단 도트 인디케이터 (현재 몇 번째 슬라이드인지 원형 점으로 시각화 및 클릭 이동 지원) -->
+            <div class="hero-dots">
+                <span class="hero-dot active" onclick="currentHeroSlide(0)"></span>
+                <span class="hero-dot" onclick="currentHeroSlide(1)"></span>
+            </div>
+        </section>
+
+        <!-- 4. [본체 콘텐츠 뷰포트] -->
+        <main class="main-viewport">
+            
+            <!-- 🏠 A. [고객용 상품 목록 페이지] 🏠 -->
+            <div id="view-home" class="page-view">
+                
+                <!-- 3. [신설: 프리미엄 에디토리얼 브랜드 스토리 배너] -->
+                <!-- 대표님의 요청에 따라 감동적인 이전 줄글 문구는 그대로 복원하고, 배너 박스 디자인을 액자식 이중 테두리와 엠블럼으로 고급화하여 밋밋함을 없앴습니다. -->
+                <!-- 홈 화면 내부로 배치하여 다른 서브 페이지나 상세페이지에서 이탈 시 상단 노출을 방지합니다. -->
+                <section class="shop-story-section">
+                    <div class="story-card-container">
+                        <!-- 명품 보증서 감성의 안쪽 얇은 이중 프레임 라인 -->
+                        <div class="story-inner-frame">
+                            <!-- 중앙 엠블럼 데코 기호 -->
+                            <div class="story-emblem">✦  ✦  ✦</div>
+                            <!-- 세련된 골드 브라운 감성의 영문 태그 -->
+                            <span class="story-eng-tag">OUR ESSENTIAL STORY</span>
+                            <!-- 현명한 남성들의 마음을 울리는 헤드라인 -->
+                            <h3 class="story-headline">브랜드의 거품을 걷어내고, 패션의 본질에 집중합니다</h3>
+                            <div class="story-divider-line"></div>
+                            <!-- 대표님의 진솔한 대변 스토리 복구 완료 -->
+                            <p class="story-paragraph">
+                                일상의 세련된 비즈니스 캐주얼부터 필드 위의 활동적인 스포츠웨어, 스타일의 격을 완성하는 명품 잡화까지. 
+                                우리가 매일 옷을 입고 물건을 고를 때 진짜 필요한 것은 수백만 원에 달하는 무거운 브랜드 로고가 아닌, 몸에 닿는 편안함과 탄탄한 소재 본연의 가치입니다. 
+                                우리는 브랜드 네임이라는 보이지 않는 유통 마진과 과도한 마케팅 비용을 전면 배제하고, 동일한 실용성과 품격 있는 스타일을 갖춘 의류와 잡화만을 엄선하여 소싱합니다. 
+                                트렌디한 감각은 지키되 지갑의 부담은 덜어내는, 합리적이고 현명한 남성들을 위한 정직한 아울렛몰이 되겠습니다.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 🆕 1. [NEW ARRIVALS] 가로 스크롤 신상 슬라이더 구좌 -->
+                <div class="new-arrivals-section" id="main-new-arrivals-section" style="margin-bottom: 45px;">
+                    <!-- 🎨 [디자인 변경] 대표님의 요청으로 타이틀(NEW ARRIVALS)과 소제목 문구를 화면 중앙(center)으로 정렬하여 시각적 안정감을 주었습니다. -->
+                    <div class="filter-header" style="margin-bottom: 22px; text-align: center; border-bottom: none; padding-bottom: 0;">
+                        <h3 class="section-title" style="font-size: 18px; letter-spacing: 2px;">NEW ARRIVALS</h3>
+                        <p class="section-sub" style="margin-bottom: 0;">매일 실시간으로 큐레이션되는 정직한 최신 신상 컬렉션</p>
+                    </div>
+                    <!-- 가로 슬라이더 레이아웃 (내비게이션 장착) -->
+                    <div class="new-slider-wrapper">
+                        <button class="slider-nav-btn prev-btn" onclick="slideProducts('prev')">‹</button>
+                        <div id="new-arrivals-slider" class="new-slider-content">
+                            <!-- app.js에서 3:4 액자형 신상 카드가 동적으로 주입됩니다 -->
+                        </div>
+                        <button class="slider-nav-btn next-btn" onclick="slideProducts('next')">›</button>
+                    </div>
+                </div>
+
+                <div class="section-divider-line" style="margin: 40px 0; border-bottom: 1px dashed var(--border-light);"></div>
+
+                <!-- 🏆 2. [WEEKLY BEST SELLER] 랭킹 명품 구획 -->
+                <div class="weekly-best-section" id="main-weekly-best-section" style="margin-bottom: 45px;">
+                    <!-- 🎨 [디자인 변경] 타이틀(WEEKLY BEST SELLER)과 소제목 문구를 화면 중앙(center)으로 정렬하여 통일감을 주었습니다. -->
+                    <div class="filter-header" style="margin-bottom: 25px; text-align: center; border-bottom: none; padding-bottom: 0;">
+                        <h3 class="section-title" style="font-size: 18px; letter-spacing: 2px;">WEEKLY BEST SELLER</h3>
+                        <p class="section-sub" style="margin-bottom: 0;">이번 주 가장 뜨거운 성원과 찜 횟수를 기록한 베스트 아이템</p>
+                    </div>
+                    <!-- 랭킹 4열 그리드 -->
+                    <div id="best-seller-grid" class="best-grid-container">
+                        <!-- app.js에서 골드 넘버링(01~04)이 탑재된 카드가 동적으로 주입됩니다 -->
+                    </div>
+                </div>
+
+                <div class="section-divider-line" style="margin: 40px 0; border-bottom: 1px dashed var(--border-light);"></div>
+
+                <!-- 🧥 3. [EXCLUSIVE COLLECTION] 일반 전체 상품 그리드 -->
+                <div class="all-collection-section">
+                    <!-- 🎨 [디자인 변경] 타이틀(EXCLUSIVE COLLECTION)과 소제목 문구를 화면 중앙(center)으로 정렬하여 통일감을 주었습니다. -->
+                    <div class="filter-header" style="margin-bottom: 30px; text-align: center;">
+                        <h3 class="section-title" style="font-size: 18px; letter-spacing: 2px;">EXCLUSIVE COLLECTION</h3>
+                        <p class="section-sub">공급처에서 엄선한 의류 및 잡화 전체 라인업</p>
+                    </div>
+                    
+                    <!-- 일반 상품 그리드 리스트 -->
+                    <div id="product-grid" class="product-grid-container">
+                        <div class="loading-box">
+                            <div class="spinner"></div>
+                            <p>Supabase 클라우드에서 명품 컬렉션을 인출하고 있습니다...</p>
+                        </div>
+                    </div>
+
+                    <!-- 👑 [신설] 1만 개 대량 상품 수용용 미니멀 페이지네이션 번호판 -->
+                    <div id="product-pagination" class="luxury-pagination"></div>
+                </div>
+
+                <!-- Q&A 간편 게시판 섹션 -->
+                <section class="qna-section">
+                    <div class="qna-header">
+                        <div>
+                            <h3 class="qna-title">Q&A BOARD</h3>
+                            <p class="qna-desc">사이즈 선택, 원단 배송 등 궁금하신 점을 1:1로 편안하게 문의하세요.</p>
+                        </div>
+                        <button class="qna-write-btn" onclick="openQnaWriteModal()">✏️ 문의글 작성하기</button>
+                    </div>
+                    
+                    <div class="qna-table-container">
+                        <table class="qna-table">
+                            <thead>
+                                <tr>
+                                    <th width="10%">상태</th>
+                                    <th width="50%">문의 제목</th>
+                                    <th width="20%">작성자</th>
+                                    <th width="20%">작성일시</th>
+                                </tr>
+                            </thead>
+                            <tbody id="qna-rows-container">
+                                <tr>
+                                    <td colspan="4" style="text-align: center; color: var(--text-secondary); padding: 30px 0;">
+                                        등록된 Q&A 문의 내역이 없습니다.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 💖 C. [고객용 북마크 찜 목록 페이지] 💖 -->
+            <div id="view-wishlist" class="page-view" style="display: none;">
+                <div class="back-nav" onclick="navigateTo('home')">
+                    <span class="arrow">←</span> BACK TO COLLECTION
+                </div>
+                
+                <div class="filter-header">
+                    <h3 class="section-title">MY BOOKMARKS</h3>
+                    <p class="section-sub">대표님 쇼핑몰에서 가장 마음에 들어 찜해주신 럭셔리 컬렉션 목록입니다. ❤️</p>
+                </div>
+                
+                <!-- 북마크 그리드 컨테이너 -->
+                <div id="wishlist-grid" class="product-grid-container">
+                    <!-- JS에 의해 찜한 상품들이 동적으로 전시됩니다 -->
+                    <div class="loading-box">
+                        <p style="color: var(--text-secondary);">찜해두신 상품이 아직 없습니다. 🤍 하트를 클릭해 마음에 드는 상품을 채워보세요!</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 📢 D. [고객용 NOTICE & EVENT 게시판 페이지] 📢 -->
+            <div id="view-notice" class="page-view" style="display: none;">
+                <div class="back-nav" onclick="navigateTo('home')">
+                    <span class="arrow">←</span> BACK TO COLLECTION
+                </div>
+                
+                <div class="filter-header">
+                    <h3 class="section-title">NOTICE & EVENT</h3>
+                    <p class="section-sub">아울렛몰의 신속한 공지사항 및 다양한 스페셜 이벤트를 확인해 보세요.</p>
+                </div>
+                
+                <div class="notice-board-container">
+                    <!-- 공지/이벤트 분류 탭 -->
+                    <div class="notice-tabs">
+                        <button class="notice-tab-btn active" id="notice-tab-all" onclick="filterNoticeBoard('all')">전체보기</button>
+                        <button class="notice-tab-btn" id="notice-tab-notice" onclick="filterNoticeBoard('notice')">NOTICE (공지)</button>
+                        <button class="notice-tab-btn" id="notice-tab-event" onclick="filterNoticeBoard('event')">EVENT (이벤트)</button>
+                    </div>
+                    
+                    <!-- 실제 공지 리스트 -->
+                    <div class="notice-list" id="notice-list-container">
+                        <!-- JS로 동적 렌더링 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- ⭐ E. [고객용 REVIEW 만족후기 갤러리 페이지] ⭐ -->
+            <div id="view-review" class="page-view" style="display: none;">
+                <div class="back-nav" onclick="navigateTo('home')">
+                    <span class="arrow">←</span> BACK TO COLLECTION
+                </div>
+                
+                <div class="filter-header">
+                    <h3 class="section-title">EXCLUSIVE REVIEWS</h3>
+                    <p class="section-sub">실제 아울렛몰을 이용해 주신 VIP 고객님들의 극찬이 담긴 생생한 리뷰를 공개합니다.</p>
+                </div>
+                
+                <div class="review-board-container">
+                    <!-- 종합 별점 만족도 지수 통계 배너 -->
+                    <div class="review-stats-banner">
+                        <div>
+                            <div class="stat-val gold">4.9 / 5.0</div>
+                            <div class="stat-label">👑 평균 구매 만족도</div>
+                        </div>
+                        <div>
+                            <div class="stat-val" id="review-stat-count">0건</div>
+                            <div class="stat-label">📝 총 작성 후기수</div>
+                        </div>
+                        <div>
+                            <div class="stat-val">100%</div>
+                            <div class="stat-label">💯 고품격 원단 만족도</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 🛡️ [보안/편의 고도화] 별점 만족도 및 포토 리뷰 필터링 드롭다운 추가 -->
+                    <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">리뷰 필터링:</span>
+                            <select id="review-filter-select" class="form-input" style="padding: 8px 12px; font-size: 12.5px; width: 160px; margin: 0;" onchange="filterReviewFeed(this.value)">
+                                <option value="all">전체 후기보기</option>
+                                <option value="5">★★★★★ 5점 후기</option>
+                                <option value="4">★★★★☆ 4점 후기</option>
+                                <option value="3down">★★★☆☆ 3점 이하 후기</option>
+                                <option value="photo">📸 포토 후기만</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- 리뷰 피드 그리드 -->
+                    <div class="review-feed-grid" id="review-feed-container">
+                        <!-- JS로 동적 렌더링 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🧥 B. [고객용 상품 상세 페이지] 🧥 -->
+            <div id="view-detail" class="page-view" style="display: none;">
+                <div class="back-nav" onclick="navigateTo('home')">
+                    <span class="arrow">←</span> BACK TO COLLECTION
+                </div>
+                
+                <div class="detail-layout">
+                    <!-- 왼쪽: 대표 이미지 컨테이너 (첫 번째 이미지만 단독 큼직하게 노출) -->
+                    <div class="detail-main-img-container" id="detail-main-img-container">
+                        <!-- JS로 첫 번째 대표 이미지 동적 주입 -->
+                    </div>
+                    
+                    <!-- 오른쪽: 미니멀 사양의 주문 및 정보 패널 -->
+                    <div class="detail-panel">
+                        <div class="sticky-panel-content">
+                            <!-- 1. [개선] 상단 브랜드명 단독 배치 (찜 버튼은 하단으로 통합) -->
+                            <div class="detail-brand-wrapper">
+                                <p class="detail-brand" id="det-brand">BRAND NAME</p>
+                            </div>
+                            
+                            <h2 class="detail-title" id="det-name">Product Name</h2>
+                            
+                            <!-- 2. [개선] 29CM 감성 럭셔리 할인가 정보 박스 -->
+                            <div class="detail-price-box">
+                                <span class="price-original" id="det-price-original">₩0</span>
+                                <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 4px;">
+                                    <span class="price-discount-rate" id="det-discount-rate">0% OFF</span>
+                                    <span class="price-val" id="det-price">₩0</span>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-divider"></div>
+
+                            <!-- 3. [신설] 배송 및 웰컴 적립 혜택 요약 미색 박스 -->
+                            <div class="benefit-summary-box">
+                                <div class="benefit-row">
+                                    <span class="benefit-icon">🚚</span>
+                                    <span class="benefit-label">배송 정보</span>
+                                    <span class="benefit-value"><b>무료 배송</b> (오늘 주문 시 오늘 우체국 즉시 출고)</span>
+                                </div>
+                                <div class="benefit-row" style="margin-top: 10px;">
+                                    <span class="benefit-icon">🪙</span>
+                                    <span class="benefit-label">구매 혜택</span>
+                                    <span class="benefit-value">신규 회원 가입 즉시 <b>3,000점 적립금</b> 적용 사용 가능</span>
+                                </div>
+                            </div>
+                            
+                            <div class="detail-divider"></div>
+                            
+                            <!-- 🌟 [아울렛몰.shop 스타일] 드롭다운 옵션 선택 란 -->
+                            <div class="option-select-area">
+                                <div class="option-group">
+                                    <label class="opt-label">COLOR (색상 선택)</label>
+                                    <select id="det-colors-select" class="detail-select-box" onchange="handleOptionChange()">
+                                        <option value="">- [필수] 색상 옵션을 선택해 주세요 -</option>
+                                    </select>
+                                </div>
+                                <div class="option-group" style="margin-top: 15px;">
+                                    <label class="opt-label">SIZE (사이즈 선택)</label>
+                                    <select id="det-sizes-select" class="detail-select-box" onchange="handleOptionChange()">
+                                        <option value="">- [필수] 사이즈 옵션을 선택해 주세요 -</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- 🌟 [동적 생성] 선택된 옵션 품목 목록 리스트 존 -->
+                            <div id="det-selected-options-container" class="selected-options-container">
+                                <!-- 자바스크립트에 의해 선택한 옵션들이 카드로 차곡차곡 쌓입니다 -->
+                            </div>
+                            
+                            <!-- 🌟 [실시간 연산] 총 상품 금액 표시 영역 -->
+                            <div id="det-total-price-box" class="detail-total-price-box" style="display: none;">
+                                <span class="total-label">총 상품금액 (수량)</span>
+                                <span class="total-price-display">
+                                    <b class="total-price-val" id="det-total-price-val">₩0</b>
+                                    <span class="total-qty-val" id="det-total-qty-val">(0개)</span>
+                                </span>
+                            </div>
+                            
+                            <div class="detail-divider"></div>
+                            
+                            <!-- 👑 [아울렛몰.shop 감성 웅장 버튼] 구매 및 보조 버튼 배치 -->
+                            <div class="action-buttons-group-luxury">
+                                <!-- 1순위: 바로 구매 버튼 (100% 가로 대형) -->
+                                <button class="buy-now-btn" id="buy-now-btn" onclick="buyItNowDirect()">
+                                    ⚡ BUY IT NOW (바로 구매하기)
+                                </button>
+                                
+                                <!-- 2순위: 장바구니 및 찜하기 보조 결합 라인 -->
+                                <div class="sub-buttons-row">
+                                    <button class="sub-cart-btn" id="add-to-cart-btn" onclick="addProductToCart()">
+                                        🛒 ADD CART (장바구니)
+                                    </button>
+                                    <button class="sub-wish-btn" id="det-wish-btn" onclick="toggleWishlistDetail()">
+                                        ♡ WISH LIST
+                                    </button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 🌟 [아울렛몰.shop 정통 레이아웃] 중하단 영역 신설: 아코디언 스펙 + 웅장한 상세 이미지 전체 나열 -->
+                <div class="detail-bottom-wrapper">
+                    
+                    <!-- 3. [상세페이지 하단 브랜드 스토리 배너 이식] -->
+                    <!-- 고객님이 상세페이지 하단 룩북으로 진입하기 직전, 브랜드 가치를 편안하게 이해할 수 있도록 재배치했습니다. -->
+                    <section class="shop-story-section" style="margin-bottom: 40px; padding: 0;">
+                        <div class="story-card-container">
+                            <!-- 상세페이지 폭에 맞춘 이중 프레임 여백 및 헤드라인 크기 보정 -->
+                            <div class="story-inner-frame" style="padding: 30px 35px;">
+                                <div class="story-emblem">✦  ✦  ✦</div>
+                                <span class="story-eng-tag">OUR ESSENTIAL STORY</span>
+                                <h3 class="story-headline" style="font-size: 22px;">브랜드의 거품을 걷어내고, 패션의 본질에 집중합니다</h3>
+                                <div class="story-divider-line"></div>
+                                <p class="story-paragraph" style="font-size: 13.5px; line-height: 1.85;">
+                                    일상의 세련된 비즈니스 캐주얼부터 필드 위의 활동적인 스포츠웨어, 스타일의 격을 완성하는 명품 잡화까지. 
+                                    우리가 매일 옷을 입고 물건을 고를 때 진짜 필요한 것은 수백만 원에 달하는 무거운 브랜드 로고가 아닌, 몸에 닿는 편안함과 탄탄한 소재 본연의 가치입니다. 
+                                    우리는 브랜드 네임이라는 보이지 않는 유통 마진과 과도한 마케팅 비용을 전면 배제하고, 동일한 실용성과 품격 있는 스타일을 갖춘 의류와 잡화만을 엄선하여 소싱합니다. 
+                                    트렌디한 감각은 지키되 지갑의 부담은 덜어내는, 합리적이고 현명한 남성들을 위한 정직한 아울렛몰이 되겠습니다.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="detail-divider" style="margin: 40px 0;"></div>
+
+                    <!-- 📂 [3안 적용] 슬림 아코디언 하이브리드 스타일 주문 전 확인사항 가이드 -->
+                    <div class="luxury-guidelines-accordion">
+                        <button class="guidelines-accordion-header" onclick="toggleGuidelinesAccordion()">
+                            <span class="guidelines-header-title">👑 주문 전 필수 확인사항 (배송 / 교환 및 환불 가이드)</span>
+                            <span class="guidelines-header-icon" id="guidelines-accordion-icon">▼</span>
+                        </button>
+                        <div class="guidelines-accordion-content" id="guidelines-accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out; padding: 0 40px; background-color: #FFFFFF; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+                            
+                            <div class="guidelines-grid" style="margin-top: 30px; margin-bottom: 30px;">
+                                <!-- 배송기간 카드 -->
+                                <div class="guidelines-card">
+                                    <div class="guidelines-card-header">
+                                        <span class="guidelines-card-icon">📦</span>
+                                        <h4 class="guidelines-card-title">SHIPPING (배송 기간 안내)</h4>
+                                    </div>
+                                    <div class="guidelines-card-divider"></div>
+                                    <ul class="guidelines-list">
+                                        <li>
+                                            <span class="bullet">▪</span>
+                                            <p class="text">평일 기준 <strong>3일 ~ 5일</strong> 정도 소요됩니다. (주말 및 공휴일은 배송 기한에서 제외됩니다.)</p>
+                                        </li>
+                                        <li>
+                                            <span class="bullet">▪</span>
+                                            <p class="text">거래처 및 제조사 사정에 따라 품절이 발생하거나 리오더(재생산) 진행 시, 개별적으로 정성껏 유선 혹은 문자 연락을 드립니다.</p>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <!-- 교환 및 환불 카드 -->
+                                <div class="guidelines-card">
+                                    <div class="guidelines-card-header">
+                                        <span class="guidelines-card-icon">🔄</span>
+                                        <h4 class="guidelines-card-title">RETURNS & EXCHANGES (교환 및 환불)</h4>
+                                    </div>
+                                    <div class="guidelines-card-divider"></div>
+                                    <ul class="guidelines-list">
+                                        <li>
+                                            <span class="bullet">▪</span>
+                                            <p class="text">주문 즉시 제조사에 오더가 전달되는 <strong>1:1 맞춤 주문제작 시스템</strong>의 특성상, 주문 완료 후 단순 변심으로 인한 취소, 교환, 환불은 불가하오니 신중한 결정을 부탁드립니다.</p>
+                                        </li>
+                                        <li>
+                                            <span class="bullet">▪</span>
+                                            <p class="text">초기 상품 불량 및 사이즈 교환 요청은 수령 후 <strong>24시간 이내</strong>에 1:1 카카오톡 고객센터로 접수해 주시면 신속 처리가 가능합니다.</p>
+                                        </li>
+                                        <li>
+                                            <span class="bullet">▪</span>
+                                            <p class="text">부착된 라벨/텍(Tag)을 훼손하거나 제거한 경우, 실외 착용 흔적이 발견되거나 세탁을 진행한 이후에는 교환 및 반품 처리가 절대 불가합니다.</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- 하단 신중 구매 부탁 문구 -->
+                            <div class="guidelines-footer" style="border-top: 1px solid var(--border-light); padding-top: 25px; padding-bottom: 25px;">
+                                <p class="footer-notice">※ 안내된 확인사항을 꼼꼼하게 필독하신 후, 신중하고 품격 있는 구매 결정을 부탁드립니다. ※</p>
+                                <p class="footer-eng">Please read all guidelines carefully before purchasing to support high-end curated quality.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-divider" style="margin: 40px 0;"></div>
+                    
+                    <!-- 📂 [개편 완료] 슬림 아코디언 하이브리드 스타일 상품 상세 설명 패널 -->
+                    <div class="luxury-description-accordion">
+                        <button class="description-accordion-header" onclick="toggleDescriptionAccordion()">
+                            <span class="description-header-title">📄 상품 상세 설명 (원단감 / 피팅 코디 가이드 열기)</span>
+                            <span class="description-header-icon" id="description-accordion-icon">▼</span>
+                        </button>
+                        <div class="description-accordion-content" id="description-accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out; padding: 0 40px; background-color: #FFFFFF; border-left: 1px solid var(--border-light); border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); border-bottom-left-radius: 12px; border-bottom-right-radius: 12px;">
+                            <div class="product-description-text" id="det-description" style="margin-top: 25px; margin-bottom: 25px;">
+                                <!-- 대표님이 실질적으로 가공하여 입력하신 상품 상세 텍스트가 줄바꿈 그대로 동적 주입됩니다 -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-divider" style="margin: 40px 0;"></div>
+                    
+                    <!-- 📷 상세 이미지들이 아래로 거대하고 웅장하게 정렬 나열될 전용 구역 -->
+                    <div class="detail-sub-images-container" id="detail-sub-images-container">
+                        <!-- JS로 두 번째 이미지부터 순서대로 나열 -->
+                    </div>
+
+                    <div class="detail-divider" style="margin: 60px 0;"></div>
+
+                    <!-- 🛡️ 5차 고도화: 최하단 PKB71 LUXURY SIGNATURE CARE (3대 명품 케어 안심 보증 배너) -->
+                    <div class="luxury-care-box">
+                        <div class="care-header-title">👑 PKB71 LUXURY SIGNATURE CARE</div>
+                        <p class="care-subtitle">고객님이 받으실 최고의 만족을 위해, 배송부터 케어까지 명품 안심 시스템을 약속합니다.</p>
+                        <div class="care-grid">
+                            <div class="care-card">
+                                <div class="care-icon">🚚</div>
+                                <h4 class="care-name">100% 무료 이중 안전 포장</h4>
+                                <p class="care-desc">이중 구김 방지 박스 패킹과 특수 실크 코팅지로 이중 안전 보호하여, 품격 있는 상태 그대로 문 앞까지 무료 직출고해 드립니다.</p>
+                            </div>
+                            <div class="care-card">
+                                <div class="care-icon">🧼</div>
+                                <h4 class="care-name">스페셜 드라이클리닝 보증</h4>
+                                <p class="care-desc">첫 1~2회 드라이클리닝을 처방해 주시면 하이엔드 원단 고유의 복원력과 핏을 평생 튼튼하게 영구 유지할 수 있도록 설계되었습니다.</p>
+                            </div>
+                            <div class="care-card">
+                                <div class="care-icon">🛡️</div>
+                                <h4 class="care-name">3중 핀셋 현미경 정밀검수</h4>
+                                <p class="care-desc">출고 직전 전문 검수원이 바느질 실밥 하나, 주머니 박음질 상태까지 현미경식 핀셋 검수하여 완벽 합격한 상품만 마크해서 출고합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 📝 C. [고객용 무통장 입금 주문서 페이지] 📝 -->
+            <div id="view-checkout" class="page-view" style="display: none;">
+                <div class="back-nav" onclick="navigateTo('home')">
+                    <span class="arrow">←</span> SHOPPING MORE
+                </div>
+
+                <div class="checkout-layout">
+                    <!-- 왼쪽: 배송 및 결제자 정보 입력 폼 -->
+                    <div class="checkout-form-panel">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <h3 class="checkout-section-title">DELIVERY INFO (배송 정보 입력)</h3>
+                            <span id="checkout-login-notice" style="font-size:11.5px; color:var(--accent-gold); font-weight:500;">
+                                💡 로그인 시 등록된 배송 정보가 자동으로 입력됩니다!
+                            </span>
+                        </div>
+                        <div class="checkout-divider"></div>
+                        
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">받는 분 성함 <span class="required">*</span></label>
+                                <input type="text" id="order-customer-name" placeholder="실명을 입력해 주세요" class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">연락처 <span class="required">*</span></label>
+                                <input type="tel" id="order-phone" placeholder="예: 010-1234-5678" class="form-input" oninput="formatPhoneNumber(this)">
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">배송 우편번호 <span class="required">*</span></label>
+                                <div class="postcode-row">
+                                    <input type="text" id="order-postcode" placeholder="우편번호" class="form-input" readonly>
+                                    <button class="postcode-btn" onclick="samplePostcodeSearch('order')">주소 찾기</button>
+                                </div>
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">기본 배송 주소 <span class="required">*</span></label>
+                                <input type="text" id="order-address" placeholder="기본 주소가 입력됩니다" class="form-input" readonly>
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">상세 주소 <span class="required">*</span></label>
+                                <input type="text" id="order-address-detail" placeholder="아파트 동/호수 등 상세 주소를 적어주세요" class="form-input">
+                            </div>
+                            <div class="form-group full-width">
+                                <label class="form-label">배송 메세지</label>
+                                <input type="text" id="order-message" placeholder="예: 부재 시 문 앞에 놓아주세요" class="form-input">
+                            </div>
+                        </div>
+
+                        <!-- 🌟 [기획 수정] 대표님의 요청으로 사용하지 않는 현금영수증 발행 폼 구역은 주석 처리하여 안전하게 비활성화하였습니다. -->
+                        <!--
+                        <h3 class="checkout-section-title" style="margin-top: 40px;">CASH RECEIPT (현금영수증 신청)</h3>
+                        <div class="checkout-divider"></div>
+                        <div style="display:flex; align-items:center; gap:20px; margin-bottom: 15px;">
+                            <label style="font-size:12.5px; font-weight:600; color:var(--text-primary); cursor:pointer;">
+                                <input type="radio" name="cash-receipt-opt" value="N" checked onchange="toggleCashReceiptForm(false)"> 미신청
+                            </label>
+                            <label style="font-size:12.5px; font-weight:600; color:var(--text-primary); cursor:pointer;">
+                                <input type="radio" name="cash-receipt-opt" value="Y" onchange="toggleCashReceiptForm(true)"> 현금영수증 신청
+                            </label>
+                        </div>
+                        <div class="form-group" id="cash-receipt-form" style="display:none; margin-bottom: 20px;">
+                            <label class="form-label">소득공제용 휴대폰 번호 <span class="required">*</span></label>
+                            <input type="tel" id="cash-receipt-phone" placeholder="숫자만 입력 (예: 01012345678)" class="form-input">
+                        </div>
+                        -->
+
+                        <h3 class="checkout-section-title" style="margin-top: 40px;">PAYMENT METHOD (결제 및 입금자 확인)</h3>
+                        <div class="checkout-divider"></div>
+                        
+                        <div class="bank-info-box">
+                            <p class="bank-tag">무통장 입금 전용 계좌</p>
+                            <p class="bank-account">국민은행 437602-01-382947 (예금주: 박경범 PKB71)</p>
+                            <p class="bank-notice">※ 주문 신청 완료 후, 24시간 이내에 아래의 입금자명으로 정확한 금액을 입금해 주시면 확인 후 즉시 배송이 출고됩니다.</p>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 20px;">
+                            <label class="form-label">실제 입금하시는 분 성함 <span class="required">*</span></label>
+                            <input type="text" id="order-depositor" placeholder="주문자와 같을 경우 주문자명 기재" class="form-input">
+                        </div>
+                    </div>
+
+                    <!-- 오른쪽: 주문 요약 및 쿠폰/적립금 입력 폼 4차 장착 -->
+                    <div class="checkout-summary-panel">
+                        <div class="summary-card">
+                            <h3 class="summary-title">ORDER SUMMARY (주문 요약)</h3>
+                            <div class="checkout-divider"></div>
+                            
+                            <div class="summary-items-list" id="checkout-items-summary">
+                                <!-- 장바구니 상품들 나열 -->
+                            </div>
+                            
+                            <!-- 🌟 [신설 4차 고도화] 쿠폰 등록 및 적립금 차감 폼 -->
+                            <div class="checkout-divider"></div>
+                            <div class="checkout-discount-box">
+                                <h4 class="discount-title">할인 혜택 적용</h4>
+                                <div class="form-group" style="margin-bottom:12px;">
+                                    <label class="form-label" style="font-size:11.5px;">적립금 사용 (보유: <span id="checkout-my-points" style="font-weight:700; color:var(--accent-gold);">0</span>원)</label>
+                                    <div class="postcode-row">
+                                        <input type="number" id="order-points-use" placeholder="사용할 적립금 입력" class="form-input" style="padding:8px 10px; font-size:12.5px;" onchange="calculateFinalPrice()">
+                                        <button class="postcode-btn" style="padding:8px 12px; font-size:11px;" onclick="useAllPoints()">전액사용</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" style="font-size:11.5px;">할인 쿠폰 등록</label>
+                                    <div class="postcode-row">
+                                        <input type="text" id="order-coupon" placeholder="쿠폰 코드 입력" class="form-input" style="padding:8px 10px; font-size:12.5px;">
+                                        <button class="postcode-btn" style="padding:8px 12px; font-size:11px;" onclick="applyDiscountCoupon()">쿠폰적용</button>
+                                    </div>
+                                    <span id="coupon-success-msg" style="font-size:10.5px; color:#2E7D32; display:none; margin-top:2px;">적용 완료! (5% 추가 할인이 차감 적용되었습니다.)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="checkout-divider"></div>
+                            
+                            <!-- 금액 상자 이식 -->
+                            <div class="summary-price-row" style="margin-bottom: 8px;">
+                                <span>선택 상품 금액</span>
+                                <span id="checkout-subtotal-price">₩0</span>
+                            </div>
+                            <div class="summary-price-row" style="margin-bottom: 8px; color: #D32F2F;">
+                                <span>할인 차감 금액</span>
+                                <span id="checkout-discount-price">- ₩0</span>
+                            </div>
+                            
+                            <div class="checkout-divider" style="margin: 10px 0;"></div>
+                            
+                            <div class="summary-price-row">
+                                <span style="font-weight:600; color:var(--text-primary);">최종 무통장 입금액</span>
+                                <span class="summary-total-val" id="checkout-total-price">₩0</span>
+                            </div>
+                            
+                            <button class="order-final-btn" onclick="submitFinalOrder()">
+                                💳 무통장 입금 주문서 최종 제출하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🏠 D. [고객 마이페이지 뷰 영역 (대통합 개편)] 🏠 -->
+            <div id="view-mypage" class="page-view" style="display: none;">
+                <div class="back-nav" onclick="navigateTo('home')">
+                    <span class="arrow">←</span> BACK TO COLLECTION
+                </div>
+                
+                <!-- 🌟 [신설 4차 고도화] 대기업급 내 등급 및 적립금 현황 카드 바 -->
+                <div class="mypage-dashboard-summary-bar">
+                    <div class="dash-card">
+                        <span class="card-lbl">MEMBERSHIP CLASS</span>
+                        <h4 class="card-val" style="color: var(--accent-gold);">BLACK VIP CLASS</h4>
+                    </div>
+                    <div class="dash-card">
+                        <span class="card-lbl">TOTAL SAVED POINTS</span>
+                        <h4 class="card-val"><span id="mypage-point-balance">3,000</span> 원</h4>
+                    </div>
+                    <div class="dash-card">
+                        <span class="card-lbl">WISH ITEM COUNT</span>
+                        <h4 class="card-val"><span id="mypage-wish-count">0</span> 개</h4>
+                    </div>
+                </div>
+                
+                <div class="mypage-layout">
+                    <!-- 왼쪽: 프로필 관리 폼 & 내 찜하기 보관소 -->
+                    <div style="display:flex; flex-direction:column; gap:30px;">
+                        
+                        <div class="mypage-profile-panel">
+                            <h3 class="checkout-section-title">MY SHIPPING ADDRESS (기본 배송 주소지 등록)</h3>
+                            <p class="mypage-sub-desc">주문하실 때마다 주소를 반복해서 입력할 필요가 없도록 회원 정보로 기본 저장해 둡니다.</p>
+                            <div class="checkout-divider"></div>
+                            
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">본인 실명 <span class="required">*</span></label>
+                                    <input type="text" id="my-name" placeholder="이름을 입력하세요" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">연락처 <span class="required">*</span></label>
+                                    <input type="tel" id="my-phone" placeholder="예: 010-1234-5678" class="form-input" oninput="formatPhoneNumber(this)">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label class="form-label">배송 우편번호 <span class="required">*</span></label>
+                                    <div class="postcode-row">
+                                        <input type="text" id="my-postcode" placeholder="우편번호" class="form-input" readonly>
+                                        <button class="postcode-btn" onclick="samplePostcodeSearch('mypage')">주소 찾기</button>
+                                    </div>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label class="form-label">기본 배송 주소 <span class="required">*</span></label>
+                                    <input type="text" id="my-address" placeholder="주소 찾기 버튼을 통해 주소를 입력하세요" class="form-input" readonly>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label class="form-label">상세 주소 <span class="required">*</span></label>
+                                    <input type="text" id="my-address-detail" placeholder="아파트 동/호수 등 상세 주소를 적어주세요" class="form-input">
+                                </div>
+                            </div>
+                            
+                            <button class="profile-save-btn" onclick="saveUserProfile()">
+                                💾 기본 배송 주소지 저장/수정 완료
+                            </button>
+                        </div>
+                        
+                        <!-- 🌟 [신설 4차 고도화] 마이페이지 내 찜하기(♥) 상품 갤러리 섹션 -->
+                        <div class="mypage-profile-panel">
+                            <h3 class="checkout-section-title">MY WISH LIST (내 찜 보관소)</h3>
+                            <p class="mypage-sub-desc">내가 하트를 클릭해 둔 관심 있는 명품 의류들의 리스트입니다.</p>
+                            <div class="checkout-divider"></div>
+                            
+                            <div class="mypage-wish-grid" id="mypage-wish-container">
+                                <!-- 찜 상품 썸네일 그리드 조립 -->
+                                <p style="text-align: center; color: var(--text-secondary); width: 100%; font-size:12px;">보관된 관심 상품이 존재하지 않습니다.</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- 오른쪽: 내 주문 목록 이력 대장 테이블 (클레임 취소/반품/교환 버튼 장착) -->
+                    <div class="mypage-orders-panel">
+                        <h3 class="checkout-section-title">MY ORDER HISTORY (내 실시간 주문 대장)</h3>
+                        <p class="mypage-sub-desc">주문서 제출 후 실시간 입금 상태와 송장 번호, 취소 신청 및 후기 작성을 집행할 수 있습니다.</p>
+                        <div class="checkout-divider"></div>
+                        
+                        <div class="admin-table-container">
+                            <table class="mypage-orders-table">
+                                <thead>
+                                    <tr>
+                                        <th width="20%">주문번호/일시</th>
+                                        <th width="35%">주문 상품 목록 (옵션)</th>
+                                        <th width="20%">결제 금액</th>
+                                        <th width="25%">동작 / 배송 상태</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mypage-order-rows">
+                                    <tr>
+                                        <td colspan="4" style="text-align: center; color: var(--text-secondary); padding: 50px 0;">
+                                            주문하신 내역이 존재하지 않습니다.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 💼 E. [대표님 전용 직관적인 관리실 페이지] 💼 -->
+            <div id="view-admin" class="page-view" style="display: none;">
+                
+                <!-- 1단계: 간단 비밀번호 보안 게이트 -->
+                <div id="admin-login-gate" class="admin-gate-card">
+                    <h3 class="gate-title">ADMIN SECURITY GATE</h3>
+                    <p class="gate-desc">대표님 전용 프라이빗 관리 오피스입니다. 비밀번호를 입력하세요.</p>
+                    <div class="gate-form">
+                        <input type="password" id="admin-pw-input" placeholder="비밀번호 입력..." onkeyup="checkAdminPasswordEnter(event)">
+                        <button onclick="verifyAdminPassword()">ENTER OFFICE</button>
+                    </div>
+                    <p id="gate-error-msg" class="gate-error" style="display: none;">비밀번호가 올바르지 않습니다!</p>
+                </div>
+
+                <!-- 2단계: 실제 관리실 본체 대시보드 -->
+                <div id="admin-dashboard" style="display: none;">
+                    
+                    <div class="admin-layout-wrapper">
+                        <!-- 1. 좌측 다크 네이비 사이드바 메뉴 (카페24 스타일 - 아코디언 토글 추가) -->
+                        <aside class="admin-sidebar">
+                            <div class="sidebar-logo">
+                                👑 OUTLETMALL ADMIN
+                            </div>
+                            <ul class="sidebar-menu">
+                                <!-- A. 대시보드 그룹 -->
+                                <li class="menu-group">
+                                    <div class="menu-group-header" onclick="toggleSidebarGroup(this)">
+                                        <span>📊 대시보드</span>
+                                        <span class="toggle-icon">−</span>
+                                    </div>
+                                    <ul class="menu-group-sub">
+                                        <li>
+                                            <a href="#" class="sidebar-link active" id="tab-dashboard-btn" onclick="switchAdminTab('dashboard')">
+                                                🏠 홈 (종합 대시보드)
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
+                                <!-- B. 주문 관리 그룹 -->
+                                <li class="menu-group">
+                                    <div class="menu-group-header" onclick="toggleSidebarGroup(this)">
+                                        <span>🛒 주문 관리</span>
+                                        <span class="toggle-icon">−</span>
+                                    </div>
+                                    <ul class="menu-group-sub">
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-orders-dashboard-btn" onclick="switchAdminTab('orders-dashboard'); return false;">
+                                                📉 주문 대시보드
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-orders-all-btn" onclick="switchAdminTab('orders-all')">
+                                                📋 전체 주문 조회
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-orders-deposit-btn" onclick="switchAdminTab('orders-deposit')">
+                                                💰 입금전 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-orders-ready-btn" onclick="switchAdminTab('orders-ready')">
+                                                📦 배송 준비중 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-orders-hold-btn" onclick="switchAdminTab('orders-hold')">
+                                                ⏳ 배송 대기 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-orders-shipping-btn" onclick="switchAdminTab('orders-shipping')">
+                                                🚚 배송 중 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-orders-completed-btn" onclick="switchAdminTab('orders-completed')">
+                                                ✅ 배송 완료 조회
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-orders-claim-btn" onclick="switchAdminTab('orders-claim')">
+                                                🔄 취소/교환/반품/환불
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-orders-extra-btn" onclick="switchAdminTab('orders-extra')">
+                                                ⚙️ 주문 관리 부가기능
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-orders-auto-deposit-btn" onclick="switchAdminTab('orders-auto-deposit')">
+                                                ⚡ 자동입금 확인 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-orders-cash-receipt-btn" onclick="switchAdminTab('orders-cash-receipt')">
+                                                💵 현금영수증 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-orders-tax-invoice-btn" onclick="switchAdminTab('orders-tax-invoice')">
+                                                📑 세금계산서 관리
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
+                                <!-- C. 상품 관리 그룹 -->
+                                <li class="menu-group">
+                                    <div class="menu-group-header" onclick="toggleSidebarGroup(this)">
+                                        <span>👕 상품 관리</span>
+                                        <span class="toggle-icon">−</span>
+                                    </div>
+                                    <ul class="menu-group-sub">
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-products-dashboard-btn" onclick="switchAdminTab('products-dashboard'); return false;">
+                                                📈 상품 대시보드
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-products-list-btn" onclick="switchAdminTab('products-list')">
+                                                🔍 상품 목록
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-products-register-btn" onclick="switchAdminTab('products-register')">
+                                                ➕ 상품 등록
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-products-manage-btn" onclick="switchAdminTab('products-manage')">
+                                                ⚙️ 상품 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-products-categories-btn" onclick="switchAdminTab('products-categories')">
+                                                🏷️ 분류 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-products-display-btn" onclick="switchAdminTab('products-display')">
+                                                ✨ 상품 진열
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-products-stock-btn" onclick="switchAdminTab('products-stock')">
+                                                🗃️ 재고 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-products-options-btn" onclick="switchAdminTab('products-options')">
+                                                🎨 상품 옵션 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-products-curation-btn" onclick="switchAdminTab('products-curation')">
+                                                👑 쇼핑 큐레이션
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-products-sub-btn" onclick="switchAdminTab('products-sub')">
+                                                📅 정기배송(결제)
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-products-restock-btn" onclick="switchAdminTab('products-restock')">
+                                                🔔 재입고 알림
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
+                                <!-- D. 고객 관리 그룹 -->
+                                <li class="menu-group">
+                                    <div class="menu-group-header" onclick="toggleSidebarGroup(this)">
+                                        <span>👥 고객 관리</span>
+                                        <span class="toggle-icon">−</span>
+                                    </div>
+                                    <ul class="menu-group-sub">
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-customers-dashboard-btn" onclick="switchAdminTab('customers-dashboard'); return false;">
+                                                📈 고객 대시보드
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-customers-search-btn" onclick="switchAdminTab('customers-search')">
+                                                🔍 회원 조회
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-customers-manage-btn" onclick="switchAdminTab('customers-manage')">
+                                                👥 회원 관리
+                                            </a>
+                                        </li>
+                                                                                <li>
+                                            <a href="#" class="sidebar-link" id="tab-customers-benefits-btn" onclick="switchAdminTab('customers-benefits')">
+                                                💰 회원 적립금 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-customers-deposit-btn" onclick="switchAdminTab('customers-deposit')">
+                                                💳 회원 예치금 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-customers-points-expire-btn" onclick="switchAdminTab('customers-points-expire')">
+                                                ⏳ 회원 적립금 소멸
+                                            </a>
+                                        </li>
+<li>
+                                            <a href="#" class="sidebar-link" id="tab-qna-btn" onclick="switchAdminTab('qna')">
+                                                💬 리뷰 및 문의 관리
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="sidebar-link" id="tab-notices-btn" onclick="switchAdminTab('notices')">
+                                                📢 공지/이벤트 관리
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </aside>
+
+                        <!-- 2. 우측 메인 작업 영역 -->
+                        <main class="admin-content-main">
+                            
+                            <!-- 공통 상단 헤더 (새로고침 단추 탑재) -->
+                            <div class="admin-dash-header" style="margin-bottom: 20px;">
+                                <div>
+                                    <span class="admin-workspace-label">Cafe24 style back office</span>
+                                    <h3 class="dash-title" id="admin-page-title">종합 대시보드</h3>
+                                    <p class="dash-desc" id="admin-page-desc">오늘의 경영 상태 실시간 요약 및 인기 랭킹을 한눈에 파악합니다.</p>
+                                </div>
+                                <div class="dash-actions">
+                                    <button class="refresh-btn secondary" onclick="navigateTo('home')">쇼핑몰 보기</button>
+                                    <button class="refresh-btn" onclick="refreshAdminData()">🔄 새로고침</button>
+                                </div>
+                            </div>
+
+                            <div id="admin-orders-ops-strip" class="admin-ops-strip" style="display: none;">
+                                <div class="admin-ops-item">
+                                    <span class="admin-ops-label">입금대기</span>
+                                    <strong id="admin-ops-pending-count">0건</strong>
+                                </div>
+                                <div class="admin-ops-item">
+                                    <span class="admin-ops-label">오늘 매출</span>
+                                    <strong id="admin-ops-today-sales">₩0</strong>
+                                </div>
+                                <div class="admin-ops-item">
+                                    <span class="admin-ops-label">이번 달 매출</span>
+                                    <strong id="admin-ops-month-sales">₩0</strong>
+                                </div>
+                                <div class="admin-ops-item">
+                                    <span class="admin-ops-label">운영 모드</span>
+                                    <strong>관리자</strong>
+                                </div>
+                            </div>
+
+                            <!-- 대표님 설정값 변경 실시간 저장 알림창 -->
+                            <div id="save-toast" class="toast-popup">
+                                ✅ 변경 사항이 DB에 실시간 저장 완료되었습니다!
+                            </div>
+
+                            <!-- [신설 탭 0] 🏠 홈: 종합 대시보드 탭 (기존 매출 통계바 + 인기 랭킹 카드 통합 수용) -->
+                            <div id="admin-tab-dashboard" class="admin-tab-content">
+                                
+                                <!-- 🌟 [신설] 카페24 스타일 실시간 매출 현황 테이블 (오늘 / 이번 달 자동 집계) -->
+                                <div class="mypage-profile-panel" style="padding: 24px; margin-bottom: 30px;">
+                                    <h4 class="checkout-section-title" style="font-size:13px; margin-bottom: 4px; color: var(--text-primary);">📊 실시간 매출 현황 (자동 집계)</h4>
+                                    <p class="mypage-sub-desc" style="margin-bottom: 15px;">오늘 및 이번 달의 주문 결제 완료 금액을 실시간 통계 처리하여 자동으로 보여줍니다.</p>
+                                    
+                                    <div class="admin-table-container">
+                                        <table class="admin-products-table" style="font-size:12.5px; text-align:center;">
+                                            <thead>
+                                                <tr>
+                                                    <th width="34%">구분</th>
+                                                    <th width="33%">오늘 (Today)</th>
+                                                    <th width="33%">이번 달 (This Month)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td style="font-weight:700; color:var(--text-primary);">총 주문 금액</td>
+                                                    <td>
+                                                        <span id="sales-today-order-amount" style="font-weight:700; color:#3b82f6;">₩0</span><br>
+                                                        <span id="sales-today-order-count" style="font-size:11px; color:var(--text-secondary);">0건</span>
+                                                    </td>
+                                                    <td>
+                                                        <span id="sales-month-order-amount" style="font-weight:700; color:#EF5350;">₩0</span><br>
+                                                        <span id="sales-month-order-count" style="font-size:11px; color:var(--text-secondary);">0건</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-weight:700; color:var(--text-primary);">총 실 결제 금액</td>
+                                                    <td>
+                                                        <span id="sales-today-settled-amount" style="font-weight:700; color:#3b82f6;">₩0</span><br>
+                                                        <span id="sales-today-settled-count" style="font-size:11px; color:var(--text-secondary);">0건</span>
+                                                    </td>
+                                                    <td>
+                                                        <span id="sales-month-settled-amount" style="font-weight:700; color:#EF5350;">₩0</span><br>
+                                                        <span id="sales-month-settled-count" style="font-size:11px; color:var(--text-secondary);">0건</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-weight:700; color:var(--text-primary);">총 환불 금액</td>
+                                                    <td>
+                                                        <span id="sales-today-refund-amount" style="font-weight:700; color:var(--text-secondary);">₩0</span><br>
+                                                        <span id="sales-today-refund-count" style="font-size:11px; color:var(--text-secondary);">0건</span>
+                                                    </td>
+                                                    <td>
+                                                        <span id="sales-month-refund-amount" style="font-weight:700; color:var(--text-secondary);">₩0</span><br>
+                                                        <span id="sales-month-refund-count" style="font-size:11px; color:var(--text-secondary);">0건</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <!-- 🌟 [신설 6차 고도화] 카페24 스타일 8단 실시간 주문 처리 현황판 -->
+                                <div class="flow-board-wrapper" style="margin-bottom:30px;">
+                                    <h4 class="checkout-section-title" style="font-size:12.5px; margin-bottom: 12px; color: var(--text-primary);">⚡ 오늘의 할 일 (실시간 주문 처리 현황)</h4>
+                                    <div class="flow-board-grid">
+                                        <div class="flow-card">
+                                            <span class="flow-lbl">입금대기</span>
+                                            <h4 class="flow-val" id="flow-pending">0</h4>
+                                        </div>
+                                        <div class="flow-card">
+                                            <span class="flow-lbl">결제완료</span>
+                                            <h4 class="flow-val" id="flow-settled">0</h4>
+                                        </div>
+                                        <div class="flow-card">
+                                            <span class="flow-lbl">배송준비</span>
+                                            <h4 class="flow-val" id="flow-ready">0</h4>
+                                        </div>
+                                        <div class="flow-card">
+                                            <span class="flow-lbl">배송중</span>
+                                            <h4 class="flow-val" id="flow-shipping">0</h4>
+                                        </div>
+                                        <div class="flow-card">
+                                            <span class="flow-lbl">배송완료</span>
+                                            <h4 class="flow-val" id="flow-completed">0</h4>
+                                        </div>
+                                        <div class="flow-card warning">
+                                            <span class="flow-lbl">취소신청</span>
+                                            <h4 class="flow-val" id="flow-cancel">0</h4>
+                                        </div>
+                                        <div class="flow-card warning">
+                                            <span class="flow-lbl">교환신청</span>
+                                            <h4 class="flow-val" id="flow-exchange">0</h4>
+                                        </div>
+                                        <div class="flow-card warning">
+                                            <span class="flow-lbl">반품신청</span>
+                                            <h4 class="flow-val" id="flow-refund">0</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 🌟 [신설 6차 고도화] 카페24 스타일 최근 7일 매출 추이 시각화 차트 영역 -->
+                                <div class="mypage-profile-panel" style="padding: 24px; margin-bottom: 30px;">
+                                    <h4 class="checkout-section-title" style="font-size:13px; margin-bottom: 4px; color: var(--text-primary);">📈 일별 매출 현황 (최근 7일 주문 추이)</h4>
+                                    <p class="mypage-sub-desc" style="margin-bottom: 20px;">Supabase 클라우드 데이터베이스에 실시간 적재된 매출 총액 및 건수를 시각화 차트로 보여줍니다.</p>
+                                    <div class="chart-container" style="position: relative; width:100%; height:320px;">
+                                        <canvas id="admin-sales-chart"></canvas>
+                                    </div>
+                                </div>
+
+                                <!-- 🌟 [신설 4차 고도화] 인기 베스트 순위 랭킹 TOP 5 미니 대시보드 -->
+                                <div class="admin-stats-layout" style="margin-bottom: 30px; display:grid; grid-template-columns:1.5fr 1fr; gap:20px;">
+                                    <div class="mypage-orders-panel" style="padding: 20px;">
+                                        <h4 class="checkout-section-title" style="font-size:13.5px;">👑 OUTLETMALL BEST POPULAR TOP 5 (인기 상품 실시간 랭킹)</h4>
+                                        <div class="checkout-divider" style="margin: 10px 0;"></div>
+                                        <div class="rank-list-box" id="admin-popular-ranking-list">
+                                            <!-- 가장 주문 많이 된 상품 TOP 5 조립 -->
+                                            <p style="font-size:12px; color:var(--text-secondary); text-align:center;">판매 집계 중입니다...</p>
+                                        </div>
+                                    </div>
+                                    <div class="mypage-orders-panel" style="padding: 20px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+                                        <h4 class="checkout-section-title" style="font-size:12px; margin-bottom:10px;">SUPABASE CLOUD SECURITY</h4>
+                                        <span class="supabase-status-badge green">CONNECTED</span>
+                                        <p style="font-size:11px; color:var(--text-secondary); margin-top:10px; line-height:1.5;">모든 개인 정보 암호화 보관 및 RLS R/W 격리 제어 엔진이 안전하게 기동 가동 중입니다.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                    <!-- 탭 1: 상품 편집 테이블 관리판 -->
+                    <div id="admin-tab-products" class="admin-tab-content">
+                        <!-- 🌟 [신설 4차 고도화] 대표님이 수집봇 없이 직접 상품을 등록하는 단독 버튼 탑재 + 엑셀 양방향 연동 추가 -->
+                        <div style="display:flex; justify-content:flex-end; margin-bottom: 15px; gap: 8px;">
+                            <button class="order-submit-btn" style="width:auto; margin-top:0; padding:10px 20px; font-size:12px; background-color:#2E7D32; color:#ffffff !important; font-weight:700;" onclick="downloadAdminProductsExcel()">
+                                📥 진열 상품 엑셀 다운로드
+                            </button>
+                            <button class="order-submit-btn" style="width:auto; margin-top:0; padding:10px 20px; font-size:12px; background-color:var(--admin-accent); color:#ffffff !important; font-weight:700;" onclick="openAddProductModal()">
+                                📦 명품 신상 직접 진열장에 추가하기
+                            </button>
+                        </div>
+
+                        <!-- 🔍 [신설] 카페24 스타일 상품 상세 검색 필터 패널 -->
+                        <div class="mypage-profile-panel" style="padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-light); background: rgba(255, 255, 255, 0.01);">
+                            <h4 class="checkout-section-title" style="font-size:13px; margin-bottom: 15px; color: var(--text-primary);">🔍 상품 상세 조건 검색</h4>
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <!-- 1단: 품명 검색 -->
+                                <div style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                                    <div class="form-group" style="margin: 0; width: 120px;">
+                                        <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">검색분류</span>
+                                    </div>
+                                    <div class="form-group" style="flex: 1; margin: 0; display: flex; gap: 10px;">
+                                        <select id="admin-prod-search-type" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; width: 130px; background-color: #1A222E; color: #fff;">
+                                            <option value="name">상품명</option>
+                                            <option value="brand">브랜드명</option>
+                                        </select>
+                                        <input type="text" id="admin-prod-search-keyword" placeholder="검색어를 입력하세요..." class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; flex: 1;" onkeyup="if(event.key === 'Enter') executeAdminProductSearch()">
+                                    </div>
+                                </div>
+                                
+                                <!-- 2단: 카테고리(분류명) 검색 -->
+                                <div style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                                    <div class="form-group" style="margin: 0; width: 120px;">
+                                        <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">상품분류 (대/중/소)</span>
+                                    </div>
+                                    <div class="form-group" style="flex: 1; margin: 0; display: flex; gap: 8px;">
+                                        <select id="admin-prod-search-large" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; flex: 1; background-color: #1A222E; color: #fff;" onchange="onAdminSearchCategoryLargeChange()">
+                                            <option value="">- 대분류 전체 -</option>
+                                        </select>
+                                        <select id="admin-prod-search-medium" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; flex: 1; background-color: #1A222E; color: #fff;" onchange="onAdminSearchCategoryMediumChange()">
+                                            <option value="">- 중분류 전체 -</option>
+                                        </select>
+                                        <select id="admin-prod-search-small" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; flex: 1; background-color: #1A222E; color: #fff;">
+                                            <option value="">- 소분류 전체 -</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- 3단: 검색 / 초기화 액션 버튼 -->
+                                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+                                    <button class="postcode-btn" style="padding: 8px 24px; font-size: 12.5px; font-weight: 700; margin: 0; background-color: var(--admin-accent);" onclick="executeAdminProductSearch()">검색</button>
+                                    <button class="postcode-btn" style="padding: 8px 24px; font-size: 12.5px; font-weight: 700; margin: 0; background-color: #5A4E40; color: #fff;" onclick="resetAdminProductSearch()">초기화</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 📦 [신설] 상품 목록 테이블 구분선 및 총 개수 인덱서 -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px;">
+                            <span style="font-size: 12.5px; font-weight: 700; color: var(--text-primary);">📦 상품 목록 대장 (<span id="admin-prod-total-count" style="color: var(--admin-accent);">0</span>개 등록됨)</span>
+                        </div>
+
+                        <div class="admin-table-container">
+                            <table class="admin-products-table">
+                                <thead>
+                                    <tr>
+                                        <th width="4%"><input type="checkbox" id="admin-prod-check-all" onclick="toggleAllProdChecks(this)"></th>
+                                        <th width="8%">이미지</th>
+                                        <th width="12%">브랜드 / 원본 밴드글</th>
+                                        <th width="14%">상품명 (클릭하여 수정)</th>
+                                        <th width="8%">도매원가</th>
+                                        <th width="9%">판매가격 (₩)</th>
+                                        <th width="9%">재고수량</th>
+                                        <th width="9%">품절여부</th>
+                                        <th width="12%">옵션 (색상 / 사이즈)</th>
+                                        <th width="8%">진열 노출</th>
+                                        <th width="7%">동작</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-product-rows">
+                                    <!-- 실시간 DB 상품 정보 로드 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 탭 2: 주문서 대장 관리판 -->
+                    <div id="admin-tab-orders" class="admin-tab-content" style="display: none;">
+                        <!-- 🛡️ [보안/운영 고도화] 카페24 스타일 실시간 주문 기간별 및 상세 조건 검색 필터 패널 -->
+                        <div class="mypage-profile-panel" style="padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-light); background: rgba(255, 255, 255, 0.01);">
+                            <h4 class="checkout-section-title" style="font-size:13px; margin-bottom: 15px; color: var(--text-primary);">🔍 주문 상세 조건 검색 (기간별 조회)</h4>
+                            <div style="display: flex; flex-direction: column; gap: 15px;">
+                                <!-- 1단: 기간 필터 -->
+                                <div style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                                    <div style="width: 120px; font-size: 12px; font-weight: 700; color: var(--text-secondary);">
+                                        기간
+                                    </div>
+                                    <div style="flex: 1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                                        <select id="admin-order-date-type" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; width: 110px; background-color: #1A222E; color: #fff;">
+                                            <option value="created_at">주문일</option>
+                                        </select>
+                                        <!-- 퀵 버튼 그룹 -->
+                                        <div style="display: flex; gap: 5px;">
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminOrderDateRange(0)">오늘</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminOrderDateRange(1)">어제</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminOrderDateRange(3)">3일</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminOrderDateRange(7)">7일</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminOrderDateRange(15)">15일</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminOrderDateRange(30)">1개월</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminOrderDateRange(90)">3개월</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminOrderDateRange(180)">6개월</button>
+                                        </div>
+                                        <!-- 날짜 입력 범위 -->
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <input type="date" id="admin-order-start-date" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; width: 140px; background-color: #1A222E; color: #fff;">
+                                            <span style="color: var(--text-secondary);">~</span>
+                                            <input type="date" id="admin-order-end-date" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; width: 140px; background-color: #1A222E; color: #fff;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 2단: 검색어 필터 -->
+                                <div style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                                    <div style="width: 120px; font-size: 12px; font-weight: 700; color: var(--text-secondary);">
+                                        검색어
+                                    </div>
+                                    <div style="flex: 1; display: flex; gap: 10px;">
+                                        <select id="admin-order-search-type" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; width: 110px; background-color: #1A222E; color: #fff;">
+                                            <option value="order_no">주문번호</option>
+                                            <option value="customer_name">주문자명</option>
+                                            <option value="depositor">입금자명</option>
+                                            <option value="product_name">상품명</option>
+                                        </select>
+                                        <input type="text" id="admin-order-search-keyword" placeholder="검색어를 입력하세요..." class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; flex: 1;" onkeyup="if(event.key === 'Enter') fetchAdminOrders()">
+                                    </div>
+                                </div>
+
+                                <!-- 3단: 주문 상태 필터 -->
+                                <div style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                                    <div style="width: 120px; font-size: 12px; font-weight: 700; color: var(--text-secondary);">
+                                        주문상태
+                                    </div>
+                                    <div style="flex: 1; display: flex; gap: 10px; align-items: center;">
+                                        <select id="admin-order-status-filter" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; width: 180px; background-color: #1A222E; color: #fff;">
+                                            <option value="all">전체 주문보기</option>
+                                            <option value="입금대기">입금대기</option>
+                                            <option value="결제완료">결제완료</option>
+                                            <option value="배송준비">배송준비</option>
+                                            <option value="배송대기">배송대기</option>
+                                            <option value="배송중">배송중</option>
+                                            <option value="배송완료">배송완료</option>
+                                            <option value="주문취소">주문취소</option>
+                                            <option value="교환요청">교환요청</option>
+                                            <option value="반품요청">반품요청</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- 4단: 검색 실행 버튼군 -->
+                                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+                                    <button type="button" class="postcode-btn" style="padding: 8px 24px; font-size: 12.5px; font-weight: 700; margin: 0; background-color: var(--admin-accent);" onclick="fetchAdminOrders()">검색</button>
+                                    <button type="button" class="postcode-btn" style="padding: 8px 24px; font-size: 12.5px; font-weight: 700; margin: 0; background-color: #5A4E40; color: #fff;" onclick="resetAdminOrderSearch()">초기화</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 📊 주문 목록 정렬 및 노출 개수 필터 제어 행 -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px;">
+                            <span style="font-size: 12.5px; font-weight: 700; color: var(--text-primary);">📦 실시간 주문 내역 (<span id="admin-orders-total-count" style="color: var(--admin-accent);">0</span>건 조회됨)</span>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <select id="admin-order-sort" class="form-input" style="padding: 6px 12px; font-size: 12px; margin: 0; width: 130px; background-color: #1A222E; color: #fff;" onchange="fetchAdminOrders()">
+                                    <option value="date-desc">주문일 최신순</option>
+                                    <option value="date-asc">주문일 과거순</option>
+                                    <option value="amount-desc">결제금액 높은순</option>
+                                    <option value="amount-asc">결제금액 낮은순</option>
+                                </select>
+                                <select id="admin-order-page-size" class="form-input" style="padding: 6px 12px; font-size: 12px; margin: 0; width: 110px; background-color: #1A222E; color: #fff;" onchange="fetchAdminOrders()">
+                                    <option value="10">10개씩 보기</option>
+                                    <option value="30" selected>30개씩 보기</option>
+                                    <option value="50">50개씩 보기</option>
+                                    <option value="100">100개씩 보기</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="admin-table-container">
+                            <table class="admin-products-table">
+                                <thead>
+                                    <tr>
+                                        <th width="4%"><input type="checkbox" id="admin-orders-check-all" onclick="toggleAllOrdersChecks(this)"></th>
+                                        <th width="12%">주문번호 / 일시</th>
+                                        <th width="12%">주문자 / 입금자</th>
+                                        <th width="23%">배송 주소 및 연락처 / 영수증</th>
+                                        <th width="20%">주문 상품 목록 (수량/옵션)</th>
+                                        <th width="12%">최종 입금액</th>
+                                        <th width="17%">결제 / 운송장 배송 처리</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-order-rows">
+                                    <!-- 실시간 DB 주문 대장 정보 로드 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 🌟 [신설 5차 고도화] 탭 4: 고객 관리 테이블 관리판 -->
+                    <div id="admin-tab-customers" class="admin-tab-content" style="display: none;">
+                        <div class="admin-table-container">
+                            <table class="admin-products-table">
+                                <thead>
+                                    <tr>
+                                        <th width="4%"><input type="checkbox" id="admin-cust-all-check-all" onclick="toggleAllCustAllChecks(this)"></th>
+                                        <th width="13%">아이디 (이메일)</th>
+                                        <th width="13%">고객성함 / 연락처</th>
+                                        <th width="32%">기본 배송 주소지</th>
+                                        <th width="11%">보유 적립금</th>
+                                        <th width="19%">적립금 가감 제어</th>
+                                        <th width="8%">조정</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-customer-rows">
+                                    <!-- 실시간 DB profiles 회원 정보 로드 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 🔍 [신설] 탭 8: 회원 조건별 상세 검색 및 목록 조회 탭 -->
+                    <div id="admin-tab-customers-search" class="admin-tab-content" style="display: none;">
+                        
+                        <!-- 🔍 [신설] 카페24 스타일 회원 상세 검색 필터 패널 -->
+                        <div class="mypage-profile-panel" style="padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-light); background: rgba(255, 255, 255, 0.01);">
+                            <h4 class="checkout-section-title" style="font-size:13px; margin-bottom: 15px; color: var(--text-primary);">🔍 회원 상세 조건 검색</h4>
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <!-- 1단: 검색 조건 입력 -->
+                                <div style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                                    <div class="form-group" style="margin: 0; width: 120px;">
+                                        <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">검색분류</span>
+                                    </div>
+                                    <div class="form-group" style="flex: 1; margin: 0; display: flex; gap: 10px;">
+                                        <select id="admin-cust-search-type" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; width: 130px; background-color: #1A222E; color: #fff;">
+                                            <option value="name">고객이름</option>
+                                            <option value="email">아이디(이메일)</option>
+                                            <option value="phone">연락처</option>
+                                        </select>
+                                        <input type="text" id="admin-cust-search-keyword" placeholder="검색어를 입력하세요..." class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; flex: 1;" onkeyup="if(event.key === 'Enter') executeAdminCustomerSearch()">
+                                    </div>
+                                </div>
+                                
+                                <!-- 2단: 검색 및 초기화 버튼 -->
+                                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+                                    <button class="postcode-btn" style="padding: 8px 24px; font-size: 12.5px; font-weight: 700; margin: 0; background-color: var(--admin-accent);" onclick="executeAdminCustomerSearch()">검색</button>
+                                    <button class="postcode-btn" style="padding: 8px 24px; font-size: 12.5px; font-weight: 700; margin: 0; background-color: #5A4E40; color: #fff;" onclick="resetAdminCustomerSearch()">초기화</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 👥 회원 목록 테이블 및 총 개수 인덱서 -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; padding: 0 4px;">
+                            <span style="font-size: 12.5px; font-weight: 700; color: var(--text-primary);">👥 조회된 회원 대장 (<span id="admin-cust-search-total-count" style="color: var(--admin-accent);">0</span>명 조회됨)</span>
+                        </div>
+
+                        <div class="admin-table-container">
+                            <table class="admin-products-table">
+                                <thead>
+                                    <tr>
+                                        <th width="4%"><input type="checkbox" id="admin-cust-check-all" onclick="toggleAllCustChecks(this)"></th>
+                                        <th width="20%">아이디 (이메일)</th>
+                                        <th width="20%">고객성함 / 연락처</th>
+                                        <th width="36%">기본 배송 주소지</th>
+                                        <th width="20%">보유 적립금</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-cust-search-rows">
+                                    <!-- JS에 의해 실시간 동적 목록 분사 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- 🌟 [신설 6차 고도화] 탭 5: 상품 분류(카테고리) 관리 테이블 관리판 -->
+                    <div id="admin-tab-categories" class="admin-tab-content" style="display: none;">
+                        <div style="display: grid; grid-template-columns: 380px 1fr; gap: 20px; align-items: start;">
+                            
+                            <!-- 🌳 좌측: 폴더 계단식 상품분류 설정판 -->
+                            <div class="mypage-profile-panel" style="padding: 20px; display: flex; flex-direction: column; gap: 15px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <h4 class="checkout-section-title" style="font-size:13.5px; margin:0; color: var(--text-primary);">🌳 상품분류 설정</h4>
+                                    <span style="font-size: 11px; color: var(--text-secondary);">마우스 드래그로 조절 가능</span>
+                                </div>
+                                <div class="checkout-divider" style="margin: 5px 0;"></div>
+                                
+                                <!-- 조작 버튼바 (상단) -->
+                                <div style="display: flex; gap: 6px;">
+                                    <button class="postcode-btn" style="padding: 6px 12px; font-size: 11px; background-color: #1A222E; color: #ffffff !important; border: 1px solid rgba(255,255,255,0.1); font-weight: 700;" onclick="addNewCategoryFromTree()">대분류추가</button>
+                                    <button class="postcode-btn" style="padding: 6px 12px; font-size: 11px; background-color: #8A1C14; color: #ffffff !important; font-weight: 700;" onclick="deleteSelectedCategoryFromTree()">❌ 삭제</button>
+                                    <button class="postcode-btn" style="padding: 6px 12px; font-size: 11px; background-color: var(--admin-accent); color: #ffffff !important; font-weight: 700; margin-left: auto;" onclick="saveCategoryTreeLayout()">분류이동저장</button>
+                                </div>
+                                
+                                <!-- 드래그앤드롭 안내 -->
+                                <div style="background-color: rgba(30, 144, 255, 0.1); color: #64B5F6; border: 1px dashed rgba(30, 144, 255, 0.3); padding: 10px; font-size: 11px; text-align: center; border-radius: 4px; font-weight: 600;">
+                                    💡 드래그 앤 드롭으로 분류 계층 이동이 가능합니다.
+                                </div>
+                                
+                                <!-- 트리형 카테고리 본문 컨테이너 -->
+                                <div id="admin-category-tree-container" style="border: 1px solid var(--border-light); background: rgba(255, 255, 255, 0.02); border-radius: 6px; padding: 10px; min-height: 350px; max-height: 550px; overflow-y: auto;">
+                                    <!-- JS에 의해 📁 폴더 계단계층 트리 렌더링 -->
+                                </div>
+                                
+                                <!-- 조작 버튼바 (하단) -->
+                                <div style="display: flex; gap: 6px; justify-content: space-between;">
+                                    <div style="display: flex; gap: 6px;">
+                                        <button class="postcode-btn" style="padding: 6px 12px; font-size: 11px; background-color: #1A222E; color: #ffffff !important; border: 1px solid rgba(255,255,255,0.1); font-weight: 700;" onclick="addNewCategoryFromTree()">대분류추가</button>
+                                        <button class="postcode-btn" style="padding: 6px 12px; font-size: 11px; background-color: #8A1C14; color: #ffffff !important; font-weight: 700;" onclick="deleteSelectedCategoryFromTree()">❌ 삭제</button>
+                                    </div>
+                                    <button class="postcode-btn" style="padding: 6px 12px; font-size: 11px; background-color: var(--admin-accent); color: #ffffff !important; font-weight: 700;" onclick="saveCategoryTreeLayout()">분류이동저장</button>
+                                </div>
+                            </div>
+                            
+                            <!-- 🏷️ 우측: 카테고리 상세 정보 및 수정/신규 개설 폼 -->
+                            <div class="mypage-profile-panel" style="padding: 20px; display: flex; flex-direction: column; gap: 15px;">
+                                <h4 class="checkout-section-title" style="font-size:13.5px; color: var(--text-primary);" id="category-form-title">🏷️ 신규 상품 분류 카테고리 개설</h4>
+                                <p class="mypage-sub-desc" id="category-form-desc" style="font-size: 11.5px; color: var(--text-secondary);">쇼핑몰 메인 탭바 및 신상 등록 시 즉시 적용될 새로운 카테고리를 기입하거나, 좌측 트리에서 선택하여 수정하세요.</p>
+                                <div class="checkout-divider" style="margin: 5px 0;"></div>
+                                
+                                <div style="display:flex; flex-direction:column; gap:15px; background: rgba(255,255,255,0.01); padding: 15px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.03);">
+                                    <div style="display:flex; gap:15px; width: 100%;">
+                                        <div class="form-group" style="flex:1;">
+                                            <label class="form-label" style="font-size:11.5px; color: var(--text-secondary);">분류 레벨 <span class="required" style="color:var(--admin-accent);">*</span></label>
+                                            <select id="add-cat-depth" class="form-input" style="padding:8px 12px; font-size:12.5px; background-color:#1A222E; color:#fff;" onchange="onCategoryDepthChange()">
+                                                <option value="0">대분류 (Level 1)</option>
+                                                <option value="1">중분류 (Level 2)</option>
+                                                <option value="2">소분류 (Level 3)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" style="flex:1; display:none;" id="add-cat-parent-group">
+                                            <label class="form-label" style="font-size:11.5px; color: var(--text-secondary);">상위 부모 분류 <span class="required" style="color:var(--admin-accent);">*</span></label>
+                                            <select id="add-cat-parent" class="form-input" style="padding:8px 12px; font-size:12.5px; background-color:#1A222E; color:#fff;">
+                                                <!-- 대분류 선택 시 숨김, 중/소분류에 따라 부모 데이터 로드 -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div style="display:flex; gap:15px; align-items:flex-end; width: 100%;">
+                                        <div class="form-group" style="flex:1;">
+                                            <label class="form-label" style="font-size:11.5px; color: var(--text-secondary);">한글 카테고리명 <span class="required" style="color:var(--admin-accent);">*</span></label>
+                                            <input type="text" id="add-cat-name" placeholder="예: 아우터, 상의, 셔츠 등" class="form-input" style="padding:8px 12px; font-size:12.5px;" oninput="onKoreanCategoryNameInput(this.value)">
+                                        </div>
+                                        <div class="form-group" style="flex:1;">
+                                            <label class="form-label" style="font-size:11.5px; color: var(--text-secondary);">영문 매핑명 <span class="required" style="color:var(--admin-accent);">*</span></label>
+                                            <input type="text" id="add-cat-eng" placeholder="예: OUTER, TOPS, SHIRTS 등" class="form-input" style="padding:8px 12px; font-size:12.5px;">
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display:flex; gap:10px; justify-content: flex-end; margin-top: 10px;">
+                                        <button class="postcode-btn" style="padding:10px 24px; font-size:12px; background-color:#5A4E40; color:#fff; font-weight:700;" onclick="clearCategoryForm()">
+                                            🔄 새 분류 입력 모드
+                                        </button>
+                                        <button id="btn-save-cat" class="postcode-btn" style="padding:10px 24px; font-size:12px; background-color:var(--admin-accent); color:#fff; font-weight:700;" onclick="submitNewCategoryDirect()">
+                                            ➕ 분류 개설하기
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 🌟 [신설 6차 고도화] 탭 6: 명품 신상품 수동 등록실 대형 단독 관리판 -->
+                    <div id="admin-tab-add-product" class="admin-tab-content" style="display: none;">
+                        <div class="cafe24-simple-register">
+                            <div class="cafe24-simple-titlebar">
+                                <div>
+                                    <div class="cafe24-title-line">
+                                        <h2>간단 등록</h2>
+                                        <span class="cafe24-pill cafe24-pill-dark">가이드</span>
+                                        <button type="button" class="cafe24-outline-pill" onclick="openCafe24AiChatbot()">AI 챗봇 문의하기</button>
+                                    </div>
+                                    <p>쇼핑몰에 상품을 진열하는데 필요한 최소 정보를 입력하실 수 있습니다.</p>
+                                </div>
+                                <div class="cafe24-title-actions">
+                                    <button type="button" class="cafe24-ghost-btn" onclick="openExcelUploadModal()">엑셀 등록</button>
+                                    <button type="button" class="cafe24-ghost-btn" onclick="previewCafe24SimpleProduct()">상품 등록 화면 예시보기</button>
+                                </div>
+                            </div>
+
+                            <div class="cafe24-guide-box">
+                                <div>
+                                    <p>- 쇼핑몰에 상품을 진열하는데 필요한 최소 정보를 입력하실 수 있습니다.</p>
+                                    <p>- 상세한 상품정보 관리가 필요하시면 일반 등록으로 이동하세요.</p>
+                                </div>
+                            </div>
+
+                            <section id="cafe24-section-basic" class="cafe24-section">
+                                <div class="cafe24-section-head"><h3>기본 정보</h3><label><input type="checkbox"> 항상열기</label></div>
+                                <div class="cafe24-table">
+                                    <div class="cafe24-row"><div class="cafe24-th">브랜드명 <span class="cafe24-required">필수</span></div><div class="cafe24-td"><input type="text" id="manual-prod-brand" class="cafe24-input short" placeholder="예시) Chanel, Hermes, Loro Piana"></div></div>
+                                    <div class="cafe24-row"><div class="cafe24-th">상품명 <span class="cafe24-required">필수</span></div><div class="cafe24-td"><input type="text" id="manual-prod-name" class="cafe24-input mid" placeholder="예시) 플라워 미니 원피스, 원피스 1위상품"></div></div>
+                                    <div class="cafe24-row"><div class="cafe24-th">상품요약설명</div><div class="cafe24-td"><input type="text" id="manual-prod-summary" class="cafe24-input full" placeholder="예시) 주문폭주! 페미닌한 원피스 Free, L, XL까지" oninput="syncCafe24SimpleProductDetails()"></div></div>
+                                    <div class="cafe24-row cafe24-editor-row">
+                                        <div class="cafe24-th">상품상세설명 <span class="cafe24-required">필수</span></div>
+                                        <div class="cafe24-td">
+                                            <textarea id="manual-prod-details" style="display:none;"></textarea>
+                                            <div class="cafe24-editor-tabs"><button type="button">에디봇 작성</button><button type="button" class="active">직접 작성</button></div>
+                                            <div class="cafe24-editor-wrap">
+                                                <div class="cafe24-editor-toolbar">
+                                                    <button type="button">문단</button><button type="button">Dotum</button><button type="button">12</button>
+                                                    <button type="button" onclick="formatCafe24Editor('bold')">B</button><button type="button" onclick="formatCafe24Editor('italic')"><i>I</i></button><button type="button" onclick="formatCafe24Editor('underline')"><u>U</u></button>
+                                                    <button type="button" onclick="formatCafe24Editor('insertUnorderedList')">목록</button><button type="button" onclick="formatCafe24Editor('justifyLeft')">좌측</button><button type="button" onclick="formatCafe24Editor('justifyCenter')">중앙</button><button type="button" onclick="formatCafe24Editor('justifyRight')">우측</button>
+                                                    <button type="button" onclick="document.getElementById('manual-prod-images-file').click()">이미지</button><button type="button" onclick="formatCafe24Editor('createLink')">링크</button>
+                                                </div>
+                                                <div id="manual-prod-editor" class="cafe24-editor" contenteditable="true" data-placeholder="상품 상세설명을 입력하세요." oninput="syncCafe24SimpleProductDetails()"></div>
+                                                <div class="cafe24-editor-foot"><span>전체 화면</span><span id="manual-prod-editor-count">문자 : 0</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section id="cafe24-section-sale" class="cafe24-section">
+                                <div class="cafe24-section-head"><h3>판매 정보</h3><label><input type="checkbox"> 항상열기</label></div>
+                                <div class="cafe24-table">
+                                    <div class="cafe24-row"><div class="cafe24-th">판매가 <span class="cafe24-required">필수</span></div><div class="cafe24-td cafe24-price-line"><input type="number" id="manual-prod-price" class="cafe24-input price" placeholder="예시) 38000" oninput="calculateManualDiscountRate()"><span>원</span></div></div>
+                                    <div class="cafe24-row"><div class="cafe24-th">소비자가</div><div class="cafe24-td cafe24-price-line"><input type="number" id="manual-prod-original" class="cafe24-input price" placeholder="예시) 58000" oninput="calculateManualDiscountRate()"><span>원</span><span id="manual-prod-discount-badge" class="discount-calc-badge" style="display:none;">0% 할인</span></div></div>
+                                    <div class="cafe24-row"><div class="cafe24-th">초기 재고</div><div class="cafe24-td cafe24-price-line"><input type="number" id="manual-prod-stock" value="99" class="cafe24-input price"><span>개</span></div></div>
+                                </div>
+                            </section>
+
+                            <section id="cafe24-section-display" class="cafe24-section">
+                                <div class="cafe24-section-head"><h3>표시 설정</h3><label><input type="checkbox"> 항상열기</label></div>
+                                <div class="cafe24-table">
+                                    <div class="cafe24-row"><div class="cafe24-th">표시상태설정</div><div class="cafe24-td"><div class="cafe24-radio-line"><strong>진열상태</strong><label><input type="radio" name="manual-prod-visible" value="true"> 진열함</label><label><input type="radio" name="manual-prod-visible" value="false" checked> 진열안함</label></div><div class="cafe24-radio-line"><strong>판매상태</strong><label><input type="radio" name="manual-prod-soldout" value="false"> 판매함</label><label><input type="radio" name="manual-prod-soldout" value="true" checked> 판매안함</label></div></div></div>
+                                    <div class="cafe24-row cafe24-category-row"><div class="cafe24-th">상품분류선택 <span class="cafe24-required">필수</span></div><div class="cafe24-td"><div class="cafe24-category-grid"><div class="cafe24-category-column"><h4>대분류</h4><select id="manual-prod-category-large" class="cafe24-select" onchange="onManualCategoryLargeChange(); updateCafe24SelectedCategory();"><option value="">대분류 선택</option></select></div><div class="cafe24-category-column"><h4>중분류</h4><select id="manual-prod-category-medium" class="cafe24-select" onchange="onManualCategoryMediumChange(); updateCafe24SelectedCategory();"><option value="">중분류 선택</option></select></div><div class="cafe24-category-column"><h4>소분류</h4><select id="manual-prod-category-small" class="cafe24-select" onchange="updateCafe24SelectedCategory();"><option value="">소분류 선택</option></select></div><div class="cafe24-category-column"><h4>상세분류</h4><div class="cafe24-category-empty">상세분류 없음</div></div></div><div class="cafe24-selected-category"><strong>선택된 상품분류</strong><span id="manual-selected-category-text">선택된 분류가 없습니다.</span><button type="button" onclick="clearCafe24CategorySelection()">x 삭제</button></div></div></div>
+                                </div>
+                            </section>
+
+                            <section id="cafe24-section-options" class="cafe24-section">
+                                <div class="cafe24-section-head"><h3>옵션/재고 설정</h3><label><input type="checkbox"> 항상열기</label></div>
+                                <div class="cafe24-table">
+                                    <div class="cafe24-row"><div class="cafe24-th">상품옵션설정</div><div class="cafe24-td"><div class="cafe24-radio-line"><strong>옵션사용</strong><label><input type="radio" checked> 사용함</label><label><input type="radio"> 사용안함</label></div></div></div>
+                                    <div class="cafe24-row"><div class="cafe24-th">색상 옵션 <span class="cafe24-required">필수</span></div><div class="cafe24-td"><div class="cafe24-chip-input"><input type="text" id="manual-prod-color-input" class="cafe24-input" placeholder="예시) 블랙" onkeyup="if(event.key==='Enter') addManualOptionChip('color')"><button type="button" onclick="addManualOptionChip('color')">+ 추가</button></div><div id="manual-prod-color-chips" class="add-prod-chips-container"></div></div></div>
+                                    <div class="cafe24-row"><div class="cafe24-th">사이즈 옵션 <span class="cafe24-required">필수</span></div><div class="cafe24-td"><div class="cafe24-chip-input"><input type="text" id="manual-prod-size-input" class="cafe24-input" placeholder="예시) Free" onkeyup="if(event.key==='Enter') addManualOptionChip('size')"><button type="button" onclick="addManualOptionChip('size')">+ 추가</button></div><div id="manual-prod-size-chips" class="add-prod-chips-container"></div></div></div>
+                                </div>
+                            </section>
+
+                            <section id="cafe24-section-images" class="cafe24-section">
+                                <div class="cafe24-section-head"><h3>이미지 정보</h3><label><input type="checkbox"> 항상열기</label></div>
+                                <div class="cafe24-table"><div class="cafe24-row"><div class="cafe24-th">상품이미지등록 <span class="cafe24-required">필수</span></div><div class="cafe24-td"><div class="cafe24-image-line"><div class="cafe24-image-drop" onclick="document.getElementById('manual-prod-images-file').click()"><span>+</span></div><div><p>- 권장이미지 : 500px * 500px / 5M 이하 / gif, png, jpg(jpeg)</p><button type="button" class="cafe24-register-btn" onclick="document.getElementById('manual-prod-images-file').click()">+ 등록</button></div></div><input type="file" id="manual-prod-images-file" multiple accept="image/*" style="display:none;" onchange="handleProductImageUpload(event)"><div id="manual-prod-preview-container" class="cafe24-image-preview"></div></div></div></div>
+                            </section>
+
+                            <div class="cafe24-bottom-actions"><button type="button" class="cafe24-primary-btn" onclick="submitCafe24SimpleProductDirect()">상품등록</button><button type="button" class="cafe24-secondary-btn" onclick="previewCafe24SimpleProduct()">미리보기</button></div>
+                        </div>
+                    </div>
+
+                    <div id="admin-tab-qna" class="admin-tab-content" style="display: none;">
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                            
+                            <!-- 왼쪽: 고객 리뷰 대장 관리 -->
+                            <div class="mypage-orders-panel" style="padding:20px;">
+                                <h4 class="checkout-section-title" style="font-size:13px;">⭐ 고객 포토/텍스트 리뷰 제어</h4>
+                                <div class="checkout-divider" style="margin:10px 0;"></div>
+                                <div class="admin-comments-scroll" id="admin-reviews-control-list" style="max-height:450px; overflow-y:auto; display:flex; flex-direction:column; gap:15px;">
+                                    <p style="text-align:center; font-size:12px; color:var(--text-secondary);">리뷰를 불러오는 중...</p>
+                                </div>
+                            </div>
+                            
+                            <!-- 오른쪽: Q&A 문의 대장 답변실 -->
+                            <div class="mypage-orders-panel" style="padding:20px;">
+                                <h4 class="checkout-section-title" style="font-size:13px;">💬 고객 1:1 Q&A 질문 답변 대장</h4>
+                                <div class="checkout-divider" style="margin:10px 0;"></div>
+                                <div class="admin-comments-scroll" id="admin-qna-control-list" style="max-height:450px; overflow-y:auto; display:flex; flex-direction:column; gap:15px;">
+                                    <p style="text-align:center; font-size:12px; color:var(--text-secondary);">Q&A 문의를 불러오는 중...</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <!-- 📢 [신설 5차 고도화] 탭 7: 대표님 전용 공지사항 및 이벤트 종합 통제실 -->
+                    <div id="admin-tab-notices" class="admin-tab-content" style="display: none;">
+                        <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:20px;">
+                            
+                            <!-- 왼쪽: 현재 등록된 공지 및 이벤트 관리 목록 -->
+                            <div class="mypage-orders-panel" style="padding:20px;">
+                                <h4 class="checkout-section-title" style="font-size:13.5px;">📢 현재 등록된 공지 및 이벤트 목록</h4>
+                                <div class="checkout-divider" style="margin:10px 0;"></div>
+                                <div class="admin-table-container">
+                                    <table class="admin-products-table" style="font-size: 12px;">
+                                        <thead>
+                                            <tr>
+                                                <th width="15%">분류</th>
+                                                <th width="50%">제목</th>
+                                                <th width="20%">등록일자</th>
+                                                <th width="15%">제어</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="admin-notice-rows">
+                                            <!-- JS에 의해 실시간 동적 목록 분사 -->
+                                            <tr>
+                                                <td colspan="4" style="text-align:center; padding:30px; color:var(--text-secondary);">공지 및 이벤트 내역이 없습니다.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <!-- 오른쪽: 공지 및 이벤트 신규 작성기 -->
+                            <div class="mypage-orders-panel" style="padding:20px;">
+                                <h4 class="checkout-section-title" style="font-size:13.5px;">✏️ 신규 공지 / 이벤트 등록하기</h4>
+                                <div class="checkout-divider" style="margin:10px 0;"></div>
+                                
+                                <div class="auth-form-box" style="gap: 12px; display: flex; flex-direction: column;">
+                                    <div class="form-group">
+                                        <label class="form-label" style="font-size:12px;">글 분류 <span class="required">*</span></label>
+                                        <select id="new-notice-type" class="form-input" style="padding: 8px 10px; font-size:13px; font-weight:700;">
+                                            <option value="notice">NOTICE (공지사항)</option>
+                                            <option value="event">EVENT (이벤트)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" style="font-size:12px;">글 제목 <span class="required">*</span></label>
+                                        <input type="text" id="new-notice-title" placeholder="글 제목 입력" class="form-input" style="padding: 8px 10px;">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" style="font-size:12px;">상세 본문 내용 <span class="required">*</span></label>
+                                        <textarea id="new-notice-content" rows="8" placeholder="상세 공지사항 혹은 이벤트 내용을 친절하게 적어주세요. 🎁✨" class="form-input qna-textarea" style="padding: 8px 10px; font-family:var(--font-noto), sans-serif;"></textarea>
+                                    </div>
+                                    
+                                    <button class="order-submit-btn" style="margin-top: 10px; padding: 12px; font-size: 13px;" onclick="submitNewNoticeDirect()">
+                                        📢 공지/이벤트 실시간 등록하기
+                                    </button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <!-- 💰 [신설 탭] 수동 입금전 관리 대장 탭 (카페24 스타일 고도화 버전) -->
+                    <div id="admin-tab-orders-deposit" class="admin-tab-content" style="display: none;">
+                        <!-- 🔍 1. 카페24 스타일 기간별 및 상세 조건 검색 필터 패널 -->
+                        <div class="mypage-profile-panel" style="padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-light); background: rgba(255, 255, 255, 0.01);">
+                            <h4 class="checkout-section-title" style="font-size:13px; margin-bottom: 15px; color: var(--text-primary);">🔍 입금대기 상세 조건 검색 (기간별 조회)</h4>
+                            <div style="display: flex; flex-direction: column; gap: 15px;">
+                                <!-- 1단: 기간 필터 -->
+                                <div style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                                    <div style="width: 120px; font-size: 12px; font-weight: 700; color: var(--text-secondary);">
+                                        기간
+                                    </div>
+                                    <div style="flex: 1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                                        <select id="admin-deposit-date-type" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; width: 110px; background-color: #1A222E; color: #fff;">
+                                            <option value="created_at">주문일</option>
+                                        </select>
+                                        <!-- 퀵 버튼 그룹 (어드민 기간 자동 설정 연동) -->
+                                        <div style="display: flex; gap: 5px;">
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminDepositOrderDateRange(0)">오늘</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminDepositOrderDateRange(1)">어제</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminDepositOrderDateRange(3)">3일</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminDepositOrderDateRange(7)">7일</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminDepositOrderDateRange(15)">15일</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminDepositOrderDateRange(30)">1개월</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminDepositOrderDateRange(90)">3개월</button>
+                                            <button type="button" class="postcode-btn" style="padding: 6px 12px; font-size: 11.5px; margin: 0; background-color: #1A222E; color: #fff;" onclick="setAdminDepositOrderDateRange(180)">6개월</button>
+                                        </div>
+                                        <!-- 날짜 입력 범위 선택 -->
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <input type="date" id="admin-deposit-start-date" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; width: 140px; background-color: #1A222E; color: #fff;">
+                                            <span style="color: var(--text-secondary);">~</span>
+                                            <input type="date" id="admin-deposit-end-date" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; width: 140px; background-color: #1A222E; color: #fff;">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 2단: 상세 조건 검색어 필터 -->
+                                <div style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                                    <div style="width: 120px; font-size: 12px; font-weight: 700; color: var(--text-secondary);">
+                                        검색어
+                                    </div>
+                                    <div style="flex: 1; display: flex; gap: 10px;">
+                                        <select id="admin-deposit-search-type" class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; width: 110px; background-color: #1A222E; color: #fff;">
+                                            <option value="order_no">주문번호</option>
+                                            <option value="customer_name">주문자명</option>
+                                            <option value="depositor">입금자명</option>
+                                            <option value="product_name">상품명</option>
+                                        </select>
+                                        <input type="text" id="admin-deposit-search-keyword" placeholder="검색어를 입력한 후 엔터를 치거나 검색 버튼을 클릭하세요..." class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; flex: 1;" onkeyup="if(event.key === 'Enter') fetchAdminOrdersDeposit()">
+                                    </div>
+                                </div>
+
+                                <!-- 3단: 필터링 실행 단추 -->
+                                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+                                    <button class="postcode-btn" style="padding: 8px 24px; font-size: 12.5px; font-weight: 700; margin: 0; background-color: var(--admin-accent);" onclick="fetchAdminOrdersDeposit()">검색</button>
+                                    <button class="postcode-btn" style="padding: 8px 24px; font-size: 12.5px; font-weight: 700; margin: 0; background-color: #5A4E40; color: #fff;" onclick="resetAdminDepositOrderSearch()">초기화</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 🛠️ 2. 일괄 처리 액션 버튼군 및 주문서 조회 목록 -->
+                        <div class="mypage-orders-panel" style="padding: 20px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+                                <div style="display: flex; gap: 8px;">
+                                    <!-- 💳 체크된 항목을 대상으로 일괄 입금확인 완료 처리하는 버튼 -->
+                                    <button class="admin-save-btn" style="background-color: #2E7D32; font-size: 12px; padding: 8px 16px; border-radius: 4px; font-weight: 700; color: #ffffff !important;" onclick="batchApproveDeposit()">
+                                        💳 입금확인
+                                    </button>
+                                    <!-- ❌ 체크된 항목을 대상으로 일괄 주문취소 처리하는 버튼 -->
+                                    <button class="admin-save-btn" style="background-color: #C62828; font-size: 12px; padding: 8px 16px; border-radius: 4px; font-weight: 700; color: #ffffff !important;" onclick="batchCancelDeposit()">
+                                        ❌ 주문취소
+                                    </button>
+                                </div>
+                                <span style="font-size: 12px; color: var(--text-secondary);">
+                                    * 무통장 입금이 수동 확인되면 목록에서 선택 후 [입금확인]을 누르면 결제완료 상태로 전환됩니다.
+                                </span>
+                            </div>
+
+                            <div class="admin-table-container">
+                                <table class="admin-products-table">
+                                    <thead>
+                                        <tr>
+                                            <!-- 전체 선택 / 전체 해제용 최상단 체크박스 -->
+                                            <th width="4%" style="text-align: center;">
+                                                <input type="checkbox" id="admin-deposit-check-all" onclick="toggleAllDepositChecks(this)">
+                                            </th>
+                                            <th width="12%">주문일시</th>
+                                            <th width="14%">주문번호</th>
+                                            <th width="22%">상품명 (옵션/수량)</th>
+                                            <th width="10%">주문자</th>
+                                            <th width="10%">입금자</th>
+                                            <th width="10%">입금액</th>
+                                            <th width="12%">입금은행</th>
+                                            <th width="6%">처리여부</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-orders-deposit-rows">
+                                        <!-- 자바스크립트로 필터링된 입금대기 주문만 동적으로 로드 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 🚚 [신설 탭] 배송 단계별 통합 통제 대장 탭 -->
+                    <div id="admin-tab-orders-delivery" class="admin-tab-content" style="display: none;">
+                        <div class="mypage-orders-panel" style="padding: 20px;">
+                            <h4 class="checkout-section-title" id="delivery-tab-title" style="font-size:13.5px;">🚚 배송 단계별 관리 대장</h4>
+                            <p class="mypage-sub-desc" id="delivery-tab-desc" style="margin-bottom: 20px;">각 단계별(결제완료/배송중/배송완료) 주문 건들의 리스트이며, 운송장 등록 및 배송 처리를 기동합니다.</p>
+                            <div class="admin-table-container">
+                                <table class="admin-products-table">
+                                    <thead>
+                                        <tr>
+                                            <th width="15%">주문번호 / 일시</th>
+                                            <th width="13%">수취인 / 연락처</th>
+                                            <th width="25%">배송지 주소</th>
+                                            <th width="22%">주문 상품 명세</th>
+                                            <th width="10%">결제금액</th>
+                                            <th width="15%">배송 처리 / 운송장</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-orders-delivery-rows">
+                                        <!-- 자바스크립트로 배송 상태별 주문 로드 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 🔄 [신설 탭] 클레임(취소/교환/반품/환불) 처리 대장 탭 -->
+                    <div id="admin-tab-orders-claim" class="admin-tab-content" style="display: none;">
+                        <div class="mypage-orders-panel" style="padding: 20px;">
+                            <h4 class="checkout-section-title" style="font-size:13.5px;">🔄 취소 / 교환 / 반품 / 환불 처리 대장</h4>
+                            <p class="mypage-sub-desc" style="margin-bottom: 20px;">고객들이 쇼핑몰 마이페이지에서 접수한 실시간 클레임 요청 건들을 수동 승인 및 차단 제어합니다.</p>
+                            <div class="admin-table-container">
+                                <table class="admin-products-table">
+                                    <thead>
+                                        <tr>
+                                            <th width="15%">주문번호 / 일시</th>
+                                            <th width="12%">신청 고객명</th>
+                                            <th width="18%">클레임 구분</th>
+                                            <th width="25%">요청 상품 (옵션)</th>
+                                            <th width="15%">환불 대상 금액</th>
+                                            <th width="15%">클레임 심사 처리</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-orders-claim-rows">
+                                        <!-- 자바스크립트로 클레임 요청 주문 로드 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 🗃️ [신설 탭] 실시간 상품 재고 관리 대장 탭 -->
+                    <div id="admin-tab-products-stock" class="admin-tab-content" style="display: none;">
+                        <div class="mypage-orders-panel" style="padding: 20px;">
+                            <h4 class="checkout-section-title" style="font-size:13.5px;">🗃️ 실시간 상품 재고 관리 대장</h4>
+                            <p class="mypage-sub-desc" style="margin-bottom: 20px;">진열 중인 명품들의 실시간 재고 보유량을 한눈에 조회하고, 화면에서 즉각 숫자를 수정하여 실시간 DB에 반영합니다.</p>
+                            <div class="admin-table-container">
+                                <table class="admin-products-table">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%">이미지</th>
+                                            <th width="20%">브랜드명</th>
+                                            <th width="35%">진열 상품명</th>
+                                            <th width="15%">판매 가격 (₩)</th>
+                                            <th width="12%">현재 재고량</th>
+                                            <th width="8%">동작</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-products-stock-rows">
+                                        <!-- 자바스크립트로 전체 상품 및 재고 연동 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 👥 [신설 탭] 고객 종합 대시보드 & 최근 가입 회원 목록 탭 -->
+                    <div id="admin-tab-customers-dashboard" class="admin-tab-content" style="display: none;">
+                        <div class="mypage-orders-panel" style="padding: 20px; margin-bottom: 30px;">
+                            <h4 class="checkout-section-title" style="font-size:13.5px;">👥 고객 현황 요약 (통계 자동 기입)</h4>
+                            <div class="admin-table-container" style="margin-top: 15px;">
+                                <table class="admin-products-table" style="font-size: 13px; text-align: center;">
+                                    <thead>
+                                        <tr>
+                                            <th>신규 회원 수 (오늘)</th>
+                                            <th>방문 회원 수 (오늘)</th>
+                                            <th>탈퇴 회원 수 (오늘)</th>
+                                            <th>전체 회원 수 (TOTAL)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span id="cust-today-new" style="font-weight:700; color:#3b82f6; font-size:18px;">0</span> 명</td>
+                                            <td><span id="cust-today-visit" style="font-weight:700; color:#8A9AA8; font-size:18px;">15</span> 명</td>
+                                            <td><span id="cust-today-leave" style="font-weight:700; color:var(--text-secondary); font-size:18px;">0</span> 명</td>
+                                            <td><span id="cust-total" style="font-weight:700; color:#EF5350; font-size:18px;">0</span> 명</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="mypage-orders-panel" style="padding: 20px;">
+                            <h4 class="checkout-section-title" style="font-size:13.5px;">👑 최근 가입 회원 목록 (실시간 자동 기입)</h4>
+                            <p class="mypage-sub-desc" style="margin-bottom: 20px;">우리 쇼핑몰에 가장 최근에 회원 가입을 진행한 VIP 고객들 명단입니다.</p>
+                            <div class="admin-table-container">
+                                <table class="admin-products-table">
+                                    <thead>
+                                        <tr>
+                                            <th width="25%">가입일시</th>
+                                            <th width="25%">아이디 (이메일)</th>
+                                            <th width="20%">이름</th>
+                                            <th width="15%">비고</th>
+                                            <th width="15%">등급/관계</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-recent-customers-rows">
+                                        <!-- 자바스크립트로 최근 가입 profiles 3~5명 로드 -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 🔒 [리뉴얼 탭] 지능형 가상 시뮬레이터 탭 (세금계산서, 현금영수증, 정기결제 등 대응) -->
+                    <!-- 🌳 [신설] 카페24 스타일 진짜 상품 진열 관리 대장 🌳 -->
+                    <div id="admin-tab-ready" class="admin-tab-content" style="display: none;">
+                        
+                        <!-- 🔍 1. 상단 조건별 상품 검색 필터 패널 -->
+                        <div class="mypage-profile-panel" style="padding: 20px; margin-bottom: 20px; border: 1px solid var(--border-light); background: rgba(255, 255, 255, 0.01);">
+                            <h4 class="checkout-section-title" style="font-size:13px; margin-bottom: 15px; color: var(--text-primary);">🔍 진열 대상 분류 및 상품 조건 검색</h4>
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <!-- 1단: 카테고리 지정 -->
+                                <div style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                                    <div class="form-group" style="margin: 0; width: 120px;">
+                                        <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">🌳 진열 분류 지정 <span class="required" style="color:var(--admin-accent);">*</span></span>
+                                    </div>
+                                    <div style="display: flex; gap: 8px; flex: 1;">
+                                        <select id="admin-display-large" class="form-input" style="padding: 8px; font-size: 12px; background-color:#1A222E; color:#fff;" onchange="onAdminDisplayCategoryLargeChange()">
+                                            <option value="">대분류 전체</option>
+                                        </select>
+                                        <select id="admin-display-medium" class="form-input" style="padding: 8px; font-size: 12px; background-color:#1A222E; color:#fff;" onchange="onAdminDisplayCategoryMediumChange()">
+                                            <option value="">중분류 전체</option>
+                                        </select>
+                                        <select id="admin-display-small" class="form-input" style="padding: 8px; font-size: 12px; background-color:#1A222E; color:#fff;">
+                                            <option value="">소분류 전체</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <!-- 2단: 상품명 및 노출 상태 -->
+                                <div style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                                    <div class="form-group" style="margin: 0; width: 120px;">
+                                        <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">🔍 상품명 검색</span>
+                                    </div>
+                                    <div style="flex: 1; display: flex; gap: 10px; align-items: center;">
+                                        <input type="text" id="admin-display-search-keyword" placeholder="상품명 또는 브랜드명 입력..." class="form-input" style="padding: 8px 12px; font-size: 12.5px; margin: 0; flex: 1;" onkeyup="if(event.key === 'Enter') fetchAdminDisplayProducts()">
+                                        
+                                        <span style="font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-left: 10px;">👁️ 진열상태:</span>
+                                        <label style="font-size: 12px; color: #fff; cursor: pointer; display: flex; align-items: center; gap: 4px; margin: 0;">
+                                            <input type="radio" name="admin-display-visible-filter" value="all" checked style="accent-color: var(--admin-accent);"> 전체
+                                        </label>
+                                        <label style="font-size: 12px; color: #fff; cursor: pointer; display: flex; align-items: center; gap: 4px; margin: 0;">
+                                            <input type="radio" name="admin-display-visible-filter" value="true" style="accent-color: var(--admin-accent);"> 진열함
+                                        </label>
+                                        <label style="font-size: 12px; color: #fff; cursor: pointer; display: flex; align-items: center; gap: 4px; margin: 0;">
+                                            <input type="radio" name="admin-display-visible-filter" value="false" style="accent-color: var(--admin-accent);"> 진열안함
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <!-- 3단: 검색 버튼 -->
+                                <div style="display: flex; justify-content: center; gap: 10px; margin-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px;">
+                                    <button class="postcode-btn" style="padding: 8px 24px; font-size: 12.5px; font-weight: 700; margin: 0; background-color: var(--admin-accent);" onclick="fetchAdminDisplayProducts()">진열 대장 조회</button>
+                                    <button class="postcode-btn" style="padding: 8px 24px; font-size: 12.5px; font-weight: 700; margin: 0; background-color: #5A4E40; color: #fff;" onclick="resetAdminDisplaySearch()">검색 필터 초기화</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 📊 2. 분류/진열 상태 요약 정보 바 -->
+                        <!-- 🌟 [신설 4차 고도화] 대표님 상품 직접 추가 등록 모달 팝업 -->
+        <div id="add-product-modal" class="cart-modal-overlay" style="display: none;" onclick="closeAddProductModalOutside(event)">
+            <div class="cart-modal-content auth-modal-content" style="max-width:600px; overflow-y:auto;" onclick="event.stopPropagation()">
+                <div class="cart-modal-header">
+                    <h3 class="cart-modal-title" id="add-prod-modal-title">📦 카페24 스타일 상품 간단등록</h3>
+                    <span class="close-btn" onclick="closeAddProductModal()">✕</span>
+                </div>
+                <div class="checkout-divider" style="margin: 10px 0;"></div>
+                
+                <!-- 3단 탭 메뉴 버튼군 -->
+                <ul class="add-prod-tab-btns">
+                    <li class="add-prod-tab-btn active" id="btn-tab-basic" onclick="switchAddProductTab('tab-basic')">1. 기본 정보</li>
+                    <li class="add-prod-tab-btn" id="btn-tab-sale" onclick="switchAddProductTab('tab-sale')">2. 판매 & 재고</li>
+                    <li class="add-prod-tab-btn" id="btn-tab-optimg" onclick="switchAddProductTab('tab-optimg')">3. 옵션 & 이미지</li>
+                </ul>
+
+                <div class="auth-form-box">
+                    <!-- [1. 기본 정보 탭 패널] -->
+                    <div id="tab-basic" class="add-prod-tab-pane active">
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">브랜드명 <span class="required">*</span></label>
+                            <input type="text" id="add-prod-brand" placeholder="예: Chanel, Hermes" class="form-input">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">상품명 <span class="required">*</span></label>
+                            <input type="text" id="add-prod-name" placeholder="상품명 입력" class="form-input">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">상품 분류 카테고리 <span class="required">*</span></label>
+                            <div style="display: flex; gap: 8px;">
+                                <select id="add-prod-category-large" class="form-input" style="padding: 10px 12px; font-size:12.5px; font-weight:700; flex:1;" onchange="onModalCategoryLargeChange()">
+                                    <option value="">대분류 선택</option>
+                                </select>
+                                <select id="add-prod-category-medium" class="form-input" style="padding: 10px 12px; font-size:12.5px; font-weight:700; flex:1;" onchange="onModalCategoryMediumChange()">
+                                    <option value="">중분류 선택</option>
+                                </select>
+                                <select id="add-prod-category-small" class="form-input" style="padding: 10px 12px; font-size:12.5px; font-weight:700; flex:1;">
+                                    <option value="">소분류 선택</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">의류 상세 정보 및 케어 스펙 <span class="required">*</span></label>
+                            <textarea id="add-prod-details" rows="5" placeholder="🧵 [내추럴 셀렉션] 섬유 혼용률 및 코디 가이드 멘트를 적어주세요." class="form-input qna-textarea"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- [2. 판매 & 재고 탭 패널] -->
+                    <div id="tab-sale" class="add-prod-tab-pane">
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">진열 상태 설정 <span class="required">*</span></label>
+                            <div class="add-prod-radio-group">
+                                <label class="add-prod-radio-label">
+                                    <input type="radio" name="add-prod-visible" value="true" checked> 진열함 (쇼핑몰 노출)
+                                </label>
+                                <label class="add-prod-radio-label">
+                                    <input type="radio" name="add-prod-visible" value="false"> 진열안함 (숨김)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">판매 상태 설정 <span class="required">*</span></label>
+                            <div class="add-prod-radio-group">
+                                <label class="add-prod-radio-label">
+                                    <input type="radio" name="add-prod-soldout" value="false" checked> 판매중
+                                </label>
+                                <label class="add-prod-radio-label">
+                                    <input type="radio" name="add-prod-soldout" value="true"> 품절 (SOLD OUT)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">소비자가 (원화 ₩) <span class="required">*</span></label>
+                            <input type="number" id="add-prod-original" placeholder="소비자 권장 가격 입력 (예: 120000)" class="form-input" oninput="calculateDiscountRate()">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">
+                                실제 판매가 (원화 ₩) <span class="required">*</span>
+                                <span id="add-prod-discount-badge" class="discount-calc-badge" style="display: none;">0% 할인</span>
+                            </label>
+                            <input type="number" id="add-prod-price" placeholder="실제 판매 가격 정수 입력 (예: 89000)" class="form-input" oninput="calculateDiscountRate()">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">초기 재고 수량 <span class="required">*</span></label>
+                            <input type="number" id="add-prod-stock" placeholder="초기 입고 재고 입력 (예: 100)" value="99" class="form-input">
+                        </div>
+                    </div>
+
+                    <!-- [3. 옵션 & 이미지 탭 패널] -->
+                    <div id="tab-optimg" class="add-prod-tab-pane">
+                        <!-- 이미지 1 직접 업로드 및 URL 입력 -->
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">대표 이미지 등록 <span class="required">*</span></label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="add-prod-image1" placeholder="대표 메인 피팅 이미지 주소 또는 우측 파일 업로드" class="form-input" style="flex: 1;">
+                                <input type="file" id="add-prod-file1" accept="image/*" style="display: none;" onchange="uploadProductImageDirect(this, 'add-prod-image1', 'add-prod-prev1')">
+                                <button type="button" class="postcode-btn" style="margin:0; padding:8px 12px; font-weight:700; white-space:nowrap;" onclick="document.getElementById('add-prod-file1').click()">📁 사진 선택</button>
+                            </div>
+                            <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px;">
+                                <img id="add-prod-prev1" style="max-width: 60px; max-height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); display: none;">
+                                <span id="upload-status-add-prod-image1" style="font-size: 11.5px; color: var(--text-secondary);"></span>
+                            </div>
+                        </div>
+                        <!-- 이미지 2 직접 업로드 및 URL 입력 -->
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">추가 이미지 1 (선택)</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="add-prod-image2" placeholder="서브 상세 이미지 주소 1 또는 우측 파일 업로드" class="form-input" style="flex: 1;">
+                                <input type="file" id="add-prod-file2" accept="image/*" style="display: none;" onchange="uploadProductImageDirect(this, 'add-prod-image2', 'add-prod-prev2')">
+                                <button type="button" class="postcode-btn" style="margin:0; padding:8px 12px; font-weight:700; white-space:nowrap;" onclick="document.getElementById('add-prod-file2').click()">📁 사진 선택</button>
+                            </div>
+                            <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px;">
+                                <img id="add-prod-prev2" style="max-width: 60px; max-height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); display: none;">
+                                <span id="upload-status-add-prod-image2" style="font-size: 11.5px; color: var(--text-secondary);"></span>
+                            </div>
+                        </div>
+                        <!-- 이미지 3 직접 업로드 및 URL 입력 -->
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">추가 이미지 2 (선택)</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="add-prod-image3" placeholder="서브 상세 이미지 주소 2 또는 우측 파일 업로드" class="form-input" style="flex: 1;">
+                                <input type="file" id="add-prod-file3" accept="image/*" style="display: none;" onchange="uploadProductImageDirect(this, 'add-prod-image3', 'add-prod-prev3')">
+                                <button type="button" class="postcode-btn" style="margin:0; padding:8px 12px; font-weight:700; white-space:nowrap;" onclick="document.getElementById('add-prod-file3').click()">📁 사진 선택</button>
+                            </div>
+                            <div style="margin-top: 8px; display: flex; align-items: center; gap: 10px;">
+                                <img id="add-prod-prev3" style="max-width: 60px; max-height: 80px; object-fit: cover; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); display: none;">
+                                <span id="upload-status-add-prod-image3" style="font-size: 11.5px; color: var(--text-secondary);"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">색상 옵션 추가 (입력 후 엔터 또는 + 버튼) <span class="required">*</span></label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="add-prod-color-input" placeholder="예: 오프화이트 (입력 후 엔터)" class="form-input" onkeyup="if(event.key==='Enter') addOptionChip('color')">
+                                <button type="button" class="postcode-btn" style="margin:0; padding:8px 15px; font-weight:700;" onclick="addOptionChip('color')">추가</button>
+                            </div>
+                            <div id="add-prod-color-chips" class="add-prod-chips-container">
+                                <!-- 동적으로 색상 옵션 칩들이 들어갈 자리 -->
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label class="form-label">사이즈 옵션 추가 (입력 후 엔터 또는 + 버튼) <span class="required">*</span></label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="add-prod-size-input" placeholder="예: 100 L (입력 후 엔터)" class="form-input" onkeyup="if(event.key==='Enter') addOptionChip('size')">
+                                <button type="button" class="postcode-btn" style="margin:0; padding:8px 15px; font-weight:700;" onclick="addOptionChip('size')">추가</button>
+                            </div>
+                            <div id="add-prod-size-chips" class="add-prod-chips-container">
+                                <!-- 동적으로 사이즈 옵션 칩들이 들어갈 자리 -->
+                            </div>
+                        </div>
+
+                        <!-- 🌟 [신설] 카페24 스타일 옵션 조합별 세부 품목 목록 테이블 영역 🌟 -->
+                        <div class="form-group" style="margin-bottom: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+                            <label class="form-label" style="font-weight: 700; color: var(--accent-gold); display: flex; justify-content: space-between; align-items: center;">
+                                <span>⚙️ 옵션 품목 세부 구성 목록</span>
+                                <span style="font-size: 10.5px; font-weight: normal; color: var(--text-secondary);">* 품목별로 품절 여부와 재고, 추가 금액을 개별적으로 다룰 수 있습니다.</span>
+                            </label>
+                            <div class="admin-table-container" style="max-height: 250px; overflow-y: auto; border: 1px solid var(--border-light); border-radius: 4px; margin-top: 8px;">
+                                <table class="admin-products-table" style="font-size: 11.5px; text-align: center;">
+                                    <thead>
+                                        <tr>
+                                            <th width="35%">옵션 조합 (색상 / 사이즈)</th>
+                                            <th width="22%">판매 상태</th>
+                                            <th width="20%">재고 수량</th>
+                                            <th width="23%">추가 금액 (₩)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="add-prod-options-table-rows">
+                                        <tr>
+                                            <td colspan="4" style="text-align: center; color: var(--text-secondary); padding: 30px 0; font-size:12px;">
+                                                색상과 사이즈 옵션을 각각 1개 이상 등록해 주세요. 품목들이 실시간으로 이곳에 조합 배치됩니다.
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="order-submit-btn" id="add-prod-submit-btn" onclick="submitProductFormDirect()">
+                        📦 신상품 정식 진열 스위치 켜기
+                    </button>
+                </div>
+            </div>
+        </div>opPropagation()">
+                <div class="cart-modal-header">
+                    <h3 class="cart-modal-title">SHOPPING CART (장바구니)</h3>
+                    <span class="close-btn" onclick="toggleCartModal()">✕</span>
+                </div>
+                <div class="checkout-divider" style="margin: 15px 0;"></div>
+                
+                <!-- 담긴 상품 목록 부위 -->
+                <div class="cart-modal-items" id="cart-modal-items-list">
+                    <!-- 상품들 조립 적재 -->
+                </div>
+                
+                <div class="cart-modal-footer">
+                    <div class="checkout-divider" style="margin: 15px 0;"></div>
+                    <div class="cart-total-row">
+                        <span>합계 금액</span>
+                        <span class="cart-total-val" id="cart-modal-total-price">₩0</span>
+                    </div>
+                    <button class="cart-checkout-btn" onclick="goToCheckout()">
+                        📝 주문서 작성하러 가기
+                    </button>
+                    <!-- 🛡️ [보안/편의 고도화] 장바구니 전체 비우기 버튼 추가 -->
+                    <button class="cart-continue-btn" style="background-color: #D32F2F; color: #fff; border-color: #D32F2F; margin-bottom: 8px;" onclick="clearCart()">
+                        🗑️ 장바구니 전체 비우기
+                    </button>
+                    <button class="cart-continue-btn" onclick="toggleCartModal()">
+                        ← 계속 쇼핑하기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🔒 [우아한 미니멀 로그인 / 회원가입 통합 모달] 🔒 -->
+        <div id="auth-modal" class="cart-modal-overlay" style="display: none;" onclick="closeAuthModalOutside(event)">
+            <div class="cart-modal-content auth-modal-content" onclick="event.stopPropagation()">
+                <div class="cart-modal-header">
+                    <h3 class="cart-modal-title" id="auth-modal-title">LOGIN</h3>
+                    <span class="close-btn" onclick="closeAuthModal()">✕</span>
+                </div>
+                <div class="checkout-divider" style="margin: 15px 0;"></div>
+                
+                <!-- 통합 인증 입력 폼 -->
+                <div class="auth-form-box">
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label class="form-label">이메일 계정 <span class="required">*</span></label>
+                        <input type="email" id="auth-email" placeholder="예: user@example.com" class="form-input">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label class="form-label">비밀번호 <span class="required">*</span></label>
+                        <input type="password" id="auth-password" placeholder="비밀번호를 입력하세요 (6자 이상)" class="form-input" onkeyup="handleAuthKeyUp(event)">
+                    </div>
+                    
+                    <!-- 회원가입 전용 필드 -->
+                    <div id="auth-signup-fields" style="display: none;">
+                        <div class="form-group" style="margin-bottom: 15px;">
+                                        <label class="form-label">이름 <span class="required">*</span></label>
+                            <input type="text" id="auth-name" placeholder="고객님의 성함을 입력하세요" class="form-input">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 15px;">
+                            <label class="form-label">연락처 <span class="required">*</span></label>
+                             <input type="tel" id="auth-phone" placeholder="예: 010-1234-5678" class="form-input" oninput="formatPhoneNumber(this)">
+                        </div>
+                    </div>
+                    
+                    <p id="auth-error-msg" class="gate-error" style="display: none; margin-bottom: 15px;"></p>
+                    <!-- 🛡️ [UX 고도화] 팝업 경고창 대신 모달 내부에 자연스럽게 에러를 표시하는 인라인 에러 피드백 영역 -->
+                    <p id="auth-inline-error" class="auth-inline-error"></p>
+                    
+                    <button class="order-submit-btn" id="auth-submit-btn" onclick="handleAuthSubmit()">
+                        로그인
+                    </button>
+                    
+                    <div class="auth-switch-text">
+                        <span id="auth-switch-prompt">아직 계정이 없으신가요?</span>
+                        <a href="#" id="auth-switch-link" onclick="switchAuthMode()">회원가입하기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 💬 [간편 Q&A 문의작성 모달] 💬 -->
+        <div id="qna-modal" class="cart-modal-overlay" style="display: none;" onclick="closeQnaModalOutside(event)">
+            <div class="cart-modal-content qna-modal-content" onclick="event.stopPropagation()">
+                <div class="cart-modal-header">
+                    <h3 class="cart-modal-title">✏️ Q&A 문의 등록</h3>
+                    <span class="close-btn" onclick="closeQnaModal()">✕</span>
+                </div>
+                <div class="checkout-divider" style="margin: 15px 0;"></div>
+                
+                <div class="qna-form-box">
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label class="form-label">문의글 제목 <span class="required">*</span></label>
+                        <input type="text" id="qna-title-input" placeholder="원단, 사이즈 등 질문 요약을 적어주세요" class="form-input">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label class="form-label">작성자 닉네임 <span class="required">*</span></label>
+                        <input type="text" id="qna-author-input" placeholder="성함 또는 닉네임 기재" class="form-input">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label class="form-label">문의 상세 내용 <span class="required">*</span></label>
+                        <textarea id="qna-content-input" rows="6" placeholder="자세한 문의 사항을 남겨주시면 대표님이 친절히 확인 후 답변 드립니다." class="form-input qna-textarea"></textarea>
+                    </div>
+                    
+                    <!-- 비밀글 설정 지원 -->
+                    <div style="display:flex; align-items:center; gap:8px; margin-bottom: 15px;">
+                        <input type="checkbox" id="qna-secret-checkbox" style="width:16px; height:16px; cursor:pointer;" onclick="toggleQnaSecretForm()">
+                        <label for="qna-secret-checkbox" style="font-size:12.5px; font-weight:600; color:var(--text-secondary); cursor:pointer;">🔒 비밀글로 작성하기 (체크 시 내용 잠금)</label>
+                    </div>
+                    
+                    <!-- 🛡️ [보안/편의 고도화] Q&A 본인인증(수정/삭제)을 위해 비밀번호 입력을 기본 필수 필드로 전환 -->
+                    <div class="form-group" id="qna-password-group" style="margin-bottom: 20px; display: block;">
+                        <label class="form-label">글 비밀번호 (수정/삭제용 4자리) <span class="required">*</span></label>
+                        <input type="password" id="qna-password-input" maxlength="4" placeholder="수정 및 삭제 시 사용할 4자리 비밀번호를 입력해 주세요." class="form-input">
+                    </div>
+                    
+                    <button class="order-submit-btn" onclick="submitQnaPost()">
+                        ✏️ 문의글 최종 등록하기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🌟 [신설 4차 고도화] 포토/텍스트 리뷰 후기 작성 모달 팝업 -->
+        <div id="review-modal" class="cart-modal-overlay" style="display: none;" onclick="closeReviewModalOutside(event)">
+            <div class="cart-modal-content qna-modal-content" onclick="event.stopPropagation()">
+                <div class="cart-modal-header">
+                    <h3 class="cart-modal-title">⭐ 구매 만족 후기(Review) 남기기</h3>
+                    <span class="close-btn" onclick="closeReviewModal()">✕</span>
+                </div>
+                <div class="checkout-divider" style="margin: 15px 0;"></div>
+                
+                <div class="qna-form-box" id="review-modal-form-content">
+                    <!-- 후기 상세 폼 (JS 동적 바인딩) -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 🌟 [신설 4차 고도화] 대표님 상품 직접 추가 등록 모달 팝업 -->
+        <div id="add-product-modal" class="cart-modal-overlay" style="display: none;" onclick="closeAddProductModalOutside(event)">
+            <div class="cart-modal-content auth-modal-content" style="max-width:600px; overflow-y:auto;" onclick="event.stopPropagation()">
+                <div class="cart-modal-header">
+                    <h3 class="cart-modal-title">📦 카페24 스타일 상품 간단등록</h3>
+                    <span class="close-btn" onclick="closeAddProductModal()">✕</span>
+                </div>
+                <div class="checkout-divider" style="margin: 10px 0;"></div>
+                
+                <!-- 3단 탭 메뉴 버튼군 -->
+                <ul class="add-prod-tab-btns">
+                    <li class="add-prod-tab-btn active" id="btn-tab-basic" onclick="switchAddProductTab('tab-basic')">1. 기본 정보</li>
+                    <li class="add-prod-tab-btn" id="btn-tab-sale" onclick="switchAddProductTab('tab-sale')">2. 판매 & 재고</li>
+                    <li class="add-prod-tab-btn" id="btn-tab-optimg" onclick="switchAddProductTab('tab-optimg')">3. 옵션 & 이미지</li>
+                </ul>
+
+                <div class="auth-form-box">
+                    <!-- [1. 기본 정보 탭 패널] -->
+                    <div id="tab-basic" class="add-prod-tab-pane active">
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">브랜드명 <span class="required">*</span></label>
+                            <input type="text" id="add-prod-brand" placeholder="예: Chanel, Hermes" class="form-input">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">상품명 <span class="required">*</span></label>
+                            <input type="text" id="add-prod-name" placeholder="상품명 입력" class="form-input">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">상품 분류 카테고리 <span class="required">*</span></label>
+                            <div style="display: flex; gap: 8px;">
+                                <select id="add-prod-category-large" class="form-input" style="padding: 10px 12px; font-size:12.5px; font-weight:700; flex:1;" onchange="onModalCategoryLargeChange()">
+                                    <option value="">대분류 선택</option>
+                                </select>
+                                <select id="add-prod-category-medium" class="form-input" style="padding: 10px 12px; font-size:12.5px; font-weight:700; flex:1;" onchange="onModalCategoryMediumChange()">
+                                    <option value="">중분류 선택</option>
+                                </select>
+                                <select id="add-prod-category-small" class="form-input" style="padding: 10px 12px; font-size:12.5px; font-weight:700; flex:1;">
+                                    <option value="">소분류 선택</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">의류 상세 정보 및 케어 스펙 <span class="required">*</span></label>
+                            <textarea id="add-prod-details" rows="5" placeholder="🧵 [내추럴 셀렉션] 섬유 혼용률 및 코디 가이드 멘트를 적어주세요." class="form-input qna-textarea"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- [2. 판매 & 재고 탭 패널] -->
+                    <div id="tab-sale" class="add-prod-tab-pane">
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">진열 상태 설정 <span class="required">*</span></label>
+                            <div class="add-prod-radio-group">
+                                <label class="add-prod-radio-label">
+                                    <input type="radio" name="add-prod-visible" value="true" checked> 진열함 (쇼핑몰 노출)
+                                </label>
+                                <label class="add-prod-radio-label">
+                                    <input type="radio" name="add-prod-visible" value="false"> 진열안함 (숨김)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">판매 상태 설정 <span class="required">*</span></label>
+                            <div class="add-prod-radio-group">
+                                <label class="add-prod-radio-label">
+                                    <input type="radio" name="add-prod-soldout" value="false" checked> 판매중
+                                </label>
+                                <label class="add-prod-radio-label">
+                                    <input type="radio" name="add-prod-soldout" value="true"> 품절 (SOLD OUT)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">소비자가 (원화 ₩) <span class="required">*</span></label>
+                            <input type="number" id="add-prod-original" placeholder="소비자 권장 가격 입력 (예: 120000)" class="form-input" oninput="calculateDiscountRate()">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">
+                                실제 판매가 (원화 ₩) <span class="required">*</span>
+                                <span id="add-prod-discount-badge" class="discount-calc-badge" style="display: none;">0% 할인</span>
+                            </label>
+                            <input type="number" id="add-prod-price" placeholder="실제 판매 가격 정수 입력 (예: 89000)" class="form-input" oninput="calculateDiscountRate()">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">초기 재고 수량 <span class="required">*</span></label>
+                            <input type="number" id="add-prod-stock" placeholder="초기 입고 재고 입력 (예: 100)" value="99" class="form-input">
+                        </div>
+                    </div>
+
+                    <!-- [3. 옵션 & 이미지 탭 패널] -->
+                    <div id="tab-optimg" class="add-prod-tab-pane">
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">대표 이미지 URL <span class="required">*</span></label>
+                            <input type="text" id="add-prod-image1" placeholder="대표 메인 피팅 이미지 주소" class="form-input">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">추가 이미지 1 (선택)</label>
+                            <input type="text" id="add-prod-image2" placeholder="서브 상세 이미지 주소 1" class="form-input">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">추가 이미지 2 (선택)</label>
+                            <input type="text" id="add-prod-image3" placeholder="서브 상세 이미지 주소 2" class="form-input">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label class="form-label">색상 옵션 추가 (입력 후 엔터 또는 + 버튼) <span class="required">*</span></label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="add-prod-color-input" placeholder="예: 오프화이트 (입력 후 엔터)" class="form-input" onkeyup="if(event.key==='Enter') addOptionChip('color')">
+                                <button type="button" class="postcode-btn" style="margin:0; padding:8px 15px; font-weight:700;" onclick="addOptionChip('color')">추가</button>
+                            </div>
+                            <div id="add-prod-color-chips" class="add-prod-chips-container">
+                                <!-- 동적으로 색상 옵션 칩들이 들어갈 자리 -->
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label class="form-label">사이즈 옵션 추가 (입력 후 엔터 또는 + 버튼) <span class="required">*</span></label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="add-prod-size-input" placeholder="예: 100 L (입력 후 엔터)" class="form-input" onkeyup="if(event.key==='Enter') addOptionChip('size')">
+                                <button type="button" class="postcode-btn" style="margin:0; padding:8px 15px; font-weight:700;" onclick="addOptionChip('size')">추가</button>
+                            </div>
+                            <div id="add-prod-size-chips" class="add-prod-chips-container">
+                                <!-- 동적으로 사이즈 옵션 칩들이 들어갈 자리 -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="order-submit-btn" onclick="submitNewProductDirect()">
+                        📦 신상품 정식 진열 스위치 켜기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🌟 [신설] 상품 엑셀 대량 업로드 등록 모달 팝업 -->
+        <div id="excel-upload-modal" class="cart-modal-overlay" style="display: none;" onclick="closeExcelUploadModalOutside(event)">
+            <div class="cart-modal-content auth-modal-content" style="max-width:700px; overflow-y:auto;" onclick="event.stopPropagation()">
+                <div class="cart-modal-header">
+                    <h3 class="cart-modal-title">📊 상품 엑셀 대량 등록 관리</h3>
+                    <span class="close-btn" onclick="closeExcelUploadModal()">✕</span>
+                </div>
+                <div class="checkout-divider" style="margin: 15px 0;"></div>
+                
+                <div class="auth-form-box">
+                    <!-- 엑셀 양식 가이드 및 다운로드 영역 -->
+                    <div style="background-color: rgba(255,255,255,0.02); padding: 15px; border-radius: 6px; border: 1px dashed var(--border-light); margin-bottom: 20px; font-size: 12.5px; line-height: 1.6;">
+                        <p style="font-weight: 700; margin-bottom: 8px; color: var(--accent-gold);">💡 엑셀 대량 등록 가이드 및 규격 안내</p>
+                        <ul style="padding-left: 18px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 4px; margin-bottom: 12px;">
+                            <li>다운로드받은 엑셀 양식의 헤더(첫 번째 행)를 절대 변경하지 마세요.</li>
+                            <li><strong>카테고리</strong>는 <code>대분류>중분류>소분류</code> 형식으로 정밀하게 구분해 주셔야 합니다 (예: <code>남성의류>아우터>자켓</code>).</li>
+                            <li><strong>이미지URL, 색상옵션, 사이즈옵션</strong>은 복수 기입 시 반드시 쉼표(<code>,</code>)로 구분해서 적어주세요.</li>
+                        </ul>
+                        <button class="postcode-btn" style="width: auto; margin: 0; padding: 8px 16px; font-size: 12px; background-color: #5A4E40;" onclick="downloadExcelTemplate()">
+                            📥 엑셀 등록 서식 양식 다운로드
+                        </button>
+                    </div>
+
+                    <!-- 엑셀 파일 로더 -->
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label class="form-label" style="font-weight: 700;">작성한 엑셀 파일 선택 <span class="required">*</span></label>
+                        <input type="file" id="excel-file-input" accept=".xlsx, .xls, .csv" class="form-input" style="padding: 10px;" onchange="handleExcelFileSelect(this)">
+                    </div>
+
+                    <!-- 파일 파싱 미리보기 리스트 영역 -->
+                    <div id="excel-preview-area" style="display: none; margin-bottom: 20px;">
+                        <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 10px; color: var(--text-primary);">
+                            👀 엑셀 상품 분석 미리보기 (총 <span id="excel-preview-count" style="color: var(--accent-gold); font-weight: 700;">0</span>건 감지됨)
+                        </h4>
+                        <div class="admin-table-container" style="max-height: 250px; overflow-y: auto;">
+                            <table class="admin-products-table" style="font-size: 11.5px; text-align: center;">
+                                <thead>
+                                    <tr>
+                                        <th width="15%">브랜드</th>
+                                        <th width="30%">상품명</th>
+                                        <th width="15%">판매가격</th>
+                                        <th width="25%">카테고리</th>
+                                        <th width="15%">상태</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="excel-preview-rows">
+                                    <!-- 파싱된 엑셀 상품 행 데이터 동적 적재 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <button id="excel-submit-btn" class="order-submit-btn" style="display: none;" onclick="submitExcelProductsDirect()">
+                        💾 DB에 엑셀 상품 일괄 저장/진열하기
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🌟 [신설 5대 고도화] 국내 전 택배사 스마트 원터치 배송조회 모달 팝업 -->
+        <div id="delivery-modal" class="cart-modal-overlay" style="display: none;" onclick="closeDeliveryModalOutside(event)">
+            <div class="cart-modal-content delivery-modal-content" onclick="event.stopPropagation()">
+                <div class="cart-modal-header">
+                    <h3 class="cart-modal-title">🚚 실시간 주문 배송 조회 비서</h3>
+                    <span class="close-btn" onclick="closeDeliveryModal()">✕</span>
+                </div>
+                <div class="checkout-divider" style="margin: 15px 0;"></div>
+                
+                <div class="auth-form-box">
+                    <div class="form-group" style="margin-bottom: 15px;">
+                        <label class="form-label">배송 택배사 선택 <span class="required">*</span></label>
+                        <select id="delivery-carrier" class="form-input delivery-company-select">
+                            <option value="kr.epost">우체국택배 (가장 빠름)</option>
+                            <option value="kr.cjlogistics" selected>CJ대한통운 (기본)</option>
+                            <option value="kr.hanjin">한진택배</option>
+                            <option value="kr.logen">로젠택배</option>
+                            <option value="kr.lotte">롯데택배</option>
+                            <option value="kr.cvsnet">편의점택배 (GS25/CU)</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label class="form-label">운송장 번호 입력 <span class="required">*</span></label>
+                        <input type="text" id="delivery-track-number" placeholder="하이픈(-) 없이 숫자만 입력하세요" class="form-input">
+                    </div>
+                    
+                    <button class="order-submit-btn" onclick="trackDeliveryDirect()">
+                        🔍 실시간 배송상태 원터치 추적하기
+                    </button>
+                    
+                    <div class="delivery-guide-box">
+                        💡 <b>대표님 꿀팁!</b> 송장 번호를 입력하신 후 단추를 누르시면 공식 기지국 실시간 배송 추적 화면으로 즉시 안전하게 새 창 연결 처리됩니다.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. [푸터 시그니처] -->
+        <footer class="fashion-footer">
+            <p class="footer-copy">© PKB71 PREMIUM LUXURY SELECTION. ALL RIGHTS RESERVED.</p>
+        </footer>
+
+    </div>
+
+    <!-- 💬 [우측 하단 플로팅 퀵 메뉴 - 카카오톡 1:1 상담 및 페이지 위/아래 이동 스크롤러] -->
+    <div class="floating-control-menu">
+        <!-- 1. 카카오톡 상담 버튼: 클릭 시 새 창으로 대표님의 카카오톡 오픈채팅방 연결 -->
+        <!-- * 대표님의 카카오톡 링크인 https://open.kakao.com/o/swWetR4h 가 정상 연동되어 있습니다. -->
+        <a href="https://open.kakao.com/o/swWetR4h" target="_blank" class="floating-btn kakao-chat-btn" title="카카오톡 1:1 상담">
+            <svg class="kakao-talk-icon" viewBox="0 0 100 100">
+                <!-- 어두운 밤색(갈색)의 카카오톡 말풍선 형상 -->
+                <path d="M 50,15 C 25,15 5,31 5,50 C 5,62 15,72 26,79 L 20,95 C 19,98 22,98 24,96 L 41,84 C 44,85 47,85 50,85 C 75,85 95,69 95,50 C 95,31 75,15 50,15 Z" fill="#3C1E1E" />
+                <!-- 말풍선 중앙에 배치되는 노란색의 TALK 텍스트 -->
+                <text x="50" y="58" font-family="'Outfit', 'Noto Sans KR', sans-serif" font-weight="900" font-size="20" fill="#FEE500" text-anchor="middle" letter-spacing="0.5">TALK</text>
+            </svg>
+        </a>
+        
+        <!-- 2. 위로 이동 방향 버튼: 클릭 시 페이지 맨 위로 스무스하게 스크롤 -->
+        <button class="floating-btn scroll-btn scroll-up-btn" onclick="scrollToTop()" title="위로 이동">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+        </button>
+        
+        <!-- 3. 아래로 이동 방향 버튼: 클릭 시 페이지 맨 아래로 스무스하게 스크롤 -->
+        <button class="floating-btn scroll-btn scroll-down-btn" onclick="scrollToBottom()" title="아래로 이동">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </button>
+    </div>
+
+    <!-- 🎁 [신설] UX 개선: 화면 하단에 띄워질 고급스러운 토스트 알림 메시지용 고정 컨테이너 -->
+    <div id="toast-container"></div>
+
+    <!-- 🎭 [신설] UX 고도화: 브라우저 기본 confirm을 대체할 럭셔리 커스텀 컨펌 모달 -->
+    <div id="custom-confirm-modal" class="cart-modal-overlay" style="display: none; z-index: 20000;">
+        <div class="cart-modal-content confirm-modal-card" style="max-width: 380px; padding: 24px; border-radius: 12px; border: 1px solid var(--border-light); background: #FAF9F6; box-shadow: 0 20px 50px rgba(0,0,0,0.15);" onclick="event.stopPropagation()">
+            <div class="cart-modal-header" style="border-bottom: none; padding: 0 0 10px 0;">
+                <h3 class="cart-modal-title" style="font-size: 13px; color: var(--accent-gold); letter-spacing: 2.5px; font-weight: 700; font-family: var(--font-outfit), sans-serif; text-transform: uppercase;">CONFIRMATION</h3>
+            </div>
+            <div style="margin: 15px 0 25px 0; text-align: center;">
+                <p id="custom-confirm-message" style="font-size: 13.5px; line-height: 1.6; color: var(--text-primary); font-family: var(--font-noto), sans-serif; word-break: keep-all; margin: 0; font-weight: 500;"></p>
+            </div>
+            <div style="display: flex; gap: 10px; margin: 0;">
+                <button id="custom-confirm-cancel-btn" class="order-submit-btn" style="background: #EBE6DD; color: var(--text-secondary); border: 1px solid var(--border-light); margin: 0; flex: 1; font-size: 11.5px; height: 38px; padding: 0; border-radius: 6px; font-weight: 600; cursor: pointer; transition: var(--transition-smooth);">취소</button>
+                <button id="custom-confirm-ok-btn" class="order-submit-btn" style="background: var(--text-primary); color: #FFFFFF; border: none; margin: 0; flex: 1; font-size: 11.5px; height: 38px; padding: 0; border-radius: 6px; font-weight: 600; cursor: pointer; transition: var(--transition-smooth);">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ⚡ [리팩토링] 4,600줄의 거대 스크립트를 기능별(회원/상품/장바구니/게시판/어드민)로 쪼개어 순서대로 안전하게 로드합니다. -->
+    <!-- 전역 설정 및 초기화 변수가 선언된 app.js가 반드시 최상단에서 로드되어야 합니다. -->
+    <script src="app.js?v=3.0.17"></script>
+    <script src="auth.js"></script>
+    <script src="product.js?v=3.0.9"></script>
+    <script src="cart.js"></script>
+    <script src="board.js"></script>
+    <script src="admin.js?v=3.0.26"></script>
+</body>
+</html>

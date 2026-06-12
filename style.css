@@ -1,0 +1,7759 @@
+/* =========================================================================
+   🎨 [style.css] PKB71 의류 전문 미니멀 쇼핑몰 디자인 시스템
+   =========================================================================
+   디자인 콘셉트: Quiet Luxury (조용한 고급스러움)
+   - 과한 장식을 전면 배제하고, 상품의 비주얼과 우아한 여백, 폰트에 몰입시킵니다.
+   - 웜 오프화이트, 샌드 그레이, 소프트 차콜 브라운의 조화로운 미색 레이아웃.
+   ========================================================================= */
+
+/* 1. 디자인 시스템 토큰 정의 */
+:root {
+    --bg-main: #FAF9F6;         /* 따뜻하고 은은한 오프화이트 미색 */
+    --bg-card: #FFFFFF;         /* 순백색 카드의 명도 대비 */
+    --text-primary: #1C1A17;    /* 눈이 편안한 딥 소프트 차콜 */
+    --text-secondary: #706B63;  /* 차분하고 세련된 브라운 그레이 */
+    --accent-gold: #8C8273;     /* 럭셔리 샴페인 골드 브라운 */
+    --border-light: #EBE6DD;    /* 얇고 정갈한 샌드 브라운 경계선 */
+    --admin-accent: #2C3E50;    /* 관리실 오피스용 딥 감청색 */
+    
+    --font-outfit: 'Outfit', sans-serif;
+    --font-noto: 'Noto Sans KR', sans-serif;
+    
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Cafe24-style admin home dashboard */
+#admin-dashboard .cafe24-admin-home {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    color: #1f2937;
+}
+
+#admin-dashboard .cafe24-home-todo,
+#admin-dashboard .cafe24-home-panel,
+#admin-dashboard .cafe24-home-bottom-grid section {
+    border: 1px solid #e5e7eb;
+    border-radius: 22px;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+}
+
+#admin-dashboard .cafe24-home-todo {
+    padding: 22px 26px 26px;
+}
+
+#admin-dashboard .cafe24-home-todo h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 18px;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+#admin-dashboard .cafe24-home-todo h2 span {
+    color: #667085;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+#admin-dashboard .cafe24-home-todo h2 i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #b7c0d2;
+    color: #fff;
+    font-size: 12px;
+    font-style: normal;
+}
+
+#admin-dashboard .cafe24-home-todo-grid {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(94px, 1fr));
+    gap: 10px;
+}
+
+#admin-dashboard .cafe24-home-todo-card {
+    min-height: 86px;
+    padding: 14px 12px;
+    border: 0;
+    border-radius: 8px;
+    background: #f7f8fa;
+    color: #374151;
+    text-align: left;
+    cursor: pointer;
+}
+
+#admin-dashboard .cafe24-home-todo-card.blue {
+    background: #eef8ff;
+}
+
+#admin-dashboard .cafe24-home-todo-card.pink {
+    background: #fff3f6;
+}
+
+#admin-dashboard .cafe24-home-todo-card span,
+#admin-dashboard .cafe24-home-todo-card em {
+    display: block;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-home-todo-card strong {
+    display: block;
+    margin-top: 18px;
+    color: #0b8bdc;
+    font-size: 20px;
+    font-weight: 900;
+    text-decoration: underline;
+}
+
+#admin-dashboard .cafe24-home-todo-card.pink strong,
+#admin-dashboard .cafe24-home-todo-card.pink em {
+    color: #e91e63;
+}
+
+#admin-dashboard .cafe24-home-todo-card em {
+    margin-top: 8px;
+}
+
+#admin-dashboard .cafe24-home-panel {
+    padding: 0 24px 24px;
+    border-radius: 18px;
+}
+
+#admin-dashboard .cafe24-home-tabs {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    border-bottom: 1px solid #e5e7eb;
+}
+
+#admin-dashboard .cafe24-home-tabs button {
+    height: 70px;
+    border: 0;
+    border-bottom: 5px solid transparent;
+    background: transparent;
+    color: #667085;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+#admin-dashboard .cafe24-home-tabs button.active {
+    border-bottom-color: #245cff;
+    color: #245cff;
+}
+
+#admin-dashboard .cafe24-home-main-grid {
+    display: grid;
+    grid-template-columns: minmax(420px, 1fr) minmax(520px, 1.25fr);
+    gap: 34px;
+    padding-top: 26px;
+}
+
+#admin-dashboard .cafe24-home-chart-meta,
+#admin-dashboard .cafe24-home-table-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    color: #667085;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#admin-dashboard .cafe24-home-chart-wrap {
+    height: 360px;
+    margin-top: 16px;
+}
+
+#admin-dashboard .cafe24-home-chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+    margin-top: 16px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-home-chart-legend b,
+#admin-dashboard .cafe24-home-table-head i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 8px;
+    border-radius: 3px;
+    vertical-align: middle;
+}
+
+#admin-dashboard .cafe24-home-chart-legend .order,
+#admin-dashboard .cafe24-home-table-head .order {
+    background: #4fb0f6;
+}
+
+#admin-dashboard .cafe24-home-chart-legend .payment,
+#admin-dashboard .cafe24-home-table-head .payment {
+    background: #e154d7;
+}
+
+#admin-dashboard .cafe24-home-chart-legend .refund,
+#admin-dashboard .cafe24-home-table-head .refund {
+    background: #8b5cf6;
+}
+
+#admin-dashboard .cafe24-home-table-head {
+    height: 34px;
+    border-bottom: 1px solid #d9dee7;
+    font-size: 15px;
+}
+
+#admin-dashboard .cafe24-home-table-head strong {
+    margin-right: auto;
+    color: #374151;
+    font-size: 16px;
+}
+
+#admin-dashboard .cafe24-home-sales-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+#admin-dashboard .cafe24-home-sales-table th,
+#admin-dashboard .cafe24-home-sales-table td {
+    padding: 13px 12px;
+    border-bottom: 1px solid #edf0f4;
+    text-align: right;
+    vertical-align: middle;
+}
+
+#admin-dashboard .cafe24-home-sales-table th {
+    width: 30%;
+    text-align: left;
+    color: #374151;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-home-sales-table td strong,
+#admin-dashboard .cafe24-home-sales-table td span {
+    display: block;
+}
+
+#admin-dashboard .cafe24-home-sales-table td strong {
+    color: #1f2937;
+    font-size: 16px;
+}
+
+#admin-dashboard .cafe24-home-sales-table td span {
+    margin-top: 4px;
+    color: #111827;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-home-sales-table .today {
+    border-left: 5px solid #1997e8;
+    background: #f7fbff;
+}
+
+#admin-dashboard .cafe24-home-sales-table .today b {
+    display: inline-block;
+    margin-left: 4px;
+    padding: 2px 6px;
+    border-radius: 5px;
+    background: #1887d9;
+    color: #fff;
+    font-size: 12px;
+}
+
+#admin-dashboard .cafe24-home-sales-table .summary {
+    background: #eff8ff;
+}
+
+#admin-dashboard .cafe24-home-sales-table .strong td strong {
+    font-size: 18px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-home-bottom-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+#admin-dashboard .cafe24-home-bottom-grid section {
+    padding: 20px;
+    border-radius: 12px;
+}
+
+#admin-dashboard .cafe24-home-bottom-grid h3 {
+    margin: 0 0 14px;
+    font-size: 17px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-home-mini-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#admin-dashboard .cafe24-home-mini-list p {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    color: #667085;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-home-mini-list strong {
+    color: #111827;
+}
+
+#admin-dashboard .cafe24-home-action-panel {
+    grid-column: 1 / -1;
+    padding: 24px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+}
+
+#admin-dashboard .cafe24-home-action-panel h3 {
+    margin: 0 0 18px;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-home-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+#admin-dashboard .cafe24-home-stat-card {
+    min-height: 92px;
+    padding: 16px;
+    border: 1px solid #dbe4ef;
+    border-radius: 8px;
+    background: #f8fbff;
+}
+
+#admin-dashboard .cafe24-home-stat-card span,
+#admin-dashboard .cafe24-home-stat-card em {
+    display: block;
+    color: #667085;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-home-stat-card strong {
+    display: block;
+    margin-top: 10px;
+    color: #111827;
+    font-size: 22px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-home-stat-card em {
+    margin-top: 8px;
+}
+
+#admin-dashboard .cafe24-home-action-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #d9dee7;
+    font-size: 14px;
+}
+
+#admin-dashboard .cafe24-home-action-table th,
+#admin-dashboard .cafe24-home-action-table td {
+    padding: 13px 12px;
+    border-bottom: 1px solid #edf0f4;
+    text-align: left;
+}
+
+#admin-dashboard .cafe24-home-action-table th {
+    background: #f8fafc;
+    color: #475467;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-home-action-table button {
+    min-width: 92px;
+    height: 32px;
+    border: 1px solid #cfd8e3;
+    border-radius: 4px;
+    background: #fff;
+    color: #1f2937;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+#admin-dashboard .cafe24-home-action-table button:hover {
+    border-color: #245cff;
+    color: #245cff;
+}
+
+@media (max-width: 1300px) {
+    #admin-dashboard .cafe24-home-todo-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    #admin-dashboard .cafe24-home-main-grid,
+    #admin-dashboard .cafe24-home-bottom-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #admin-dashboard .cafe24-home-stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 2. 전역 리셋 및 모던 스크롤바 디자인 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: var(--font-outfit), var(--font-noto), sans-serif;
+    line-height: 1.7;
+    overflow-x: hidden;
+}
+
+/* 얇고 이쁜 명품 스크롤바 설정 */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-light);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-gold);
+}
+
+/* 3. 명품 전용 시그니처 상단 헤더 */
+/* 3. 명품 전용 시그니처 3단 헤더 개편 */
+/* 스크롤 시 아래 콘텐츠가 은은하고 세련되게 투과되도록 배경색 투명도를 rgba(250, 249, 246, 0.75)로 낮추고,
+   뒷배경이 유려하게 흐려지는 backdrop-filter(blur 12px) 효과를 더 조화롭게 조정했습니다. */
+.fashion-header {
+    background-color: rgba(250, 249, 246, 0.75);
+    border-bottom: 1px solid var(--border-light);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); /* Safari 및 WebKit 기반 브라우저 호환성을 위해 추가 */
+    transition: var(--transition-smooth);
+}
+
+/* 1단: 최상단이 된 메인 네비바 (기존 3단에서 승격) */
+/* 네비바가 최상단에 밀착하므로 위쪽 테두리(border-top)는 제거하고,
+   그 아래에 있는 로고 영역과의 자연스러운 구분을 위해 하단 테두리(border-bottom)를 부드럽게 설정합니다. */
+.header-bottom-nav {
+    border-top: none;
+    border-bottom: 1px solid var(--border-light);
+    background-color: transparent;
+}
+
+/* 2단: 아래로 내려간 중앙 대형 패션 로고 */
+/* 네비바가 위쪽으로 이동함에 따라, 로고의 상단/하단 여백의 비주얼 밸런스를 맞추기 위해
+   padding 여백을 상단 24px, 하단 20px로 정교하게 보정했습니다. */
+.header-center-logo {
+    text-align: center;
+    padding: 14px 20px 10px 20px;
+    cursor: pointer;
+    background-color: transparent;
+    transition: var(--transition-smooth);
+}
+
+.header-center-logo:hover {
+    opacity: 0.85;
+}
+
+.logo-mag-subtitle {
+    font-size: 9px;
+    letter-spacing: 6px;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 400;
+}
+
+.logo-mag-title {
+    font-size: 34px;
+    font-weight: 300;
+    letter-spacing: 6px;
+    color: var(--text-primary);
+    line-height: 1.1;
+    font-family: var(--font-outfit), sans-serif;
+}
+
+.bottom-nav-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 6px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bottom-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.bottom-nav-item {
+    text-decoration: none;
+    font-size: 12.5px;
+    letter-spacing: 2.5px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    padding-bottom: 2px;
+    border-bottom: 2px solid transparent;
+    transition: var(--transition-smooth);
+}
+
+.bottom-nav-item:hover, .bottom-nav-item.active {
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--text-primary);
+    font-weight: 600;
+}
+
+.bottom-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* 럭셔리 일체형 검색 상자 */
+.header-search-box {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--text-secondary);
+    padding: 2px 4px;
+    transition: var(--transition-smooth);
+}
+
+.header-search-box:focus-within {
+    border-color: var(--text-primary);
+}
+
+.header-search-box input {
+    border: none;
+    background: transparent;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    width: 130px;
+    color: var(--text-primary);
+    font-family: var(--font-outfit), sans-serif;
+}
+
+.header-search-box input:focus {
+    outline: none;
+    width: 180px;
+    transition: width 0.3s ease;
+}
+
+.header-search-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-primary);
+}
+
+/* 🛒 럭셔리 장바구니 버튼 */
+.nav-cart-btn-luxury {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    background-color: transparent;
+    padding: 4px;
+    position: relative;
+    transition: var(--transition-smooth);
+}
+
+.nav-cart-btn-luxury:hover {
+    transform: scale(1.1);
+}
+
+.cart-icon {
+    font-size: 16px;
+    color: var(--text-primary);
+}
+
+.cart-count-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: var(--accent-gold);
+    color: #FFFFFF;
+    font-size: 9px;
+    font-weight: 700;
+    min-width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 3px;
+    border: 1.5px solid var(--bg-main);
+}
+
+/* 4. 감성 히어로 오프닝 배너 (페이드 캐러셀 규격 개편) */
+/* 슬라이더 트랙을 품는 최외곽 컨테이너입니다. 내부 슬라이드들이 튀어나가지 않게 감싸줍니다. */
+.hero-section {
+    position: relative;
+    height: 420px;
+    margin-bottom: 50px;
+    overflow: hidden;
+}
+
+/* 슬라이드 2개를 가로로 겹쳐두기 위한 100% 비율의 트랙입니다. */
+.hero-slider-track {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+/* 개별 슬라이드: absolute 배치로 서로를 수직으로 완전히 포개어 배치합니다.
+   투명도(opacity)와 시각 노출(visibility)을 조절하여 부드러운 전환을 만듭니다. */
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #FFFFFF;
+    opacity: 0;
+    visibility: hidden;
+    /* 1.2초 동안 서서히 녹아들 듯이 바뀌는 우아한 소프트 페이드 효과 */
+    transition: opacity 1.2s ease, visibility 1.2s ease;
+    z-index: 1;
+}
+
+/* active 클래스가 붙으면 투명도가 1이 되면서 최상위 레이어(z-index: 2)로 솟아올라 화면에 보입니다. */
+.hero-slide.active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
+/* 배너 위에 흐르는 글자들의 명도 대비를 위한 입체 그라데이션 장막으로 개편 */
+.hero-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* 아래로 갈수록 미세하게 깊어지는 그라데이션으로 타이포를 선명하게 띄워줍니다 */
+    background: linear-gradient(to bottom, rgba(28, 26, 23, 0.35) 0%, rgba(28, 26, 23, 0.68) 100%);
+    z-index: 1;
+}
+
+/* 배너 텍스트 콘텐츠 박스 */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+    padding: 20px;
+}
+
+.hero-subtitle {
+    font-family: var(--font-outfit), sans-serif;
+    font-size: 11.5px;
+    letter-spacing: 7px; /* 자간을 더 넓혀 프리미엄 감성 강조 */
+    color: #C4A478; /* 시그니처 브론즈 골드 하이라이트 */
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.hero-title {
+    font-size: 42px; /* 기존 38px -> 42px로 부각 */
+    font-weight: 500;
+    letter-spacing: 3px;
+    margin-bottom: 22px;
+    font-family: var(--font-outfit), sans-serif;
+    line-height: 1.25;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.hero-desc {
+    font-size: 14.5px;
+    font-weight: 300;
+    color: #F5F5F3;
+    line-height: 1.9; /* 행간을 넓혀 시원한 가독성 */
+    word-break: keep-all;
+    font-family: var(--font-noto), sans-serif;
+}
+
+.hero-divider {
+    width: 35px;
+    height: 1.5px;
+    background-color: #C4A478; /* 디바이더 선을 골드색으로 연동 */
+    margin: 24px auto 0 auto;
+    opacity: 0.8;
+}
+
+/* 좌우 제어 미니멀 원형 화살표 버튼 */
+.hero-slide-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(28, 26, 23, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    font-size: 22px;
+    font-weight: 300;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-smooth);
+    backdrop-filter: blur(5px);
+}
+
+.hero-slide-btn:hover {
+    background: rgba(140, 130, 115, 0.85); /* 마우스 호버 시 골드빛 활성화 */
+    color: #FFFFFF;
+    border-color: var(--accent-gold);
+}
+
+.prev-btn { left: 24px; }
+.next-btn { right: 24px; }
+
+/* 하단 슬라이드 현황 점(도트) 인디케이터 */
+.hero-dots {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.hero-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+/* 현재 켜져 있는 페이지의 점(도트)을 하얗고 크게 부각시킵니다. */
+.hero-dot.active {
+    background: #FFFFFF;
+    transform: scale(1.3);
+}
+
+/* 5. 👑 [개선] 프리미엄 브랜드 스토리 다크 럭셔리 이중 프레임 배너 스타일 */
+/* 메인 배너와 하단 상품 목록 사이의 경계를 명확하게 구분하고 시선을 끄는 전용 레이아웃 컨테이너입니다. */
+.shop-story-section {
+    max-width: 1300px;
+    margin: 0 auto 50px auto; 
+    padding: 0 20px;
+}
+
+/* 딥 브라운 차콜 그라데이션으로 오프화이트 바탕과 완벽하게 대비되는 묵직하고 고급스러운 박스입니다. */
+.story-card-container {
+    background: linear-gradient(135deg, #2A2621 0%, #1A1815 100%);
+    border: 1px solid rgba(196, 164, 120, 0.35); /* 은은하게 흐르는 브론즈 골드 경계선 */
+    border-radius: 12px;
+    padding: 24px; /* 바깥 카드와 안쪽 프레임 테두리 사이의 정갈한 여백 */
+    text-align: center; /* ✦✦✦ 엠블럼, 영문 태그, 헤드라인을 수평 가로 중앙 정렬시킵니다 */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* 배경에서 튀어 나와 보이게 유도하는 깊은 입체 그림자 */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* 마우스를 올렸을 때 카드가 4px 부드럽게 솟아오르며 골드 브라운 테두리가 더욱 영롱해집니다. */
+.story-card-container:hover {
+    transform: translateY(-4px);
+    border-color: rgba(196, 164, 120, 0.6);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+/* 명품 보증서 느낌을 전하는 안쪽 얇은 이중 프레임 라인 */
+.story-inner-frame {
+    border: 1px double rgba(196, 164, 120, 0.25); /* 두 겹의 우아한 보증서 선 */
+    border-radius: 8px;
+    padding: 40px 45px;
+    transition: all 0.4s ease;
+}
+
+/* 호버 시 안쪽 테두리선도 유기적으로 투명도가 깊어지며 배경에 미세한 하이라이트를 줍니다. */
+.story-card-container:hover .story-inner-frame {
+    border-color: rgba(196, 164, 120, 0.5);
+    background-color: rgba(255, 255, 255, 0.02); /* 극미세한 카드 내부 광택 효과 */
+}
+
+/* 중앙 장식 엠블럼 데코 기호 */
+.story-emblem {
+    font-size: 15px; /* 기존 13px -> 15px로 상향하여 더욱 명확하게 존재감 표출 */
+    color: #C4A478; /* 반짝이는 브론즈 골드 브라운 */
+    letter-spacing: 6px;
+    margin-bottom: 16px;
+    text-shadow: 0 0 8px rgba(196, 164, 120, 0.4); /* 은은하게 빛나는 글로우 효과 */
+    opacity: 0.95;
+}
+
+/* 세련된 골드 브라운 감성의 영문 태그 */
+.story-eng-tag {
+    font-family: var(--font-outfit), sans-serif;
+    font-size: 12px; /* 기존 11px -> 12px로 상향하여 가독성 확보 */
+    letter-spacing: 5px;
+    color: #C4A478;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 16px;
+}
+
+/* 헤드라인 텍스트 컬러 (어두운 카드 배경과 조화를 이루는 따뜻한 미색) */
+.story-headline {
+    font-family: var(--font-noto), sans-serif;
+    font-size: 25px; /* 기존 22px -> 25px로 크게 키워 눈을 한눈에 사로잡습니다 */
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #FAF9F6; /* 오프화이트 컬러로 가독성 극대화 */
+    margin-bottom: 20px;
+}
+
+/* 중앙 미니 구분선 */
+.story-divider-line {
+    width: 35px;
+    height: 1px;
+    background-color: #C4A478;
+    margin: 0 auto 26px auto;
+    opacity: 0.6;
+}
+
+/* 본문 줄글 텍스트 컬러 (눈이 편안하면서 가독성이 좋은 샌드 그레이 모카) */
+.story-paragraph {
+    font-family: var(--font-noto), sans-serif;
+    font-size: 14.5px; /* 기존 13.5px -> 14.5px로 크게 설정하여 텍스트 판독성 극대화 */
+    line-height: 1.95; /* 줄간격을 여유롭게 배치하여 가독성 우수 */
+    letter-spacing: 0.3px;
+    color: #C5BFB5;
+    max-width: 840px;
+    margin: 0 auto;
+    word-break: keep-all; /* 한글 단어가 임의로 끊어지지 않도록 강제 단어 단위 줄바꿈 */
+}
+
+/* 태블릿 및 모바일처럼 화면 폭이 좁은 디바이스를 위한 여백 및 폰트 크기 보정 */
+@media (max-width: 768px) {
+    .story-card-container {
+        padding: 12px;
+    }
+    .story-inner-frame {
+        padding: 30px 20px;
+    }
+    .story-headline {
+        font-size: 20px; /* 기존 모바일 18px -> 20px로 확대 */
+    }
+    .story-paragraph {
+        font-size: 13.5px; /* 기존 모바일 12.5px -> 13.5px로 확대 */
+        line-height: 1.85;
+    }
+}
+
+/* 6. 뷰포트 레이아웃 */
+.main-viewport {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px 80px 20px;
+}
+
+.page-view {
+    animation: fadeInPage 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes fadeInPage {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.filter-header {
+    margin-bottom: 40px;
+    text-align: center;
+    border-bottom: 1px dashed var(--border-light);
+    padding-bottom: 30px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.section-sub {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    word-break: keep-all;
+}
+
+/* 6. 모던 미니멀 상품 카드 그리드 */
+.product-grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 👑 [신설] 데스크톱에서 명품 5열 레이아웃 고정 */
+    gap: 40px 24px; /* 가로/세로 간격을 넓혀주어 빽빽함 없는 럭셔리 호흡감 연출 */
+}
+
+/* 미술관 액자 감성으로 상품 썸네일 주변에 12px 고급 미색 패딩을 두른 정갈한 카드입니다. */
+.product-card {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    padding: 12px 12px 0 12px; /* 위, 좌우 패딩을 주어 내부 여백 액자화 형성 */
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.02);
+    border: 1px solid var(--border-light);
+    transition: var(--transition-smooth);
+    
+    /* ✦✦✦ [신설] 카드 전체 높이 균일화를 위한 플렉스박스 레이아웃 선언 */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* 부모 그리드 안에서 카드의 높이가 일률적으로 동일하게 늘어남 */
+}
+
+/* 호버 시 8px 차분하게 부유하며 샴페인 골드 테두리로 톤이 선명해지는 모션입니다. */
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(140, 130, 115, 0.08);
+    border: 1px solid var(--accent-gold);
+}
+
+/* 이미지를 감싸는 프레임도 둥글게 깎아 액자 내부 보드를 입체화합니다. (app.js의 .product-image-box 매핑) */
+.product-image-box {
+    position: relative;
+    width: 100%;
+    /* ✦✦✦ [개선] 메인 화면 제품 진열을 1:1 정사각형 럭셔리 종횡비로 고정 통일 */
+    aspect-ratio: 1 / 1; 
+    height: auto;
+    padding-top: 0; /* aspect-ratio를 사용하므로 기존 퍼센트 패딩 무효화 */
+    overflow: hidden;
+    border-radius: 8px; /* 내부 이미지 래퍼 곡률 부여로 고급 액자 연출 */
+    background-color: #F5F5F3;
+}
+
+/* 평상시 어지러운 배경과 제각각인 조명을 통제하기 위해 미세 흑백+웜베이지 세피아 필터를 결합합니다. */
+.product-image-box img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 원본 이미지의 찌그러짐을 전면 차단하고 영역에 맞게 꽉 채움 */
+    filter: grayscale(15%) sepia(10%) brightness(0.97) contrast(98%); /* 색감 차분화 필터 작동 */
+    transition: transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease;
+}
+
+/* 마우스를 얹었을 때만 숨겨진 100% 선명한 리얼 실물 컬러가 서서히 밝아지며 돌아옵니다. */
+.product-card:hover .product-image-box img {
+    transform: scale(1.06);
+    filter: grayscale(0%) sepia(0%) brightness(1) contrast(1); /* 100% 실물 색상 복구 */
+}
+
+/* 텍스트 정보 구역의 패딩 및 폰트 세련화 (app.js의 .product-info-box 매핑) */
+.product-info-box {
+    padding: 18px 8px 22px 8px; /* 내부 여백 조율 */
+    text-align: center;
+    /* ✦✦✦ [신설] 카드 내 상품명이 길어지더라도 가격과 바닥 높이가 항상 동일하게 아래에 맞춰지도록 마진 조율 */
+    margin-top: auto;
+}
+
+.prod-brand-lbl {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--accent-gold);
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block; /* 마크업 상 span 요소이므로 block 설정하여 정렬 적용 */
+}
+
+.prod-name-lbl {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 상품명이 너무 길 경우 예쁘게 말줄임표 처리 */
+    font-family: var(--font-noto), sans-serif;
+}
+
+.prod-price-lbl {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+}
+
+/* 7. 로딩 및 스피너 스타일 */
+.loading-box {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 0;
+    color: var(--text-secondary);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-light);
+    border-top: 3px solid var(--accent-gold);
+    border-radius: 50%;
+    margin: 0 auto 20px auto;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 8. 미니멀 100% 상세페이지 레이아웃 */
+.back-nav {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    margin-bottom: 20px;
+    display: inline-block;
+    transition: var(--transition-smooth);
+}
+
+.back-nav:hover {
+    color: var(--text-primary);
+    transform: translateX(-4px);
+}
+
+.detail-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 50px;
+    align-items: start;
+}
+
+/* 📷 4차 개편: 상단 대표 이미지 단독 컨테이너 */
+.detail-main-img-container {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* 👑 [신설] 메인 화면의 1:1 정사각형 비율과 정확히 통일 */
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #F5F5F3;
+}
+
+.detail-main-img-container img {
+    width: 100%;
+    height: 100%; /* 부모의 3:4 비율 높이에 맞춰 꽉 채움 */
+    object-fit: cover; /* 메인 화면과 동일하게 왜곡 없이 채우기 방식 적용 */
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); /* 한층 고혹적이고 부드러운 하이엔드 그림자 */
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.detail-main-img-container img:hover {
+    transform: scale(1.015); /* 마우스 오버 시 미세 줌인 효과로 살아있는 반응성 제공 */
+}
+
+.detail-panel {
+    position: sticky;
+    top: 110px; /* 고도화 스티키 최적화 */
+}
+
+.sticky-panel-content {
+    padding-left: 20px;
+}
+
+.detail-brand {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--accent-gold);
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.detail-name {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.4;
+    margin-bottom: 20px;
+    word-break: keep-all;
+    font-family: var(--font-noto), sans-serif;
+}
+
+.detail-price-box {
+    margin-bottom: 25px;
+}
+
+.price-original {
+    font-size: 13.5px;
+    text-decoration: line-through;
+    color: var(--text-secondary);
+    font-family: var(--font-outfit), sans-serif;
+    display: block;
+}
+
+.price-discount-rate {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--accent-gold);
+    font-family: var(--font-outfit), sans-serif;
+}
+
+.price-val {
+    font-size: 25px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: var(--font-outfit), sans-serif;
+}
+
+.detail-divider {
+    height: 1px;
+    background-color: var(--border-light);
+    margin: 25px 0;
+}
+
+/* 🚚 [신설] 배송 및 적립금 즉시 요약 태그 박스 스타일 */
+.benefit-summary-box {
+    background-color: #F8F7F4; /* 차분하고 정갈한 미색 */
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 25px;
+}
+
+.benefit-row {
+    display: flex;
+    align-items: flex-start;
+    font-size: 11.5px;
+    line-height: 1.6;
+}
+
+.benefit-icon {
+    font-size: 13.5px;
+    margin-right: 10px;
+    display: inline-block;
+    line-height: 1;
+}
+
+.benefit-label {
+    font-weight: 700;
+    color: var(--text-primary);
+    width: 65px;
+    flex-shrink: 0;
+}
+
+.benefit-value {
+    color: var(--text-secondary);
+    word-break: keep-all;
+}
+
+.option-group {
+    margin-bottom: 20px;
+}
+
+.opt-label {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+/* 🌟 [아울렛몰.shop 정통 스타일] 럭셔리 옵션 드롭다운 */
+.detail-select-box {
+    width: 100%;
+    height: 48px;
+    padding: 0 15px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    font-family: var(--font-noto), sans-serif;
+    font-size: 13.5px;
+    color: var(--text-primary);
+    outline: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    appearance: none; /* 브라우저 기본 화살표 숨김 */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23706B63' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+}
+
+.detail-select-box:focus {
+    border-color: var(--text-primary);
+    box-shadow: 0 0 0 3px rgba(140, 130, 115, 0.08);
+}
+
+/* 🌟 [신설] 동적 선택 옵션 품목 카드 목록 */
+.selected-options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.selected-option-item {
+    background-color: #F8F7F4; /* 옅은 미색 바탕 */
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.2fr 30px;
+    align-items: center;
+    gap: 10px;
+    animation: slideDownOption 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes slideDownOption {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.selected-option-name {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: var(--font-noto), sans-serif;
+    word-break: keep-all;
+}
+
+/* 수량 조절기 디자인 */
+.qty-controller {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-light);
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 90px;
+    height: 32px;
+}
+
+.qty-btn {
+    border: none;
+    background: none;
+    width: 28px;
+    height: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qty-btn:hover {
+    background-color: #FAF9F6;
+    color: var(--text-primary);
+}
+
+.qty-input {
+    width: 34px;
+    height: 100%;
+    border: none;
+    border-left: 1px solid var(--border-light);
+    border-right: 1px solid var(--border-light);
+    text-align: center;
+    font-family: var(--font-outfit), sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    outline: none;
+}
+
+/* 개별 금액 */
+.selected-option-price {
+    font-family: var(--font-outfit), sans-serif;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: right;
+}
+
+/* 삭제 단추 */
+.selected-option-remove {
+    border: none;
+    background: none;
+    font-size: 16px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.selected-option-remove:hover {
+    color: #D32F2F;
+    transform: scale(1.1);
+}
+
+/* 🌟 [실시간 연산] 총 상품 금액 표시 상자 */
+.detail-total-price-box {
+    background-color: #FAF9F6;
+    border-top: 2px solid var(--text-primary);
+    border-bottom: 1px solid var(--border-light);
+    padding: 20px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    animation: fadeInTotalPrice 0.4s ease forwards;
+}
+
+@keyframes fadeInTotalPrice {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.detail-total-price-box .total-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: var(--font-noto), sans-serif;
+}
+
+.detail-total-price-box .total-price-display {
+    text-align: right;
+}
+
+.detail-total-price-box .total-price-val {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-primary);
+    font-family: var(--font-outfit), sans-serif;
+}
+
+.detail-total-price-box .total-qty-val {
+    font-size: 13.5px;
+    color: var(--accent-gold);
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+/* 👑 [아울렛몰.shop 감성 웅장 버튼] 구매 및 보조 버튼 배치 */
+.action-buttons-group-luxury {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 25px;
+}
+
+/* 메인 대형 BUY IT NOW 바로구매 */
+.buy-now-btn {
+    width: 100%;
+    height: 60px;
+    background-color: var(--text-primary);
+    color: #FFFFFF;
+    border: 1px solid var(--text-primary);
+    border-radius: 6px;
+    font-family: var(--font-outfit), var(--font-noto), sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(28,26,23,0.15);
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.buy-now-btn:hover {
+    background-color: var(--accent-gold);
+    border-color: var(--accent-gold);
+    box-shadow: 0 8px 25px rgba(140, 130, 115, 0.25);
+    transform: translateY(-2px);
+}
+
+/* 보조 결합 로우 */
+.sub-buttons-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 10px;
+    width: 100%;
+}
+
+.sub-cart-btn {
+    height: 52px;
+    background-color: #FFFFFF;
+    color: var(--text-primary);
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    font-family: var(--font-noto), sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.sub-cart-btn:hover {
+    border-color: var(--text-primary);
+    background-color: #FAF9F6;
+}
+
+.sub-wish-btn {
+    height: 52px;
+    background-color: #FFFFFF;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    font-family: var(--font-outfit), var(--font-noto), sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sub-wish-btn:hover {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+}
+
+.sub-wish-btn.active {
+    border-color: #D32F2F;
+    color: #D32F2F;
+    background-color: rgba(211, 47, 47, 0.02);
+}
+
+/* 📐 [신설] 아코디언 내부 정밀 실측 사이즈 가이드 표 스타일 */
+.size-table-title {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 10px 0 12px 0;
+}
+
+.minimal-size-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    text-align: center;
+    margin-bottom: 25px;
+    border-top: 1px solid var(--text-primary);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.minimal-size-table th {
+    background-color: #F8F7F4;
+    color: var(--text-primary);
+    font-weight: 600;
+    padding: 10px 4px;
+    font-size: 10.5px;
+    letter-spacing: 0.5px;
+}
+
+.minimal-size-table td {
+    padding: 10px 4px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid #FAF9F6;
+}
+
+.minimal-size-table tbody tr:hover {
+    background-color: #FAF8F2;
+    color: var(--text-primary);
+}
+
+.spec-grid-box {
+    margin-top: 30px;
+}
+
+.spec-box-title {
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.minimal-spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+}
+
+.minimal-spec-table tr {
+    border-bottom: 1px solid var(--border-light);
+}
+
+.minimal-spec-table td {
+    padding: 10px 0;
+}
+
+.minimal-spec-table td.label {
+    width: 30%;
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+.minimal-spec-table td.value {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.product-description-text {
+    margin-top: 35px;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    white-space: pre-line;
+    word-break: keep-all;
+    font-family: var(--font-noto), sans-serif;
+}
+
+/* 📂 [신설 5차 고도화] Quiet Luxury 극미니멀 3단 아코디언 시스템 디자인 */
+.luxury-accordion {
+    margin-top: 40px;
+    border-top: 1px solid var(--border-light);
+}
+
+.accordion-item {
+    border-bottom: 1px solid var(--border-light);
+}
+
+.accordion-header {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-outfit), var(--font-noto), sans-serif;
+    color: var(--text-primary);
+    transition: var(--transition-smooth);
+}
+
+.accordion-header:focus {
+    outline: none;
+}
+
+.header-num {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 1.5px;
+    color: var(--accent-gold);
+    margin-right: 15px;
+}
+
+.header-title {
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    flex: 1;
+}
+
+.header-icon {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-icon::before, .header-icon::after {
+    content: '';
+    position: absolute;
+    background-color: var(--text-secondary);
+    transition: var(--transition-smooth);
+}
+
+/* 플러스 아이콘 가로선 */
+.header-icon::before {
+    width: 10px;
+    height: 1px;
+}
+
+/* 플러스 아이콘 세로선 */
+.header-icon::after {
+    width: 1px;
+    height: 10px;
+}
+
+/* 활성화 시 세로선 회전하여 마이너스(-) 아이콘으로 변경 */
+.accordion-item.active .header-icon::after {
+    transform: rotate(90deg);
+    opacity: 0;
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 1200px; /* 충분한 높이로 설정하여 펼쳐지도록 함 */
+}
+
+/* 내부 패널들의 패딩 및 리셋 */
+.accordion-content .product-description-text {
+    margin-top: 0;
+    padding-bottom: 25px;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.accordion-content .minimal-spec-table {
+    margin-bottom: 25px;
+}
+
+.accordion-content .minimal-spec-table td {
+    padding: 8px 0;
+}
+
+/* 리뷰 요약 및 목록 정돈 */
+.detail-reviews-summary {
+    padding: 10px 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avg-stars {
+    color: var(--accent-gold);
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.avg-num {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.detail-reviews-list {
+    max-height: 350px;
+    overflow-y: auto;
+    padding-right: 5px;
+    margin-bottom: 25px;
+}
+
+/* 리뷰 카드 미니멀화 */
+.review-card {
+    border-bottom: 1px dashed var(--border-light);
+    padding: 15px 0;
+}
+
+.review-card:last-child {
+    border-bottom: none;
+}
+
+.review-card-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.review-stars {
+    color: var(--accent-gold);
+    font-size: 11px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.review-body-text {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    word-break: keep-all;
+}
+
+/* 9. 📝 정통 주문서 페이지 (Checkout View) 디자인 */
+.checkout-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.checkout-form-panel {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    padding: 35px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+}
+
+.checkout-section-title {
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.checkout-divider {
+    height: 1px;
+    background-color: var(--border-light);
+    margin: 15px 0 25px 0;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.form-label .required {
+    color: #D32F2F;
+    margin-left: 2px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    font-size: 13.5px;
+    font-family: var(--font-noto), sans-serif;
+    background-color: #FAF9F6;
+    transition: var(--transition-smooth);
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--text-primary);
+    background-color: #FFFFFF;
+    box-shadow: 0 0 8px rgba(0,0,0,0.02);
+}
+
+.postcode-row {
+    display: flex;
+    gap: 10px;
+}
+
+.postcode-btn {
+    padding: 12px 20px;
+    background-color: var(--text-primary);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.postcode-btn:hover {
+    background-color: var(--accent-gold);
+}
+
+/* 🏦 무통장 입금 안내 상자 */
+.bank-info-box {
+    background-color: #FAF8F2;
+    border-left: 4px solid var(--accent-gold);
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.bank-tag {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent-gold);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.bank-account {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.bank-notice {
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    word-break: keep-all;
+}
+
+.order-final-btn {
+    width: 100%;
+    padding: 20px;
+    background-color: #2E7D32; /* 신뢰감을 주는 녹색 계열 결제 */
+    color: #FFFFFF;
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(46,125,50,0.2);
+    transition: var(--transition-smooth);
+    margin-top: 25px;
+    font-family: var(--font-noto), sans-serif;
+}
+
+.order-final-btn:hover {
+    background-color: #1B5E20;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(46,125,50,0.3);
+}
+
+/* 주문서 요약 카드 */
+.checkout-summary-panel {
+    position: sticky;
+    top: 100px;
+}
+
+.summary-card {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    padding: 30px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+}
+
+.summary-title {
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.summary-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.summary-item-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.summary-item-img {
+    width: 45px;
+    height: 58px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--border-light);
+}
+
+.summary-item-info {
+    flex-grow: 1;
+}
+
+.summary-item-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+    font-family: var(--font-noto), sans-serif;
+}
+
+.summary-item-opt {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.summary-item-qty {
+    font-size: 11px;
+    color: var(--accent-gold);
+    font-weight: 600;
+}
+
+.summary-item-price {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.summary-price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.summary-total-val {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* 🛒 10. 우측 슬라이딩 장바구니 모달 디자인 */
+.cart-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(28, 26, 23, 0.4);
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    animation: fadeInModal 0.3s ease;
+}
+
+.cart-modal-content {
+    width: 100%;
+    max-width: 420px;
+    height: 100%;
+    background-color: var(--bg-card);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+    animation: slideInCart 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInCart {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+.cart-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cart-modal-title {
+    font-size: 14px;
+    letter-spacing: 2px;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.close-btn {
+    font-size: 20px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.close-btn:hover {
+    color: var(--text-primary);
+}
+
+.cart-modal-items {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 장바구니 내 개별 아이템 카드 */
+.cart-item-card {
+    display: flex;
+    gap: 15px;
+    border-bottom: 1px solid var(--border-light);
+    padding-bottom: 15px;
+}
+
+.cart-item-img {
+    width: 60px;
+    height: 78px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--border-light);
+}
+
+.cart-item-detail {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cart-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.cart-item-name {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+    font-family: var(--font-noto), sans-serif;
+}
+
+.cart-item-delete {
+    font-size: 11px;
+    color: #D32F2F;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.cart-item-opt {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.cart-item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.qty-control-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    background-color: var(--bg-main);
+}
+
+.qty-btn {
+    width: 25px;
+    height: 25px;
+    border: none;
+    background: none;
+    font-size: 12px;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: var(--transition-smooth);
+}
+
+.qty-btn:hover {
+    background-color: var(--border-light);
+}
+
+.qty-num {
+    width: 30px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.cart-item-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* 장바구니 하단 버튼 */
+.cart-total-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14.5px;
+    color: var(--text-secondary);
+}
+
+.cart-total-val {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.cart-checkout-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: var(--text-primary);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(28,26,23,0.1);
+    transition: var(--transition-smooth);
+    margin-top: 15px;
+    font-family: var(--font-noto), sans-serif;
+}
+
+.cart-checkout-btn:hover {
+    background-color: var(--accent-gold);
+    transform: translateY(-1px);
+}
+
+.cart-continue-btn {
+    width: 100%;
+    padding: 10px;
+    background: none;
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    margin-top: 10px;
+}
+
+.cart-continue-btn:hover {
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+}
+
+/* 11. 💼 대표님 전용 관리 오피스 디자인 */
+.admin-gate-card {
+    max-width: 450px;
+    margin: 100px auto;
+    background-color: var(--bg-card);
+    padding: 40px;
+    border-radius: 16px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    text-align: center;
+}
+
+.gate-title {
+    font-size: 18px;
+    letter-spacing: 3px;
+    color: var(--admin-accent);
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.gate-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+    word-break: keep-all;
+}
+
+.gate-form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+    background-color: var(--bg-main);
+    transition: var(--transition-smooth);
+}
+
+.gate-form input:focus {
+    outline: none;
+    border: 1px solid var(--admin-accent);
+    background-color: #FFFFFF;
+}
+
+.gate-form button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--admin-accent);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.gate-form button:hover {
+    background-color: var(--text-primary);
+}
+
+.gate-error {
+    font-size: 12px;
+    color: #D32F2F;
+    margin-top: 15px;
+}
+
+/* 어드민 사이드바 레이아웃 구조 */
+.admin-layout-wrapper {
+    display: flex;
+    min-height: 800px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 25px;
+}
+
+.admin-sidebar {
+    width: 240px;
+    background: linear-gradient(180deg, #1C232F 0%, #151A24 100%); /* 다크 럭셔리 네이비 그라데이션 */
+    color: #A3B1C2;
+    padding: 24px 0;
+    flex-shrink: 0;
+    border-right: 1px solid #10141D;
+}
+
+.sidebar-logo {
+    font-family: var(--font-outfit), sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #C4A478; /* 시그니처 골드 브라운 */
+    text-align: center;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #232C3A;
+    margin-bottom: 20px;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding-left: 0; /* 기본 마진/패딩 제거 */
+    margin: 0;
+}
+
+/* 대분류 아코디언 메뉴 스타일 */
+.menu-group {
+    border-bottom: 1px solid #1A222E; /* 그룹 간 경계선 */
+}
+
+.menu-group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #7A8B9E; /* 차분한 블루 그레이 */
+    letter-spacing: 1.5px;
+    padding: 14px 24px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    user-select: none;
+}
+
+.menu-group-header:hover {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.toggle-icon {
+    font-size: 12px;
+    font-weight: bold;
+    color: #C4A478; /* 시그니처 골드 브라운 */
+    transition: var(--transition-smooth);
+}
+
+.menu-group-sub {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 24px;
+    font-size: 12.5px;
+    color: #A3B1C2;
+    text-decoration: none;
+    font-family: var(--font-noto), sans-serif;
+    transition: var(--transition-smooth);
+    border-left: 3px solid transparent;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: #FFFFFF;
+}
+
+.sidebar-link.active {
+    background-color: rgba(196, 164, 120, 0.08); /* 샴페인 골드 반투명 배경 */
+    color: #FFFFFF;
+    font-weight: 700;
+    border-left: 3px solid #C4A478; /* 골드 브론즈 포인트 밑선 */
+}
+
+.admin-content-main {
+    flex-grow: 1;
+    padding: 30px;
+    background-color: #FFFFFF;
+    min-width: 0; /* 테두리 바깥 밀림 현상 방지 */
+}
+
+/* 실제 관리실 대시보드 */
+.admin-dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--admin-accent);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.dash-title {
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: var(--admin-accent);
+    font-weight: 700;
+}
+
+.dash-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.dash-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.supabase-status-badge {
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+}
+
+.supabase-status-badge.green {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #C8E6C9;
+}
+
+.refresh-btn {
+    padding: 8px 16px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+
+.refresh-btn:hover {
+    background-color: var(--bg-main);
+    border: 1px solid var(--text-secondary);
+}
+
+/* 대표님 관리실 탭 메뉴 버튼 */
+.admin-tab-nav {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.admin-tab-btn {
+    padding: 12px 24px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-light);
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.admin-tab-btn:hover, .admin-tab-btn.active {
+    background-color: var(--admin-accent);
+    color: #FFFFFF;
+    border-color: var(--admin-accent);
+}
+
+/* 상품 및 주문 관리 테이블판 */
+.admin-table-container {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+    overflow-x: auto;
+}
+
+.admin-products-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+}
+
+.admin-products-table th {
+    background-color: #FAF8F5;
+    padding: 16px;
+    font-weight: 700;
+    color: var(--admin-accent);
+    border-bottom: 2px solid var(--border-light);
+}
+
+.admin-products-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: middle;
+}
+
+.admin-products-table tr:hover {
+    background-color: #FAFAFA;
+}
+
+/* 🔌 [지능형 가상 시뮬레이터 테이블] 다크 모드 맞춤형 프리미엄 스타일 */
+.admin-products-table.simulator-table {
+    background-color: #111822;
+}
+
+.admin-products-table.simulator-table th {
+    background-color: #1A222E;
+    color: var(--accent-gold);
+    border-bottom: 2px solid #2d3848;
+    text-align: center;
+    padding: 12px 16px;
+}
+
+.admin-products-table.simulator-table td {
+    border-bottom: 1px solid #1f2937;
+    padding: 12px 16px;
+    color: var(--text-primary);
+}
+
+.admin-products-table.simulator-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.admin-img-thumb {
+    width: 50px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--border-light);
+}
+
+.admin-post-link {
+    font-size: 11px;
+    color: #2980B9;
+    text-decoration: none;
+    display: block;
+    margin-top: 4px;
+}
+
+.admin-post-link:hover {
+    text-decoration: underline;
+}
+
+.admin-input-text {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: var(--font-noto), sans-serif;
+    transition: var(--transition-smooth);
+}
+
+.admin-input-text:focus {
+    outline: none;
+    border: 1px solid var(--admin-accent);
+    box-shadow: 0 0 5px rgba(44,62,80,0.1);
+}
+
+.admin-original-price {
+    font-family: var(--font-outfit), sans-serif;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.admin-badge-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    max-width: 180px;
+}
+
+.admin-opt-badge {
+    background-color: #F2EFEA;
+    color: #5D564C;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+/* 🌟 [주문 대장 전용 상태 변경 드롭다운] 🌟 */
+.admin-status-select {
+    padding: 8px 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    font-size: 12.5px;
+    font-weight: 600;
+    font-family: var(--font-noto), sans-serif;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+/* 주문 대장 뱃지 스타일 */
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
+.status-badge.pending {
+    background-color: #FFF9C4;
+    color: #F57F17;
+    border: 1px solid #FFF59D;
+}
+
+.status-badge.paid {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #A5D6A7;
+}
+
+.status-badge.shipping {
+    background-color: #E3F2FD;
+    color: #1565C0;
+    border: 1px solid #90CAF9;
+}
+
+.status-badge.cancelled {
+    background-color: #FFEBEE;
+    color: #C62828;
+    border: 1px solid #EF9A9A;
+}
+
+/* 대표님 노출 스위치 CSS */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #CCCCCC;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--admin-accent);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.admin-save-btn {
+    padding: 8px 12px;
+    background-color: var(--admin-accent);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+
+.admin-save-btn:hover {
+    background-color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+/* 알림창 애니메이션 */
+.toast-popup {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background-color: var(--text-primary);
+    color: #FFFFFF;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 13.5px;
+    font-weight: 500;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    opacity: 0;
+    transition: var(--transition-smooth);
+    font-family: var(--font-noto), sans-serif;
+}
+
+.toast-popup.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+/* 12. 반응형 미디어 쿼리 완벽 보강 */
+@media (max-width: 950px) {
+    .checkout-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .checkout-summary-panel {
+        position: relative;
+        top: 0;
+    }
+    
+    .detail-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .detail-panel {
+        position: relative;
+        top: 0;
+    }
+    
+    .sticky-panel-content {
+        padding-left: 0;
+    }
+    
+    .hero-title {
+        font-size: 28px;
+    }
+    
+    .hero-section {
+        height: 300px;
+    }
+}
+
+@media (max-width: 600px) {
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .product-grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px 15px;
+    }
+    
+    .card-info {
+        padding: 15px;
+    }
+    
+    .card-name {
+        font-size: 13px;
+    }
+    
+    .card-price {
+        font-size: 14px;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================================================
+   👑 [신규 장착 3차 고도화] Quiet Luxury 전용 고급 디자인 컴포넌트 추가
+   ========================================================================= */
+
+/* A. [쇼핑 다차원 필터 바] */
+/* 스크롤 시 뒷배경이 유려하고 흐릿하게 비쳐 보이는 Glassmorphism 효과를 살리기 위해,
+   배경 투명도를 rgba(250, 249, 246, 0.75)로 완화하고 backdrop-filter blur 12px 효과를 조화롭게 구성했습니다. */
+.shop-filter-bar {
+    max-width: 1300px;
+    margin: 0 auto;
+    background-color: rgba(250, 249, 246, 0.75) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: none;
+    border-top: 1px solid var(--border-light); /* 3단 메뉴바와의 미세 경계선 */
+    border-bottom: 1px solid var(--border-light); /* 하단 경계선도 추가하여 본문과의 경계를 정돈 */
+    border-radius: 0; /* 헤더 통합을 위해 둥글기 제거 */
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.01); /* 은은하고 얇은 아래 입체 그림자 추가 */
+}
+
+.search-box {
+    display: flex;
+    gap: 8px;
+    flex-grow: 1.2;
+    max-width: 450px;
+}
+
+.search-box .form-input {
+    background-color: #FAF9F6;
+    padding: 10px 14px;
+    font-size: 13px;
+    border-radius: 6px;
+}
+
+.search-btn {
+    padding: 10px 18px;
+    background-color: var(--text-primary);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    white-space: nowrap;
+}
+
+.search-btn:hover {
+    background-color: var(--accent-gold);
+}
+
+.category-tabs {
+    display: flex;
+    gap: 25px; /* 단추 대신 여백 정돈 */
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.cat-tab {
+    padding: 10px 4px;
+    background: transparent; /* 투명한 배경으로 럭셔리 매거진 룩 연출 */
+    border: none; /* 투박한 테두리 전면 배제 */
+    border-radius: 0;
+    font-family: var(--font-outfit), var(--font-noto), sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 2px; /* 자간을 더 넓혀 세련된 느낌 */
+    cursor: pointer;
+    position: relative; /* 하단 가상 밑선 배치를 위해 기준점 설정 */
+    transition: var(--transition-smooth);
+    color: var(--text-secondary);
+}
+
+/* ✦✦✦ [슬라이딩 밑선 모션 구축] ✦✦✦ */
+.cat-tab::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0; /* 평소에는 가로 폭 0으로 숨김 */
+    height: 1.5px;
+    background-color: var(--accent-gold); /* 럭셔리 샴페인 골드 브라운 선 */
+    transition: width 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), left 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform: translateX(-50%);
+}
+
+/* 마우스를 올리거나 활성화 탭이 되었을 때, 선이 좌우로 슥 60% 만큼 퍼져나가는 고유의 명품 모션 */
+.cat-tab:hover::after, .cat-tab.active::after {
+    width: 60%;
+}
+
+.cat-tab:hover {
+    color: var(--text-primary);
+}
+
+.cat-tab.active {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+/* 👑 [신설 2단계] 브랜드 필터 전용 명품 골드 샌드 라벨 */
+.filter-label-luxury {
+    font-family: var(--font-outfit), sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+}
+
+.brand-box-luxury select {
+    padding: 8px 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    font-size: 11.5px;
+    font-weight: 500;
+    background-color: #FFFFFF;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    font-family: var(--font-noto), sans-serif;
+}
+
+.brand-box-luxury select:focus {
+    outline: none;
+    border-color: var(--text-primary);
+}
+
+.sort-box select {
+    padding: 8px 12px;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    font-size: 11.5px;
+    font-weight: 500;
+    background-color: #FFFFFF;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    font-family: var(--font-noto), sans-serif;
+}
+
+.sort-box select:focus {
+    outline: none;
+    border-color: var(--text-primary);
+}
+
+/* B. [품절 SOLD OUT 오버레이 필터] */
+.sold-out-wrapper {
+    position: relative;
+    width: 100%;
+    padding-top: 130%;
+    overflow: hidden;
+    background-color: #E2DFD8;
+}
+
+.sold-out-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(0.85) brightness(0.7); /* 럭셔리 매그진 흑백 대조 필터 */
+}
+
+.sold-out-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(28, 26, 23, 0.85);
+    color: #FFFFFF;
+    padding: 10px 25px;
+    font-family: var(--font-outfit);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+    border-radius: 2px;
+    z-index: 5;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* C. [회원 인증 모달 전용 레이아웃] */
+.auth-modal-content {
+    max-width: 440px;
+    border-radius: 16px;
+}
+
+.auth-form-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-switch-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+}
+
+.auth-switch-text a {
+    color: var(--text-primary);
+    font-weight: 700;
+    text-decoration: underline;
+    margin-left: 6px;
+    transition: var(--transition-smooth);
+}
+
+.auth-switch-text a:hover {
+    color: var(--accent-gold);
+}
+
+/* D. [마이페이지 대시보드 레이아웃] */
+.mypage-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.mypage-profile-panel {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    padding: 30px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+}
+
+.mypage-orders-panel {
+    background-color: var(--bg-card);
+    border-radius: 12px;
+    padding: 30px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+}
+
+.mypage-sub-desc {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    margin-bottom: 20px;
+    word-break: keep-all;
+}
+
+.profile-save-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--text-primary);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 6px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    margin-top: 25px;
+    font-family: var(--font-noto), sans-serif;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.profile-save-btn:hover {
+    background-color: var(--accent-gold);
+    transform: translateY(-1px);
+}
+
+.mypage-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    text-align: left;
+}
+
+.mypage-orders-table th {
+    background-color: #FAF8F5;
+    padding: 12px 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-light);
+}
+
+.mypage-orders-table td {
+    padding: 14px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: middle;
+}
+
+.mypage-orders-table tr:hover {
+    background-color: #FAFAFA;
+}
+
+/* E. [Q&A 간편 게시판 스타일] */
+.qna-section {
+    margin-top: 80px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 35px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.01);
+}
+
+.qna-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px dashed var(--border-light);
+    padding-bottom: 20px;
+}
+
+.qna-title {
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.qna-desc {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+.qna-write-btn {
+    padding: 10px 20px;
+    background-color: #FFFFFF;
+    color: var(--text-primary);
+    border: 1px solid var(--text-primary);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.qna-write-btn:hover {
+    background-color: var(--text-primary);
+    color: #FFFFFF;
+}
+
+.qna-table-container {
+    overflow-x: auto;
+}
+
+.qna-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+}
+
+.qna-table th {
+    background-color: #FAF8F5;
+    padding: 12px 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    border-bottom: 1.5px solid var(--border-light);
+}
+
+.qna-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: middle;
+}
+
+.qna-table tr:hover {
+    background-color: #FAFAFA;
+}
+
+.qna-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 3px;
+}
+
+.qna-badge.waiting {
+    background-color: #FAF2E6;
+    color: var(--accent-gold);
+    border: 1px solid #F3EAE0;
+}
+
+.qna-badge.answered {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+    border: 1px solid #C8E6C9;
+}
+
+.qna-title-link {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.qna-title-link:hover {
+    color: var(--accent-gold);
+    text-decoration: underline;
+}
+
+.qna-reply-row {
+    background-color: #FAF9F6;
+}
+
+.qna-content-box {
+    padding: 15px 20px;
+    font-size: 12.5px;
+    color: var(--text-primary);
+    line-height: 1.7;
+    white-space: pre-line;
+}
+
+.qna-reply-box {
+    margin-top: 15px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-light);
+    border-left: 3px solid var(--accent-gold);
+    padding: 15px 20px;
+    border-radius: 4px;
+}
+
+.qna-reply-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.qna-reply-title {
+    font-weight: 700;
+    color: var(--accent-gold);
+    font-size: 12px;
+}
+
+.qna-reply-date {
+    font-size: 10.5px;
+    color: var(--text-secondary);
+}
+
+.qna-reply-content {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+}
+
+.qna-modal-content {
+    max-width: 500px;
+}
+
+.qna-textarea {
+    resize: none;
+    line-height: 1.6;
+}
+
+/* F. 모바일 디바이스 추가 대응 */
+@media (max-width: 950px) {
+    .mypage-layout {
+        grid-template-columns: 1fr;
+    }
+    .shop-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .search-box {
+        max-width: 100%;
+    }
+}
+
+/* =========================================================================
+   👑 [4차 최종 통합 마스터] 기존 대형 플랫폼 급 프리미엄 비주얼 컴포넌트 추가
+   ========================================================================= */
+
+/* 1. ❤️ 최근 본 상품 럭셔리 우측 퀵 바 (Quick Bar) */
+/* ❤️ 최근 본 상품 럭셔리 우측 퀵 바 다크 럭셔리 연동 */
+.recent-quick-bar-wrapper {
+    position: fixed;
+    top: 190px;
+    right: 4px;
+    width: 76px;
+    /* 스토리 배너 다크 럭셔리 카드와 완벽한 일체형 배경 & 골드 보더 부여 */
+    background: linear-gradient(135deg, #2A2621 0%, #1A1815 100%);
+    border: 1px solid rgba(196, 164, 120, 0.25);
+    border-radius: 8px;
+    padding: 12px 4px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
+    z-index: 110;
+    text-align: center;
+    transition: var(--transition-smooth);
+    animation: fadeInPage 1s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+.quick-bar-title {
+    font-size: 9px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    color: #C4A478; /* 골드 브라운 텍스트로 보정 */
+}
+
+.quick-divider {
+    height: 1px;
+    background-color: rgba(196, 164, 120, 0.15); /* 골드 분할선 연동 */
+    margin: 8px 0;
+}
+
+.quick-items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+}
+
+.quick-empty-text {
+    font-size: 9px;
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 10px 0;
+}
+
+/* 최근 본 상품 퀵 바 내부 썸네일 카드 */
+.quick-item-card {
+    /* 🌟 [크기 최적화] 슬림해진 퀵 바 너비에 맞춰 가로폭을 60px에서 52px로, 세로 높이를 78px에서 68px로 콤팩트하게 줄였습니다. */
+    width: 52px;
+    height: 68px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--border-light);
+    transition: var(--transition-smooth);
+    position: relative;
+}
+
+.quick-item-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.quick-item-card:hover {
+    border-color: var(--accent-gold);
+    transform: scale(1.05);
+}
+
+/* 2. ❤️ 찜하기(Wishlist) 하트 및 인터랙션 */
+.detail-wish-btn {
+    padding: 8px 16px;
+    background: none;
+    border: 1px solid var(--accent-gold);
+    color: var(--accent-gold);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.detail-wish-btn:hover, .detail-wish-btn.active {
+    background-color: var(--accent-gold);
+    color: #FFFFFF;
+}
+
+/* 상품 카드 내부 찜 하트 버튼 */
+.card-wish-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 34px;
+    height: 34px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: var(--transition-smooth);
+}
+
+.card-wish-btn:hover, .card-wish-btn.active {
+    color: #D32F2F;
+    border-color: #D32F2F;
+    background-color: #FFFFFF;
+    transform: scale(1.1);
+}
+
+/* 3. ⭐ 포토/텍스트 리뷰(Review) 게시판 */
+.reviews-section {
+    margin-top: 35px;
+}
+
+.detail-reviews-summary {
+    background-color: #FAF8F5;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avg-rating-box {
+    text-align: center;
+}
+
+.avg-stars {
+    font-size: 24px;
+    color: var(--accent-gold);
+    letter-spacing: 2px;
+    display: block;
+}
+
+.avg-num {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: 4px;
+    font-family: var(--font-outfit);
+}
+
+.detail-reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.review-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.01);
+}
+
+.review-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.review-author-info {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.review-date-info {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.review-stars {
+    color: var(--accent-gold);
+    font-size: 13px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.review-body-text {
+    font-size: 13px;
+    color: var(--text-primary);
+    line-height: 1.6;
+    word-break: keep-all;
+    font-family: var(--font-noto), sans-serif;
+}
+
+.review-photo-img {
+    width: 80px;
+    height: 104px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--border-light);
+    margin-top: 12px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.review-photo-img:hover {
+    transform: scale(1.05);
+}
+
+/* 4. 🎟️ 적립금 & 할인 쿠폰 입력 폼 */
+.checkout-discount-box {
+    background-color: #FAF9F6;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+}
+
+.discount-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* 5. 🏠 마이페이지 요약 대시보드 카드 바 */
+.mypage-dashboard-summary-bar {
+    max-width: 1300px;
+    margin: 0 auto 30px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.dash-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+}
+
+.card-lbl {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.card-val {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: var(--font-outfit), var(--font-noto), sans-serif;
+}
+
+/* 마이페이지 내 찜하기 보관소 그리드 */
+.mypage-wish-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 15px;
+}
+
+.mypage-wish-card {
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--border-light);
+    background-color: #FFFFFF;
+    cursor: pointer;
+    text-align: center;
+    transition: var(--transition-smooth);
+}
+
+.mypage-wish-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.mypage-wish-card:hover {
+    border-color: var(--accent-gold);
+    transform: translateY(-3px);
+}
+
+.mypage-wish-name {
+    font-size: 10.5px;
+    font-weight: 500;
+    padding: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    color: var(--text-primary);
+}
+
+/* 6. ↩️ 마이페이지 내 주문 취소/반품/교환 클레임 버튼 */
+.mypage-claim-btn {
+    padding: 4px 10px;
+    border: 1px solid #D32F2F;
+    color: #D32F2F;
+    background: none;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+    margin-top: 4px;
+    display: inline-block;
+}
+
+.mypage-claim-btn:hover {
+    background-color: #D32F2F;
+    color: #FFFFFF;
+}
+
+.mypage-write-review-btn {
+    padding: 4px 10px;
+    border: 1px solid var(--accent-gold);
+    color: var(--accent-gold);
+    background: none;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+    margin-top: 4px;
+    display: inline-block;
+}
+
+.mypage-write-review-btn:hover {
+    background-color: var(--accent-gold);
+    color: #FFFFFF;
+}
+
+/* 7. 📊 [대표님용] 어드민 실시간 매출 통계 대시보드 카드 */
+.admin-dashboard-summary-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* 인기 상품 랭킹 TOP 5 대시보드 아이템 */
+.rank-list-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.rank-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #FAF9F6;
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid var(--border-light);
+}
+
+.rank-number {
+    font-family: var(--font-outfit);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent-gold);
+    min-width: 25px;
+    text-align: center;
+}
+
+.rank-img {
+    width: 35px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 3px;
+    border: 1px solid var(--border-light);
+}
+
+.rank-info {
+    flex-grow: 1;
+    min-width: 0;
+}
+
+.rank-name {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rank-sales-qty {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.rank-sales-qty b {
+    color: var(--accent-gold);
+}
+
+/* 8. 💬 Q&A/리뷰 통합 답변실 댓글 피드백 카드 */
+.admin-comments-scroll {
+    padding-right: 5px;
+}
+
+.admin-comment-card {
+    background-color: #FAF9F6;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 15px;
+    transition: var(--transition-smooth);
+}
+
+.admin-comment-card:hover {
+    border-color: var(--admin-accent);
+}
+
+.admin-comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.admin-comment-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.admin-comment-date {
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+.admin-comment-author {
+    font-size: 11px;
+    color: var(--accent-gold);
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.admin-comment-body {
+    font-size: 12px;
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.admin-comment-reply-input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    font-size: 11.5px;
+    font-family: var(--font-noto), sans-serif;
+    margin-bottom: 8px;
+}
+
+.admin-comment-reply-btn {
+    padding: 6px 12px;
+    background-color: var(--admin-accent);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+}
+
+.admin-comment-reply-btn:hover {
+    background-color: var(--text-primary);
+}
+
+/* 9. 모바일 퀵바 대응 */
+@media (max-width: 950px) {
+    .recent-quick-bar-wrapper {
+        display: none; /* 모바일에서는 퀵 바를 숨깁니다 */
+    }
+}
+
+/* 10. 👥 어드민 고객관리(profiles) 전용 추가 스타일 */
+.admin-points-input {
+    width: 90px;
+    padding: 6px 8px;
+    border: 1px solid var(--border-light);
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: var(--font-outfit), sans-serif;
+    text-align: right;
+    background-color: #FAF9F6;
+    transition: var(--transition-smooth);
+}
+
+.admin-points-input:focus {
+    outline: none;
+    border-color: var(--admin-accent);
+    background-color: #FFFFFF;
+}
+
+.admin-points-btn {
+    padding: 6px 10px;
+    background-color: var(--admin-accent);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    font-size: 11.5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition-smooth);
+    font-family: var(--font-noto), sans-serif;
+}
+
+.admin-points-btn:hover {
+    background-color: var(--text-primary);
+}
+
+/* =========================================================================
+   🌟 [신설 - 럭셔리 5대 고도화 기능 스타일시트 모음] 🌟
+   ========================================================================= */
+
+/* A. 상품 카드 내 찜하기(하트) 플로팅 버튼 */
+.wishlist-heart-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 5;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border-light);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.wishlist-heart-btn:hover {
+    transform: scale(1.15);
+    border-color: #D32F2F;
+}
+
+.wishlist-heart-btn.active {
+    color: #D32F2F;
+    background-color: #FFFFFF;
+    border-color: #D32F2F;
+}
+
+/* B. NOTICE & EVENT 보드 아코디언 */
+.notice-board-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.notice-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.notice-tab-btn {
+    padding: 10px 24px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-light);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.notice-tab-btn.active {
+    background-color: var(--text-primary);
+    color: #FFFFFF;
+    border-color: var(--text-primary);
+}
+
+.notice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.notice-item {
+    background-color: var(--bg-card);
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+.notice-item:hover {
+    border-color: var(--accent-gold);
+    box-shadow: 0 6px 15px rgba(140, 130, 115, 0.05);
+}
+
+.notice-summary {
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.notice-title-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.notice-badge {
+    padding: 3px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+}
+
+.notice-badge.notice {
+    background-color: #F2EDE4;
+    color: #594D3C;
+    border: 1px solid #E3DED6;
+}
+
+.notice-badge.event {
+    background-color: #FAF2F2;
+    color: #C62828;
+    border: 1px solid #F2E3E3;
+}
+
+.notice-title-text {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-family: var(--font-noto), sans-serif;
+}
+
+.notice-meta-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.notice-date {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.notice-arrow {
+    font-size: 12px;
+    color: var(--text-secondary);
+    transition: transform 0.3s ease;
+}
+
+.notice-item.expanded .notice-arrow {
+    transform: rotate(180deg);
+}
+
+.notice-content {
+    max-height: 0;
+    overflow: hidden;
+    background-color: #FAF9F6;
+    transition: max-height 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.notice-item.expanded .notice-content {
+    max-height: 800px;
+    border-top: 1px solid var(--border-light);
+}
+
+.notice-body-inner {
+    padding: 30px;
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    white-space: pre-line;
+    font-family: var(--font-noto), sans-serif;
+}
+
+/* C. REVIEW 명예의 전당 격자 피드 */
+.review-board-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.review-stats-banner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+}
+
+.stat-val {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.stat-val.gold {
+    color: var(--accent-gold);
+}
+
+.stat-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+    margin-top: 4px;
+}
+
+.review-feed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+.review-feed-card {
+    background-color: var(--bg-card);
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: var(--transition-smooth);
+    cursor: pointer;
+}
+
+.review-feed-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-gold);
+    box-shadow: 0 8px 25px rgba(140, 130, 115, 0.06);
+}
+
+.review-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.review-card-stars {
+    color: #FFB300;
+    font-size: 13px;
+}
+
+.review-card-author {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.review-card-product-link {
+    font-size: 11px;
+    color: var(--accent-gold);
+    font-weight: 600;
+    margin-bottom: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: var(--font-noto), sans-serif;
+}
+
+.review-card-content {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    font-family: var(--font-noto), sans-serif;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: justify;
+}
+
+.review-card-img-box {
+    width: 100%;
+    height: 160px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-light);
+}
+
+.review-card-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.review-feed-card:hover .review-card-img-box img {
+    transform: scale(1.05);
+}
+
+.review-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    color: var(--text-secondary);
+    border-top: 1px solid #FAF9F6;
+    padding-top: 10px;
+}
+
+/* D. 배송조회 모달 팝업 전용 */
+.delivery-modal-content {
+    max-width: 480px !important;
+}
+
+.delivery-company-select {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-light);
+    font-size: 13px;
+    font-family: var(--font-noto), sans-serif;
+    background-color: #FAF9F6;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.delivery-guide-box {
+    margin-top: 15px;
+    background-color: #FAF9F6;
+    border-radius: 6px;
+    padding: 12px 15px;
+    font-size: 11.5px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    font-family: var(--font-noto), sans-serif;
+}
+
+
+/* ==========================================
+   🧥 4차 최종: 중하단 정통 아울렛 스크롤 뷰 레이아웃
+   ========================================== */
+
+.detail-bottom-wrapper {
+    max-width: 900px;
+    margin: 60px auto 100px auto; /* 중앙 정렬 및 여백 확보 */
+    padding: 0 20px;
+}
+
+/* 📂 와이드하게 펼쳐진 3단 아코디언 반응형 튜닝 */
+.detail-bottom-wrapper .luxury-accordion {
+    width: 100%;
+    border-top: 1px solid var(--border-light);
+    margin-bottom: 50px;
+}
+
+/* 📏 와이드 스펙 테이블 가로폭 정렬 */
+.detail-bottom-wrapper .minimal-size-table,
+.detail-bottom-wrapper .minimal-spec-table {
+    width: 100%;
+}
+
+/* 📷 웅장한 상세컷 세로 흐름 나열 */
+.detail-sub-images-container {
+    display: flex;
+    flex-direction: column;
+    gap: 35px; /* 이미지 간의 정갈하고 고급스러운 여백 */
+    width: 100%;
+    margin-top: 20px;
+}
+
+.detail-sub-images-container img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: calc(100vh - 120px); /* 👑 [신설] 브라우저 세로 화면 높이에서 상하 여유 공간 120px을 뺀 높이를 넘지 않게 제한 */
+    width: auto; /* 룩북 이미지의 가로세로 비율이 절대 찌그러지지 않도록 강제 유지 */
+    height: auto;
+    object-fit: contain; /* 샌드 브라운 액자 프레임 내부에 룩북 이미지를 깔끔하게 수용 */
+    border-radius: 6px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.02);
+    transition: var(--transition-smooth);
+}
+
+.detail-sub-images-container img:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+}
+
+
+/* ==========================================
+   👑 5차 최종: 상세페이지 중하단 정성 극대화 리디자인 (LOOKBOOK 감성)
+   ========================================== */
+
+/* ⚜️ 1. 에디토리얼 럭셔리 인트로 명패 */
+.editorial-nameplate {
+    text-align: center;
+    background-color: #FAF9F6; /* 고급 웜 미색 */
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 40px 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.01);
+    animation: fadeInNameplate 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.editorial-tag {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent-gold);
+    font-weight: 600;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 12px;
+    font-family: var(--font-noto), sans-serif;
+}
+
+.editorial-main-title {
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--text-primary);
+    font-family: var(--font-serif), 'Playfair Display', 'Noto Serif KR', serif;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+.editorial-gold-divider {
+    color: var(--accent-gold);
+    font-size: 10px;
+    letter-spacing: 8px;
+    margin-bottom: 20px;
+}
+
+.editorial-description {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 650px;
+    margin: 0 auto;
+    font-family: 'Noto Serif KR', 'Georgia', serif;
+    word-break: keep-all;
+}
+
+/* 📐 2. 사이즈 가이드 및 상세설명 우아한 명조(Serif) 서체 코디네이션 */
+.product-description-text,
+.minimal-size-table,
+.minimal-spec-table,
+.size-table-title {
+    font-family: 'Noto Serif KR', 'Georgia', serif !important;
+}
+
+.minimal-size-table th {
+    background-color: #FAF9F6 !important;
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    font-size: 12.5px;
+}
+
+.minimal-size-table td {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.size-table-title {
+    font-size: 14.5px;
+    color: var(--text-primary);
+    border-left: 3px solid var(--accent-gold);
+    padding-left: 10px;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+/* 📂 아코디언 명품 헤더 얇은 골드 라인 보정 */
+.luxury-accordion .accordion-header {
+    border-bottom: 1px solid var(--border-light);
+    transition: var(--transition-smooth);
+}
+
+.luxury-accordion .accordion-header:hover {
+    background-color: #FAF9F6;
+    border-bottom: 1px solid var(--accent-gold);
+}
+
+.luxury-accordion .accordion-header:hover .header-title {
+    color: var(--accent-gold) !important;
+}
+
+/* 📷 3. 상세컷 액자형 캡션 디자인 */
+.detail-image-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.02); /* 극강의 입체그림자 */
+    margin-bottom: 45px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.detail-image-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
+}
+
+.detail-image-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    border: 1px solid #F0EFEA;
+}
+
+/* 이미지 상단 ⚜️ 오피셜 캡션 */
+.official-caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10.5px;
+    color: var(--accent-gold);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: var(--font-noto), sans-serif;
+    margin-bottom: 12px;
+    padding: 0 5px;
+}
+
+/* 이미지 하단 📜 품질인증 보증 스탬프 */
+.guarantee-stamp {
+    text-align: center;
+    font-size: 10px;
+    color: #C0BCAE;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: 'Playfair Display', 'Georgia', serif;
+    margin-top: 12px;
+    border-top: 1px dashed #EAE8E0;
+    padding-top: 10px;
+}
+
+/* 🛡️ 4. 최하단 PKB71 LUXURY SIGNATURE CARE 배너 */
+.luxury-care-box {
+    background-color: #FAF9F6;
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    padding: 45px 35px;
+    margin-top: 50px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.01);
+}
+
+.care-header-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-family: var(--font-serif), 'Playfair Display', serif;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.care-subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-family: var(--font-noto), sans-serif;
+    margin-bottom: 35px;
+}
+
+.care-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 25px;
+}
+
+.care-card {
+    text-align: center;
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 25px 20px;
+    transition: transform 0.3s ease;
+}
+
+.care-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-gold);
+}
+
+.care-icon {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+.care-name {
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    font-family: var(--font-noto), sans-serif;
+}
+
+.care-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-family: var(--font-noto), sans-serif;
+    word-break: keep-all;
+}
+
+/* 반응형 모바일 브레이크 튜닝 */
+@media (max-width: 768px) {
+    .care-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .editorial-nameplate {
+        padding: 30px 15px;
+    }
+    .editorial-main-title {
+        font-size: 20px;
+    }
+}
+
+@keyframes fadeInNameplate {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================================
+   🚚 [신설] CUSTOMER CARE & GUIDELINES (주문 전 확인사항/배송/교환 가이드)
+   ========================================================================= */
+.luxury-guidelines-box {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 50px 40px;
+    margin: 50px 0;
+    box-shadow: 0 8px 30px rgba(140, 130, 115, 0.03);
+}
+
+.guidelines-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.guidelines-tag {
+    font-family: var(--font-outfit), sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent-gold);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.guidelines-title {
+    font-family: var(--font-noto), sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: var(--text-primary);
+}
+
+.guidelines-divider {
+    width: 60px;
+    height: 1px;
+    background-color: var(--accent-gold);
+    margin: 20px auto 0 auto;
+}
+
+.guidelines-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+@media (max-width: 768px) {
+    .guidelines-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .luxury-guidelines-box {
+        padding: 35px 20px;
+    }
+}
+
+.guidelines-card {
+    background-color: #FAF9F6;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 30px;
+    transition: var(--transition-smooth);
+}
+
+.guidelines-card:hover {
+    border-color: var(--accent-gold);
+    box-shadow: 0 10px 25px rgba(140, 130, 115, 0.05);
+}
+
+.guidelines-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.guidelines-card-icon {
+    font-size: 20px;
+}
+
+.guidelines-card-title {
+    font-family: var(--font-outfit), var(--font-noto), sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-primary);
+}
+
+.guidelines-card-divider {
+    width: 100%;
+    height: 1px;
+    background-color: var(--border-light);
+    margin-bottom: 20px;
+}
+
+.guidelines-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.guidelines-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.guidelines-list li .bullet {
+    font-size: 8px;
+    color: var(--accent-gold);
+    margin-top: 6px;
+    flex-shrink: 0;
+}
+
+.guidelines-list li .text {
+    font-family: var(--font-noto), sans-serif;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    word-break: keep-all;
+}
+
+.guidelines-list li .text strong {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.guidelines-footer {
+    text-align: center;
+    margin-top: 40px;
+    border-top: 1px solid var(--border-light);
+    padding-top: 30px;
+}
+
+.footer-notice {
+    font-family: var(--font-noto), sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    word-break: keep-all;
+}
+
+.footer-eng {
+    font-family: var(--font-outfit), sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 1.5px;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+}
+
+/* =========================================================================
+   📂 [신설] Quiet Luxury 상품 상세 설명 단독 패널 스타일
+   ========================================================================= */
+.luxury-description-panel {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 45px 40px;
+    margin: 40px 0;
+    box-shadow: 0 6px 20px rgba(140, 130, 115, 0.02);
+}
+
+.description-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.desc-tag {
+    font-family: var(--font-outfit), sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 3px;
+    color: var(--accent-gold);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.desc-title {
+    font-family: var(--font-noto), sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    color: var(--text-primary);
+}
+
+.desc-divider {
+    width: 45px;
+    height: 1px;
+    background-color: var(--accent-gold);
+    margin: 15px auto 0 auto;
+}
+
+.product-description-text {
+    font-family: var(--font-noto), sans-serif;
+    font-size: 14.5px;
+    line-height: 1.95;
+    color: var(--text-primary);
+    white-space: pre-wrap; /* 🌟 대표님이 밴드 가공글에 엔터 치신 줄바꿈을 100% 그대로 다 살려서 우아하게 렌더링합니다! */
+    word-break: keep-all;
+    text-align: justify;
+}
+
+/* =========================================================================
+   📂 [3안 신설] 슬림 아코디언 하이브리드 가이드 스타일
+   ========================================================================= */
+.luxury-guidelines-accordion {
+    margin: 30px 0;
+    width: 100%;
+}
+
+.guidelines-accordion-header {
+    width: 100%;
+    background-color: #FAF9F6; /* 은은한 미색 바탕 */
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.guidelines-accordion-header:hover {
+    background-color: #FFFFFF;
+    border-color: var(--accent-gold);
+    box-shadow: 0 4px 15px rgba(140, 130, 115, 0.04);
+}
+
+/* 활성화되어 열렸을 때 헤더 하단 둥근 테두리를 깎아 콘텐츠와 자연스럽게 연결 */
+.luxury-guidelines-accordion.active .guidelines-accordion-header {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: #FFFFFF;
+    border-color: var(--accent-gold);
+}
+
+.guidelines-header-title {
+    font-family: var(--font-noto), sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--accent-gold); /* 골드 브라운 */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.guidelines-header-icon {
+    font-size: 11px;
+    color: var(--text-secondary);
+    transition: transform 0.3s ease;
+}
+
+.luxury-guidelines-accordion.active .guidelines-header-icon {
+    transform: rotate(180deg); /* 열리면 화살표가 위를 향하도록 부드럽게 회전 */
+    color: var(--accent-gold);
+}
+
+/* =========================================================================
+   📄 [신설] 상품 상세 설명 슬림 아코디언 가이드 스타일
+   ========================================================================= */
+.luxury-description-accordion {
+    margin: 20px 0 40px 0; /* 배송 아코디언 아래에 자연스러운 마진 적용 */
+    width: 100%;
+}
+
+.description-accordion-header {
+    width: 100%;
+    background-color: #FAF9F6;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+.description-accordion-header:hover {
+    background-color: #FFFFFF;
+    border-color: var(--accent-gold);
+    box-shadow: 0 4px 15px rgba(140, 130, 115, 0.04);
+}
+
+.luxury-description-accordion.active .description-accordion-header {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: #FFFFFF;
+    border-color: var(--accent-gold);
+}
+
+.description-header-title {
+    font-family: var(--font-noto), sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.description-header-icon {
+    font-size: 11px;
+    color: var(--text-secondary);
+    transition: transform 0.3s ease;
+}
+
+.luxury-description-accordion.active .description-header-icon {
+    transform: rotate(180deg);
+    color: var(--accent-gold);
+}
+
+/* =========================================================================
+   💬 [신설] 우측 하단 플로팅 퀵 메뉴 - 카카오톡 및 스크롤 방향 버튼 스타일
+   ========================================================================= */
+.floating-control-menu {
+    position: fixed;
+    right: 25px;
+    bottom: 30px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    pointer-events: auto;
+}
+
+/* 플로팅 버튼 공통 스타일 (카톡 원형 버튼 포함) */
+.floating-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+    background-color: transparent;
+    padding: 0;
+}
+
+/* 카카오톡 원형 옐로우 버튼 스타일 */
+.kakao-chat-btn {
+    background-color: #FEE500; /* 카카오톡 시그니처 옐로우 */
+    box-shadow: 0 4px 15px rgba(254, 229, 0, 0.4);
+}
+
+.kakao-talk-icon {
+    width: 100%;
+    height: 100%;
+    transform: scale(0.9); /* 버튼 테두리 안쪽 여백 느낌 제공 */
+}
+
+/* 스크롤 방향 버튼 공통 스타일 (위로/아래로) */
+.scroll-btn {
+    /* 기존 화이트 배경에서 다크 골드 그라데이션으로 교체 */
+    background: linear-gradient(135deg, #2A2621 0%, #1A1815 100%); 
+    border: 1px solid rgba(196, 164, 120, 0.35); /* 브론즈 골드 보더 */
+    color: #FAF9F6;
+}
+
+.scroll-btn svg {
+    width: 20px;
+    height: 20px;
+    color: #C4A478; /* 짙은 화살표 컬러를 브론즈 골드로 고급화 */
+    transition: transform 0.2s ease;
+}
+
+/* 마우스 호버(Hover) 인터랙션 효과 */
+.floating-btn:hover {
+    transform: translateY(-3px) scale(1.05); /* 마우스 오버 시 위로 살짝 뜨며 크기 확대 */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.kakao-chat-btn:hover {
+    box-shadow: 0 8px 25px rgba(254, 229, 0, 0.6);
+}
+
+.scroll-up-btn:hover svg {
+    transform: translateY(-2px); /* 위 화살표 호버 시 위로 움직임 */
+    color: #FFFFFF;
+}
+
+.scroll-down-btn:hover svg {
+    transform: translateY(2px); /* 아래 화살표 호버 시 아래로 움직임 */
+    color: #FFFFFF;
+}
+
+/* 화면 너비가 768px 이하인 모바일 기기에서의 레이아웃 최적화 */
+@media (max-width: 768px) {
+    .floating-control-menu {
+        right: 15px;
+        bottom: 20px;
+        gap: 8px;
+    }
+    
+    .floating-btn {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* =========================================================================
+   🆕 [신설] 신상품 가로 슬라이더 및 베스트셀러 랭킹 배지 스타일
+   ========================================================================= */
+
+/* A. 가로 스크롤 슬라이더 레이아웃 */
+.new-slider-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.new-slider-content {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 5px 20px 5px;
+    /* 파이어폭스용 스크롤바 숨김 */
+    scrollbar-width: none; 
+}
+
+/* 크롬/사파리용 스크롤바 숨김 (가죽 룩북처럼 깔끔한 노출 유도) */
+.new-slider-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* 슬라이더 내부에서는 카드가 찌그러지지 않고 고정폭을 유지하도록 설정 */
+.new-slider-content .product-card {
+    flex-shrink: 0;
+    width: 250px; /* 슬라이더 전용 아담하고 세련된 가로폭 */
+}
+
+/* 슬라이더 좌우 롤링 버튼 */
+.slider-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateY(-30px); /* 카드 이미지 중앙선으로 위치 보정 */
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: rgba(42, 38, 33, 0.85); /* 웜 블랙 반투명 */
+    border: 1px solid rgba(196, 164, 120, 0.3);
+    color: #FAF9F6;
+    font-size: 24px;
+    line-height: 38px;
+    text-align: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.slider-nav-btn:hover {
+    background-color: rgba(140, 130, 115, 0.95);
+    border-color: var(--accent-gold);
+    color: #FFFFFF;
+}
+
+.prev-btn {
+    left: -20px;
+}
+
+.next-btn {
+    right: -20px;
+}
+
+/* B. 베스트셀러 4열 전용 그리드 */
+.best-grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 주간 베스트 4선 전용 가로 4열 배치 */
+    gap: 25px;
+}
+
+/* C. 골드 랭킹 배지 (01~04) */
+.best-rank-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-family: var(--font-outfit), sans-serif;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #FAF9F6;
+    background: rgba(42, 38, 33, 0.95); /* 카드의 다크 골드 배경과 통일 */
+    border: 1.5px solid rgba(196, 164, 120, 0.55); /* 영롱한 골드 브라운 보더 */
+    border-radius: 4px;
+    padding: 1.5px 7px;
+    z-index: 5;
+    text-shadow: 0 0 4px rgba(196, 164, 120, 0.4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 모바일/태블릿 반응형 보정 */
+@media (max-width: 900px) {
+    .best-grid-container {
+        grid-template-columns: repeat(2, 1fr); /* 모바일에서는 2열로 자동 접힘 */
+        gap: 15px;
+    }
+    .prev-btn { left: -10px; }
+    .next-btn { right: -10px; }
+    .slider-nav-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+        line-height: 32px;
+    }
+}
+
+/* =========================================================================
+   🎁 [신설] UX 개선: 세련된 미니멀 토스트 알림 및 이미지 에러 대체 스타일
+   ========================================================================= */
+
+/* 1. 토스트 알림들이 쌓일 고정 컨테이너 */
+#toast-container {
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000; /* 모달보다 높거나 비슷한 수준의 최상단 배치 */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* 마우스 클릭 등을 방해하지 않음 */
+}
+
+/* 2. 개별 토스트 메시지 디자인 */
+.luxury-toast {
+    min-width: 300px;
+    max-width: 500px;
+    background: rgba(28, 25, 23, 0.95); /* 쇼핑몰 아이덴티티가 담긴 짙은 차콜 브라운 */
+    border: 1px solid rgba(196, 164, 120, 0.5); /* 브론즈 골드 얇은 테두리 */
+    color: #FAF9F6;
+    padding: 13px 25px;
+    border-radius: 6px;
+    font-size: 12.5px;
+    font-family: var(--font-noto), sans-serif;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.5px;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    word-break: keep-all;
+}
+
+/* 활성화되어 화면에 나타날 때 */
+.luxury-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 3. 이미지 로딩 실패(onerror) 시 대체할 플레이스홀더 이미지 적용 시의 보조 스타일 */
+img.image-err-fallback {
+    object-fit: contain !important; /* 이미지 비율 유지하며 찌그러짐 방지 */
+    background-color: #FAF9F6 !important; /* 웜 미색 배경을 채워 밋밋함을 보완 */
+    padding: 20px; /* 쇼핑백 엠블럼 이미지가 자연스럽게 배치되도록 패딩 부여 */
+}
+
+/* 🎨 [디자인 개선] 상세페이지 진입 시 상단 고정 헤더가 본문 상품 이미지나 옵션 버튼 등과 겹치는 버그를 막기 위해
+   상세페이지 영역 전체에 30px의 안전 상단 여백(padding-top)을 고혹적으로 확보했습니다. */
+#view-detail {
+    padding-top: 30px !important;
+}
+
+/* =========================================================================
+   👑 [신설 - UX 고도화] 상품 카드 호버 효과, 인라인 에러 피드백 및 결제 주문서 요약 스타일
+   ========================================================================= */
+
+/* 1. 상품 카드 호버 시 이미지 부드러운 확대(Zoom-in) 효과 */
+.product-image-box {
+    overflow: hidden !important; /* 이미지 확대 시 카드 경계선 바깥으로 삐져나가는 것 방지 */
+}
+.product-image-box img {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+.product-card:hover .product-image-box img {
+    transform: scale(1.05) !important; /* 부드럽게 5% 확대 */
+}
+
+/* 2. 로그인 및 회원가입 모달 내부 폼 인라인 에러 텍스트 스타일 */
+.auth-inline-error {
+    color: #D32F2F !important;
+    font-size: 11.5px !important;
+    margin-top: -10px !important;
+    margin-bottom: 15px !important;
+    display: none; /* 기본 숨김 상태 */
+    font-weight: 600 !important;
+    font-family: var(--font-noto), sans-serif !important;
+    animation: fadeInError 0.3s ease-out forwards;
+}
+@keyframes fadeInError {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 3. 무통장 결제 페이지 내 우측 실시간 주문 요약 박스 */
+.checkout-summary-card {
+    background-color: #FAF9F6 !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: 8px !important;
+    padding: 22px !important;
+    margin-top: 20px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02) !important;
+}
+.checkout-summary-title {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    color: var(--text-primary) !important;
+    margin-bottom: 15px !important;
+    border-bottom: 1px solid var(--border-light) !important;
+    padding-bottom: 10px !important;
+}
+.checkout-summary-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    margin-bottom: 12px !important;
+    border-bottom: 1px dashed var(--border-light) !important;
+    padding-bottom: 10px !important;
+}
+.checkout-summary-item:last-child {
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+.checkout-summary-item img {
+    width: 45px !important;
+    height: 60px !important;
+    object-fit: cover !important;
+    border-radius: 4px !important;
+    border: 1px solid var(--border-light) !important;
+}
+.checkout-summary-item-info {
+    flex: 1 !important;
+    font-size: 12px !important;
+    line-height: 1.4 !important;
+}
+.checkout-summary-item-name {
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+}
+.checkout-summary-item-meta {
+    color: var(--text-secondary) !important;
+    font-size: 11px !important;
+    margin-top: 2px !important;
+}
+.checkout-summary-item-price {
+    font-weight: 700 !important;
+    font-family: var(--font-outfit), sans-serif !important;
+    color: var(--text-primary) !important;
+    font-size: 12px !important;
+}
+.checkout-summary-total-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-top: 15px !important;
+    padding-top: 12px !important;
+    border-top: 1px solid var(--border-light) !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+}
+.checkout-summary-total-val {
+    font-size: 16px !important;
+    color: var(--accent-gold) !important;
+    font-family: var(--font-outfit), sans-serif !important;
+}
+
+/* =========================================================================
+   💎 [추가 고도화 - UX/보안 디테일] 커스텀 컨펌 모달 및 스켈레톤 로딩 스타일
+   ========================================================================= */
+
+/* 1. 커스텀 컨펌 모달용 마우스 호버 스타일 및 미세 효과 */
+#custom-confirm-modal .order-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+#custom-confirm-modal #custom-confirm-cancel-btn:hover {
+    background: #FAF9F6 !important;
+    color: var(--text-primary) !important;
+    border-color: var(--accent-gold) !important;
+}
+
+/* 2. 스켈레톤 로딩 애니메이션 정의 */
+.skeleton-block {
+    background: linear-gradient(90deg, #EBE6DD 25%, #FAF9F6 50%, #EBE6DD 75%);
+    background-size: 200% 100%;
+    animation: skeleton-glow 1.5s infinite ease-in-out;
+    border-radius: 6px;
+    display: inline-block;
+    width: 100%;
+}
+
+@keyframes skeleton-glow {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* 3. Q&A 전용 테이블 스켈레톤 행 스타일 */
+.skeleton-row td {
+    padding: 16px 20px !important;
+}
+.skeleton-text {
+    height: 14px;
+    margin: 4px 0;
+    border-radius: 4px;
+}
+.skeleton-title { width: 75%; height: 16px; }
+.skeleton-meta { width: 40%; height: 12px; }
+
+/* 4. 상품 상세 전용 스켈레톤 스타일 */
+.skeleton-img-box {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 8px;
+}
+.skeleton-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* =========================================================================
+   👑 [신설] 미니멀 럭셔리 페이지네이션 스타일 (.luxury-pagination)
+   - 얇은 골드 샌드 톤과 미색 배경, 차콜 액센트로 구성된 극미니멀 골드 번호판입니다.
+   ========================================================================= */
+.luxury-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.pag-btn {
+    border: 1px solid var(--border-light);
+    background-color: #FFFFFF;
+    color: var(--text-secondary);
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font-outfit), sans-serif;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-smooth);
+}
+
+.pag-btn:hover {
+    border-color: var(--accent-gold);
+    color: var(--text-primary);
+    background-color: #FAF9F6;
+}
+
+.pag-btn.active {
+    background-color: var(--text-primary) !important;
+    border-color: var(--text-primary) !important;
+    color: #FFFFFF !important;
+    font-weight: 700;
+}
+
+.pag-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    border-color: var(--border-light);
+    color: var(--text-secondary);
+}
+
+.pag-text-btn {
+    font-size: 11.5px;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* =========================================================================
+   👑 [신설] 5열 그리드 전용 반응형 미디어 쿼리 최적화 보강
+   ========================================================================= */
+@media (max-width: 1200px) {
+    .product-grid-container {
+        grid-template-columns: repeat(4, 1fr) !important; /* 태블릿/노트북: 4열 */
+        gap: 35px 20px !important;
+    }
+}
+
+@media (max-width: 950px) {
+    .product-grid-container {
+        grid-template-columns: repeat(3, 1fr) !important; /* 작은 노트북: 3열 */
+        gap: 30px 18px !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .product-grid-container {
+        grid-template-columns: repeat(2, 1fr) !important; /* 모바일: 깔끔한 2열 */
+        gap: 25px 15px !important;
+    }
+}
+
+/* =========================================================================
+   🏷️ [신설 3단계 대중소 고도화] 계층형 서브 필터바 및 트리 뷰 스타일링
+   ========================================================================= */
+
+/* 중분류 컨테이너 */
+.subcategory-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 0;
+    border-top: 1px dashed rgba(255, 255, 255, 0.05);
+    animation: fadeInSlideDown 0.25s ease-out;
+}
+
+/* 소분류 컨테이너 */
+.microcategory-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 0;
+    border-top: 1px dashed rgba(255, 255, 255, 0.03);
+    animation: fadeInSlideDown 0.2s ease-out;
+}
+
+/* 중분류 탭 버튼 */
+.sub-cat-tab {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #8A9AA8;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.sub-cat-tab:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.sub-cat-tab.active {
+    background: #C4A478; /* 시그니처 골드 브라운 */
+    border-color: #C4A478;
+    color: #0F1319; /* 어두운 배경 대비 가독성 확보 */
+    font-weight: 700;
+}
+
+/* 소분류 마이크로 탭 버튼 */
+.micro-cat-tab {
+    background: transparent;
+    border: 1px solid rgba(196, 164, 120, 0.2); /* 옅은 골드 테두리 */
+    color: #C4A478; /* 골드 브라운 */
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 10.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.micro-cat-tab:hover {
+    background: rgba(196, 164, 120, 0.05);
+    color: #E2CDAD;
+}
+
+.micro-cat-tab.active {
+    background: rgba(196, 164, 120, 0.15);
+    border-color: #C4A478;
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+/* 트리 구조 어드민 표 들여쓰기 가시성 */
+.admin-cat-large {
+    font-weight: 700;
+    color: #FFFFFF;
+}
+
+.admin-cat-medium {
+    padding-left: 15px;
+    color: #A3B1C2;
+}
+
+.admin-cat-small {
+    padding-left: 30px;
+    color: #7A8B9E;
+    font-size: 11.5px;
+}
+
+/* 동적 슬라이딩 등 애니메이션 효과 */
+@keyframes fadeInSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================================
+   👑 [신설 6차 고도화] 카페24 스타일 어드민 사이드바 및 대시보드 리뉴얼 CSS 팩
+   ========================================================================= */
+
+/* A. 사이드바 서브 메뉴 아코디언 슬라이드 트랜지션 및 액티브 */
+.admin-sidebar {
+    background-color: #0F1319 !important; /* 더욱 깊고 세련된 다크네이비 */
+    border-right: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.menu-group-sub {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0 !important;
+    list-style: none;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease-out;
+}
+
+/* 대분류가 active 상태일 때 하위 서브 메뉴 촤르륵 노출 */
+.menu-group.active .menu-group-sub {
+    max-height: 300px; /* 서브 메뉴 높이 상한값 충분히 제공 */
+    opacity: 1;
+    padding: 4px 0 10px 10px !important;
+}
+
+/* 현재 선택된 활성화된 서브 메뉴 링크 하이라이트 */
+.sidebar-link.active {
+    background-color: rgba(59, 130, 246, 0.08) !important;
+    color: #3b82f6 !important;
+    font-weight: 700 !important;
+    border-left: 3px solid #3b82f6;
+    padding-left: 13px !important;
+}
+
+.sidebar-link {
+    transition: var(--transition-smooth);
+    border-left: 3px solid transparent;
+}
+
+.sidebar-link:hover {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* B. 8단 실시간 주문 처리 현황판 (오늘의 할 일) */
+.flow-board-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 12px;
+    width: 100%;
+}
+
+.flow-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF; /* 흰색 배경으로 완전히 채워서 입체감을 부여 */
+    border: 1px solid var(--border-light, #E2E8F0); /* 옅고 세련된 그레이 테두리 */
+    border-radius: 8px; /* 코너를 부드럽게 8px로 통일 */
+    padding: 18px 8px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03); /* 잔잔한 프리미엄 그림자 적용 */
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.flow-card:hover {
+    transform: translateY(-3px); /* 조금 더 입체감 있게 띄움 */
+    border-color: rgba(59, 130, 246, 0.45);
+    background-color: rgba(59, 130, 246, 0.01); /* 호버 시 미세한 블루투명 처리 */
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.08);
+}
+
+.flow-card .flow-lbl {
+    font-size: 11.5px;
+    color: #64748B; /* 가독성을 위해 한 단계 깊은 차분한 회색 조율 */
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.flow-card .flow-val {
+    font-size: 21px;
+    font-weight: 700;
+    color: #0F1319; /* 👑 [수정] 어두운 다크네이비색으로 변경하여 흰 배경 위에서 숫자 선명하게 가시화 */
+    font-family: var(--font-outfit), sans-serif;
+    margin: 0;
+}
+
+/* 취소/교환/반품 등 클레임 경고 컬러 강조 */
+.flow-card.warning .flow-val {
+    color: #EF5350; /* 경고형 컬러인 붉은색 유지 */
+}
+
+.flow-card.warning:hover {
+    border-color: rgba(239, 83, 80, 0.45);
+    background-color: rgba(239, 83, 80, 0.01);
+    box-shadow: 0 4px 12px rgba(239, 83, 80, 0.08);
+}
+
+/* 반응형 모바일 그리드 뷰포트 대응 */
+@media (max-width: 950px) {
+    .flow-board-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .flow-board-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* =========================================================================
+   👑 [신설 - 카페24 상품 등록 고도화] 3단 탭 및 옵션 칩(Chip) 디자인 테마
+   ========================================================================= */
+
+/* A. 3단 탭 메뉴 버튼 컨테이너 */
+.add-prod-tab-btns {
+    display: flex;
+    gap: 2px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+.add-prod-tab-btn {
+    flex: 1;
+    padding: 12px 10px;
+    font-size: 12.5px;
+    font-weight: 700;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.add-prod-tab-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #FFFFFF;
+}
+
+.add-prod-tab-btn.active {
+    background: var(--admin-accent, #3b82f6);
+    border-color: var(--admin-accent, #3b82f6);
+    color: #FFFFFF !important;
+    box-shadow: 0 -4px 10px rgba(59, 130, 246, 0.2);
+}
+
+/* B. 탭 본문 패널 제어 */
+.add-prod-tab-pane {
+    display: none;
+    animation: tabFadeIn 0.3s ease-out;
+}
+
+.add-prod-tab-pane.active {
+    display: block;
+}
+
+@keyframes tabFadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* C. 예쁜 라디오 버튼 디자인 */
+.add-prod-radio-group {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+}
+
+.add-prod-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.add-prod-radio-label input[type="radio"] {
+    accent-color: var(--admin-accent, #3b82f6);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* D. 실시간 할인율 가이드 배지 */
+.discount-calc-badge {
+    display: inline-block;
+    background: #E53935;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 8px;
+    vertical-align: middle;
+    animation: popBadge 0.25s ease-out;
+}
+
+@keyframes popBadge {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* E. 동적 옵션 칩(Chip) 입력기 스타일 */
+.add-prod-chips-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+    min-height: 34px;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+}
+
+.add-prod-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(196, 164, 120, 0.15); /* 은은한 골드 브라운 */
+    border: 1px solid rgba(196, 164, 120, 0.3);
+    color: #E2CDAD;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    animation: popChip 0.2s ease-out;
+}
+
+.add-prod-chip-remove {
+    cursor: pointer;
+    font-size: 12px;
+    color: #C4A478;
+    font-weight: 700;
+    transition: color 0.15s ease;
+}
+
+.add-prod-chip-remove:hover {
+    color: #EF5350;
+}
+
+@keyframes popChip {
+    0% { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* F. 모달 푸터 버튼 및 크기 보정 */
+#add-product-modal .cart-modal-content {
+    max-height: 90vh !important;
+    border: 1px solid rgba(196, 164, 120, 0.25);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Cafe24-style admin refinement */
+#view-admin {
+    background: #eef1f5;
+    padding: 0 !important;
+}
+
+#admin-dashboard {
+    background: #eef1f5;
+}
+
+#admin-dashboard .admin-layout-wrapper {
+    width: 100%;
+    min-height: calc(100vh - 96px);
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: #f3f5f8;
+    box-shadow: none;
+    align-items: stretch;
+}
+
+#admin-dashboard .admin-sidebar {
+    position: sticky;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 0 0 18px;
+    background: #202936 !important;
+    border-right: 1px solid #151b24;
+}
+
+#admin-dashboard .sidebar-logo {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    margin: 0;
+    padding: 20px 22px 18px;
+    background: #18212d;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    color: #fff;
+    font-size: 15px;
+    letter-spacing: 0;
+    text-align: left;
+}
+
+#admin-dashboard .sidebar-menu {
+    padding: 10px 0;
+}
+
+#admin-dashboard .menu-group {
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+#admin-dashboard .menu-group-header {
+    padding: 13px 20px;
+    color: #c6d0dc;
+    font-size: 12px;
+    letter-spacing: 0;
+    text-transform: none;
+    background: transparent;
+}
+
+#admin-dashboard .menu-group.active .menu-group-header,
+#admin-dashboard .menu-group-header:hover {
+    color: #fff;
+    background: #253141;
+}
+
+#admin-dashboard .toggle-icon {
+    width: 18px;
+    height: 18px;
+    line-height: 17px;
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 3px;
+    color: #d7e0ea;
+    text-align: center;
+    font-size: 11px;
+}
+
+#admin-dashboard .menu-group.active .menu-group-sub {
+    max-height: 520px;
+    padding: 5px 0 10px !important;
+    background: #1b2430;
+}
+
+#admin-dashboard .sidebar-link {
+    min-height: 34px;
+    padding: 8px 20px 8px 34px !important;
+    border-left: 4px solid transparent;
+    color: #9facbd;
+    font-size: 12px;
+    line-height: 1.35;
+    letter-spacing: 0;
+}
+
+#admin-dashboard .sidebar-link:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.04);
+}
+
+#admin-dashboard .sidebar-link.active {
+    color: #fff !important;
+    background: #2f6fed !important;
+    border-left-color: #89b4ff;
+    padding-left: 34px !important;
+}
+
+#admin-dashboard .admin-content-main {
+    padding: 0 28px 36px;
+    background: #f3f5f8;
+}
+
+#admin-dashboard .admin-dash-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    margin: 0 -28px 18px !important;
+    padding: 18px 28px;
+    background: #fff;
+    border-bottom: 1px solid #dfe5ec;
+    box-shadow: 0 2px 8px rgba(24, 33, 45, 0.04);
+}
+
+.admin-workspace-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+#admin-dashboard .dash-title {
+    margin: 0 0 4px;
+    color: #111827;
+    font-size: 22px;
+    letter-spacing: 0;
+}
+
+#admin-dashboard .dash-desc {
+    margin: 0;
+    color: #6b7280;
+    font-size: 12.5px;
+}
+
+#admin-dashboard .dash-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+#admin-dashboard .refresh-btn,
+#admin-dashboard .admin-save-btn,
+#admin-dashboard .postcode-btn,
+#admin-dashboard .admin-comment-reply-btn,
+#admin-dashboard .admin-points-btn {
+    min-height: 32px;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+    transform: none !important;
+    font-weight: 700;
+}
+
+#admin-dashboard .refresh-btn {
+    padding: 8px 14px;
+    background: #2f6fed;
+    border: 1px solid #2f6fed;
+    color: #fff;
+}
+
+#admin-dashboard .refresh-btn.secondary {
+    background: #fff;
+    border-color: #cbd5e1;
+    color: #334155;
+}
+
+.admin-ops-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.admin-ops-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 46px;
+    padding: 10px 14px;
+    background: #fff;
+    border: 1px solid #dfe5ec;
+    border-radius: 4px;
+}
+
+.admin-ops-label {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.admin-ops-item strong {
+    color: #111827;
+    font-size: 15px;
+    letter-spacing: 0;
+}
+
+#admin-dashboard .mypage-profile-panel,
+#admin-dashboard .mypage-orders-panel,
+#admin-dashboard .rank-list-box,
+#admin-dashboard .admin-comment-card {
+    background: #fff !important;
+    border: 1px solid #dfe5ec !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+}
+
+#admin-dashboard .checkout-section-title {
+    color: #111827 !important;
+    letter-spacing: 0;
+}
+
+#admin-dashboard .mypage-sub-desc {
+    color: #64748b !important;
+}
+
+#admin-dashboard .admin-table-container {
+    border: 1px solid #dfe5ec;
+    border-radius: 4px;
+    background: #fff;
+    overflow: auto;
+}
+
+#admin-dashboard .admin-products-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    color: #1f2937;
+    font-size: 12px;
+}
+
+#admin-dashboard .admin-products-table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    padding: 11px 12px;
+    background: #f8fafc !important;
+    border-bottom: 1px solid #cbd5e1 !important;
+    color: #334155 !important;
+    font-size: 11.5px;
+    white-space: nowrap;
+}
+
+#admin-dashboard .admin-products-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #edf2f7 !important;
+    color: #1f2937;
+}
+
+#admin-dashboard .admin-products-table tr:hover {
+    background: #f8fbff !important;
+}
+
+#admin-dashboard .admin-input-text,
+#admin-dashboard .form-input,
+#admin-dashboard select,
+#admin-dashboard input[type="text"],
+#admin-dashboard input[type="number"],
+#admin-dashboard input[type="password"],
+#admin-dashboard textarea {
+    border-radius: 4px !important;
+    border-color: #cbd5e1 !important;
+    background-color: #fff !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+}
+
+#admin-dashboard .supabase-status-badge,
+#admin-dashboard .admin-opt-badge {
+    border-radius: 3px;
+}
+
+@media (max-width: 980px) {
+    #admin-dashboard .admin-layout-wrapper {
+        display: block;
+    }
+
+    #admin-dashboard .admin-sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        max-height: 360px;
+    }
+
+    #admin-dashboard .admin-content-main {
+        padding: 0 14px 24px;
+    }
+
+    #admin-dashboard .admin-dash-header {
+        position: relative;
+        margin: 0 -14px 14px !important;
+        padding: 16px 14px;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .admin-ops-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Cafe24 simple product register */
+#admin-dashboard .cafe24-simple-register {
+    color: #111827;
+    max-width: 100%;
+    padding: 0 0 42px;
+}
+
+#admin-dashboard .cafe24-simple-titlebar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+#admin-dashboard .cafe24-title-line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#admin-dashboard .cafe24-title-line h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+#admin-dashboard .cafe24-simple-titlebar p,
+#admin-dashboard .cafe24-guide-box p {
+    margin: 4px 0 0;
+    color: #536071;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#admin-dashboard .cafe24-pill,
+#admin-dashboard .cafe24-outline-pill,
+#admin-dashboard .cafe24-ghost-btn,
+#admin-dashboard .cafe24-register-btn,
+#admin-dashboard .cafe24-primary-btn,
+#admin-dashboard .cafe24-secondary-btn {
+    border-radius: 4px;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+
+#admin-dashboard .cafe24-pill-dark {
+    display: inline-flex;
+    align-items: center;
+    height: 26px;
+    padding: 0 11px;
+    background: #1d2b44;
+    color: #fff;
+    font-size: 13px;
+}
+
+#admin-dashboard .cafe24-outline-pill {
+    height: 28px;
+    padding: 0 12px;
+    border: 1px solid #9aa8bd;
+    background: #fff;
+    color: #25324a;
+}
+
+#admin-dashboard .cafe24-title-actions {
+    display: flex;
+    gap: 8px;
+}
+
+#admin-dashboard .cafe24-ghost-btn,
+#admin-dashboard .cafe24-register-btn,
+#admin-dashboard .cafe24-secondary-btn {
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    color: #263244;
+}
+
+#admin-dashboard .cafe24-ghost-btn {
+    height: 34px;
+    padding: 0 14px;
+}
+
+#admin-dashboard .cafe24-guide-box {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    border: 1px solid #d9dee7;
+    background: #fff;
+}
+
+#admin-dashboard .cafe24-section {
+    margin: 0 0 26px;
+    border: 1px solid #d9dee7;
+    background: #fff;
+}
+
+#admin-dashboard .cafe24-section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 54px;
+    padding: 0 14px;
+    border-bottom: 1px solid #d9dee7;
+}
+
+#admin-dashboard .cafe24-section-head h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-section-head label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #526071;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#admin-dashboard .cafe24-table {
+    width: 100%;
+}
+
+#admin-dashboard .cafe24-row {
+    display: grid;
+    grid-template-columns: 230px minmax(0, 1fr);
+    border-bottom: 1px solid #e3e7ee;
+}
+
+#admin-dashboard .cafe24-row:last-child {
+    border-bottom: 0;
+}
+
+#admin-dashboard .cafe24-th {
+    padding: 18px 14px;
+    background: #f7f8fa;
+    border-right: 1px solid #d9dee7;
+    color: #151c29;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-td {
+    padding: 14px 16px;
+    min-width: 0;
+}
+
+#admin-dashboard .cafe24-required {
+    display: inline-block;
+    margin-left: 3px;
+    padding: 1px 4px;
+    background: #ef4b2b;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 11px;
+    line-height: 1.2;
+}
+
+#admin-dashboard .cafe24-input,
+#admin-dashboard .cafe24-select {
+    height: 36px;
+    border: 1px solid #d8dde7;
+    border-radius: 4px;
+    background: #fff;
+    color: #1f2937;
+    font-size: 14px;
+    outline: none;
+}
+
+#admin-dashboard .cafe24-input {
+    padding: 0 12px;
+}
+
+#admin-dashboard .cafe24-input:focus,
+#admin-dashboard .cafe24-select:focus,
+#admin-dashboard .cafe24-editor:focus {
+    border-color: #3973ff;
+    box-shadow: 0 0 0 2px rgba(57, 115, 255, .12);
+}
+
+#admin-dashboard .cafe24-input.short { max-width: 300px; width: 100%; }
+#admin-dashboard .cafe24-input.mid { max-width: 520px; width: 100%; }
+#admin-dashboard .cafe24-input.full { width: 100%; }
+#admin-dashboard .cafe24-input.price { width: 140px; }
+
+#admin-dashboard .cafe24-editor-row .cafe24-td {
+    padding-top: 20px;
+}
+
+#admin-dashboard .cafe24-editor-tabs {
+    display: flex;
+    gap: 28px;
+    margin-bottom: 12px;
+}
+
+#admin-dashboard .cafe24-editor-tabs button {
+    border: 0;
+    background: transparent;
+    color: #1f2937;
+    font-size: 14px;
+    font-weight: 800;
+    padding: 0 0 10px;
+}
+
+#admin-dashboard .cafe24-editor-tabs button.active {
+    color: #316cff;
+    border-bottom: 2px solid #316cff;
+}
+
+#admin-dashboard .cafe24-editor-wrap {
+    border: 1px solid #d8dde7;
+    background: #fff;
+}
+
+#admin-dashboard .cafe24-editor-toolbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 12px;
+    border-bottom: 1px solid #e5e9f0;
+}
+
+#admin-dashboard .cafe24-editor-toolbar button {
+    min-width: 34px;
+    height: 30px;
+    padding: 0 8px;
+    border: 0;
+    background: transparent;
+    color: #2f3744;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#admin-dashboard .cafe24-editor-toolbar button:hover {
+    background: #edf2ff;
+}
+
+#admin-dashboard .cafe24-editor {
+    min-height: 260px;
+    padding: 18px;
+    font-family: Dotum, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    outline: none;
+}
+
+#admin-dashboard .cafe24-editor:empty::before {
+    content: attr(data-placeholder);
+    color: #a7b0c1;
+}
+
+#admin-dashboard .cafe24-editor-foot {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-top: 1px solid #e5e9f0;
+    color: #7b8494;
+    font-size: 13px;
+}
+
+#admin-dashboard .cafe24-price-line,
+#admin-dashboard .cafe24-radio-line,
+#admin-dashboard .cafe24-chip-input {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#admin-dashboard .cafe24-radio-line {
+    min-height: 34px;
+}
+
+#admin-dashboard .cafe24-radio-line + .cafe24-radio-line {
+    margin-top: 8px;
+}
+
+#admin-dashboard .cafe24-radio-line strong {
+    min-width: 86px;
+}
+
+#admin-dashboard .cafe24-radio-line label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 700;
+}
+
+#admin-dashboard .cafe24-category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    min-height: 220px;
+    border: 1px solid #d9dee7;
+}
+
+#admin-dashboard .cafe24-category-column {
+    border-right: 1px solid #d9dee7;
+    background: #fff;
+}
+
+#admin-dashboard .cafe24-category-column:last-child {
+    border-right: 0;
+}
+
+#admin-dashboard .cafe24-category-column h4 {
+    margin: 0;
+    padding: 14px 12px;
+    background: #fbfbfc;
+    border-bottom: 1px solid #e3e7ee;
+    text-align: center;
+    font-size: 14px;
+}
+
+#admin-dashboard .cafe24-select {
+    width: calc(100% - 24px);
+    margin: 14px 12px;
+    padding: 0 10px;
+}
+
+#admin-dashboard .cafe24-category-empty {
+    padding: 17px 14px;
+    color: #98a2b3;
+    font-size: 13px;
+}
+
+#admin-dashboard .cafe24-selected-category {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    color: #1f2937;
+    font-size: 14px;
+}
+
+#admin-dashboard .cafe24-selected-category button {
+    height: 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background: #fff;
+    color: #e2452f;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-chip-input input {
+    max-width: 280px;
+}
+
+#admin-dashboard .cafe24-chip-input button {
+    height: 36px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background: #fff;
+    color: #1f2937;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-image-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+#admin-dashboard .cafe24-image-drop {
+    display: grid;
+    place-items: center;
+    width: 128px;
+    height: 128px;
+    background: #9ca3af;
+    color: #e5e7eb;
+    cursor: pointer;
+}
+
+#admin-dashboard .cafe24-image-drop span {
+    font-size: 38px;
+}
+
+#admin-dashboard .cafe24-image-line p {
+    margin: 4px 0 12px;
+    color: #778193;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#admin-dashboard .cafe24-register-btn {
+    height: 34px;
+    padding: 0 14px;
+}
+
+#admin-dashboard .cafe24-image-preview {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    overflow-x: auto;
+}
+
+#admin-dashboard .cafe24-bottom-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+#admin-dashboard .cafe24-primary-btn,
+#admin-dashboard .cafe24-secondary-btn {
+    min-width: 130px;
+    height: 48px;
+    font-size: 15px;
+}
+
+#admin-dashboard .cafe24-primary-btn {
+    border: 1px solid #316cff;
+    background: #316cff;
+    color: #fff;
+}
+
+#admin-dashboard .cafe24-secondary-btn {
+    color: #316cff;
+}
+
+@media (max-width: 900px) {
+    #admin-dashboard .cafe24-simple-titlebar,
+    #admin-dashboard .cafe24-title-actions,
+    #admin-dashboard .cafe24-image-line {
+        flex-direction: column;
+    }
+
+    #admin-dashboard .cafe24-row {
+        grid-template-columns: 1fr;
+    }
+
+    #admin-dashboard .cafe24-th {
+        border-right: 0;
+        border-bottom: 1px solid #d9dee7;
+    }
+
+    #admin-dashboard .cafe24-category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #admin-dashboard .cafe24-category-column {
+        border-right: 0;
+        border-bottom: 1px solid #d9dee7;
+    }
+}
+
+/* Cafe24 product operations UX */
+#admin-dashboard .cafe24-ops-shell {
+    margin: 0 0 16px;
+    border: 1px solid #d9dee7;
+    background: #fff;
+    color: #172033;
+}
+#admin-dashboard .cafe24-ops-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 18px;
+    border-bottom: 1px solid #e3e7ee;
+}
+#admin-dashboard .cafe24-ops-head h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 0;
+}
+#admin-dashboard .cafe24-ops-head p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #667085;
+    font-weight: 600;
+}
+#admin-dashboard .cafe24-ops-buttons,
+#admin-dashboard .cafe24-bulkbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+#admin-dashboard .cafe24-ops-buttons button,
+#admin-dashboard .cafe24-bulkbar button,
+#admin-dashboard .cafe24-row-actions button {
+    min-height: 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    background: #fff;
+    color: #1f2937;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+#admin-dashboard .cafe24-ops-buttons button:first-child,
+#admin-dashboard .cafe24-bulkbar button:first-of-type,
+#admin-dashboard .cafe24-row-actions button:first-child {
+    border-color: #316cff;
+    background: #316cff;
+    color: #fff;
+}
+#admin-dashboard .cafe24-bulkbar button.danger,
+#admin-dashboard .cafe24-row-actions button.danger {
+    border-color: #ef4444;
+    background: #fff;
+    color: #dc2626;
+}
+#admin-dashboard .cafe24-ops-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(120px, 1fr));
+    border-bottom: 1px solid #e3e7ee;
+}
+#admin-dashboard .cafe24-ops-stats span {
+    padding: 13px 16px;
+    border-right: 1px solid #e3e7ee;
+    color: #667085;
+    font-size: 12px;
+    font-weight: 800;
+}
+#admin-dashboard .cafe24-ops-stats span:last-child { border-right: 0; }
+#admin-dashboard .cafe24-ops-stats strong {
+    display: block;
+    margin-top: 4px;
+    color: #111827;
+    font-size: 20px;
+}
+#admin-dashboard .cafe24-bulkbar {
+    padding: 12px 16px;
+    background: #f8fafc;
+}
+#admin-dashboard .cafe24-bulkbar strong {
+    margin-right: 8px;
+    font-size: 13px;
+}
+#admin-dashboard .admin-table-container {
+    border-radius: 0;
+    border: 1px solid #d9dee7;
+    background: #fff;
+}
+#admin-dashboard .admin-products-table th {
+    background: #f7f8fa !important;
+    color: #111827 !important;
+    border-color: #d9dee7 !important;
+    font-size: 12px;
+    letter-spacing: 0;
+}
+#admin-dashboard .admin-products-table td {
+    background: #fff;
+    color: #1f2937;
+    border-color: #e5e7eb !important;
+    vertical-align: middle;
+}
+#admin-dashboard .admin-products-table tr:hover td {
+    background: #f9fbff;
+}
+#admin-dashboard .cafe24-product-row .admin-input-text,
+#admin-dashboard .cafe24-category-inline .admin-input-text {
+    width: 100%;
+    min-height: 30px;
+    margin: 3px 0;
+    border: 1px solid #d8dde7;
+    border-radius: 4px;
+    background: #fff;
+    color: #111827;
+    padding: 0 8px;
+    font-size: 12px;
+}
+#admin-dashboard .cafe24-product-main strong {
+    display: block;
+    color: #111827;
+    font-size: 13px;
+    line-height: 1.4;
+}
+#admin-dashboard .cafe24-product-main span,
+#admin-dashboard .muted,
+#admin-dashboard .cafe24-mini-help {
+    display: block;
+    color: #667085;
+    font-size: 11px;
+    margin-top: 2px;
+}
+#admin-dashboard .cafe24-thumb,
+#admin-dashboard .cafe24-display-thumb {
+    width: 54px;
+    height: 66px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #d9dee7;
+}
+#admin-dashboard .cafe24-display-thumb {
+    width: 44px;
+    height: 54px;
+}
+#admin-dashboard .center { text-align: center; }
+#admin-dashboard .strong { font-weight: 800; }
+#admin-dashboard .cafe24-check-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 700;
+}
+#admin-dashboard .cafe24-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 58px;
+    height: 24px;
+    margin-top: 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 800;
+}
+#admin-dashboard .cafe24-status.on {
+    background: #e8f7ee;
+    color: #15803d;
+}
+#admin-dashboard .cafe24-status.off {
+    background: #fff1f2;
+    color: #be123c;
+}
+#admin-dashboard .cafe24-row-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+#admin-dashboard .cafe24-category-inline {
+    display: grid;
+    gap: 4px;
+}
+#admin-dashboard .cafe24-empty-row {
+    padding: 42px 0 !important;
+    text-align: center;
+    color: #667085 !important;
+    font-weight: 700;
+}
+#admin-dashboard .cafe24-display-row.selected td {
+    background: #edf4ff !important;
+    box-shadow: inset 3px 0 0 #316cff;
+}
+#admin-dashboard #admin-tab-categories > div:not(.cafe24-ops-shell) {
+    background: #fff;
+    border: 1px solid #d9dee7;
+    padding: 16px;
+}
+#admin-dashboard #admin-category-tree-container {
+    background: #fbfcfe !important;
+    border-color: #d9dee7 !important;
+}
+@media (max-width: 1100px) {
+    #admin-dashboard .cafe24-ops-head { align-items: flex-start; flex-direction: column; }
+    #admin-dashboard .cafe24-ops-stats { grid-template-columns: repeat(2, minmax(120px, 1fr)); }
+}
+
+#admin-dashboard .cafe24-display-legacy-hidden {
+    display: none !important;
+}
+
+#admin-dashboard .cafe24-display-page {
+    color: #111827;
+}
+
+#admin-dashboard .cafe24-display-heading {
+    padding: 4px 0 22px;
+}
+
+#admin-dashboard .cafe24-display-heading h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+#admin-dashboard .cafe24-display-heading h2 span {
+    display: inline-flex;
+    align-items: center;
+    height: 25px;
+    padding: 0 10px;
+    border-radius: 14px;
+    background: #1f2f4a;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-display-heading h2 button {
+    height: 28px;
+    border: 1px solid #9aa8c0;
+    border-radius: 16px;
+    background: #fff;
+    color: #1f2f4a;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-display-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 12px;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+#admin-dashboard .cafe24-display-search-panel,
+#admin-dashboard .cafe24-display-info-box,
+#admin-dashboard .cafe24-main-display-board {
+    border: 1px solid #d7dce5;
+    background: #fff;
+}
+
+#admin-dashboard .cafe24-display-form-row {
+    display: grid;
+    grid-template-columns: 170px minmax(0, 1fr);
+    min-height: 52px;
+    border-bottom: 1px solid #e1e5ec;
+}
+
+#admin-dashboard .cafe24-display-form-row:last-child {
+    border-bottom: 0;
+}
+
+#admin-dashboard .cafe24-display-form-row.split {
+    grid-template-columns: 170px minmax(280px, 1fr) 150px minmax(280px, 1fr);
+}
+
+#admin-dashboard .cafe24-display-form-row > label {
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    border-right: 1px solid #e1e5ec;
+    background: #fbfbfc;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-display-field {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 12px;
+}
+
+#admin-dashboard .cafe24-display-field select,
+#admin-dashboard .cafe24-display-field input,
+#admin-dashboard .cafe24-view-filters select {
+    height: 32px;
+    border: 1px solid #cfd7e4;
+    border-radius: 4px;
+    background: #fff;
+    color: #111827;
+    padding: 0 10px;
+    font-size: 13px;
+}
+
+#admin-dashboard .cafe24-display-field input {
+    width: min(420px, 100%);
+}
+
+#admin-dashboard .cafe24-display-field.price input {
+    width: 86px;
+}
+
+#admin-dashboard .cafe24-display-field.radio label,
+#admin-dashboard .cafe24-view-filters label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#admin-dashboard .cafe24-outline-btn,
+#admin-dashboard .cafe24-display-toolbar button {
+    height: 32px;
+    border: 1px solid #c7d0df;
+    border-radius: 4px;
+    background: #fff;
+    color: #1f2937;
+    padding: 0 12px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-help-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #b6c0d2;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-compat-hidden {
+    display: none !important;
+}
+
+#admin-dashboard .cafe24-display-search-action {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 28px;
+}
+
+#admin-dashboard .cafe24-display-search-action button {
+    min-width: 86px;
+    height: 42px;
+    border: 0;
+    border-radius: 4px;
+    background: #3f4a5c;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-display-info-box {
+    margin-bottom: 18px;
+    padding: 20px 28px;
+}
+
+#admin-dashboard .cafe24-display-info-box dl {
+    display: grid;
+    grid-template-columns: 84px minmax(0, 1fr);
+    row-gap: 16px;
+    margin: 0;
+}
+
+#admin-dashboard .cafe24-display-info-box dt,
+#admin-dashboard .cafe24-display-info-box dd {
+    margin: 0;
+    font-size: 13px;
+}
+
+#admin-dashboard .cafe24-display-info-box dt {
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-display-info-box dd a {
+    color: #316cff;
+    text-decoration: none;
+}
+
+#admin-dashboard .cafe24-display-viewbar,
+#admin-dashboard .cafe24-display-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-bottom: 1px solid #dfe4ec;
+    background: #fff;
+}
+
+#admin-dashboard .cafe24-view-toggle,
+#admin-dashboard .cafe24-display-toolbar > div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+#admin-dashboard .cafe24-view-toggle button {
+    width: 28px;
+    height: 28px;
+    border: 1px solid #cfd7e4;
+    border-radius: 3px;
+    background: #fff;
+    color: #64748b;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-view-toggle button.active {
+    border-color: #316cff;
+    background: #316cff;
+    color: #fff;
+}
+
+#admin-dashboard .cafe24-view-filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+#admin-dashboard .cafe24-display-toolbar button.danger-text {
+    color: #ef3b2f;
+}
+
+#admin-dashboard .cafe24-display-toolbar button.excel {
+    color: #1f7a32;
+}
+
+#admin-dashboard .cafe24-display-toolbar button.dark {
+    border-color: #28374a;
+    background: #28374a;
+    color: #fff;
+}
+
+#admin-dashboard .cafe24-display-toolbar button.icon {
+    width: 32px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #316cff;
+    font-size: 18px;
+}
+
+#admin-dashboard .cafe24-display-table-wrap {
+    overflow-x: auto;
+}
+
+#admin-dashboard .cafe24-main-display-table {
+    width: 100%;
+    min-width: 980px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+#admin-dashboard .cafe24-main-display-table th,
+#admin-dashboard .cafe24-main-display-table td {
+    border-right: 1px solid #e0e5ec;
+    border-bottom: 1px solid #e0e5ec;
+    padding: 10px 12px;
+    vertical-align: middle;
+    background: #fff;
+    font-size: 13px;
+}
+
+#admin-dashboard .cafe24-main-display-table th {
+    background: #fbfbfc;
+    text-align: center;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-main-display-table th:first-child { width: 44px; }
+#admin-dashboard .cafe24-main-display-table th:nth-child(2) { width: 86px; }
+#admin-dashboard .cafe24-main-display-table th:nth-child(4) { width: 130px; }
+#admin-dashboard .cafe24-main-display-table th:nth-child(5),
+#admin-dashboard .cafe24-main-display-table th:nth-child(6),
+#admin-dashboard .cafe24-main-display-table th:nth-child(7) { width: 120px; }
+
+#admin-dashboard .cafe24-main-display-row.selected td {
+    background: #edf4ff;
+}
+
+#admin-dashboard .cafe24-display-product-cell {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+}
+
+#admin-dashboard .cafe24-display-product-cell a {
+    color: #111827;
+    font-weight: 800;
+    line-height: 1.45;
+    text-decoration: underline;
+}
+
+#admin-dashboard .cafe24-display-product-cell p {
+    margin: 3px 0 0;
+    color: #4d7cff;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+#admin-dashboard .cafe24-rank {
+    font-size: 15px;
+    font-weight: 800;
+}
+
+#admin-dashboard .right {
+    text-align: right;
+}
+
+.cafe24-display-add-modal {
+    width: min(920px, calc(100vw - 40px));
+    max-width: 920px;
+    max-height: 86vh;
+    overflow: hidden;
+    background: #fff;
+    color: #111827;
+}
+
+.cafe24-display-add-top {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.cafe24-display-add-top .form-input {
+    flex: 1;
+    height: 38px;
+    border: 1px solid #cfd7e4;
+    border-radius: 4px;
+    padding: 0 12px;
+}
+
+.cafe24-display-add-table {
+    max-height: 52vh;
+    overflow: auto;
+    border: 1px solid #dfe4ec;
+}
+
+.cafe24-display-add-table .admin-products-table {
+    margin: 0;
+}
+
+.cafe24-display-add-thumb {
+    width: 42px;
+    height: 52px;
+    object-fit: cover;
+    border: 1px solid #d9dee7;
+    border-radius: 4px;
+}
+
+.cafe24-display-add-name {
+    display: block;
+    color: #111827;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.cafe24-display-add-meta {
+    display: block;
+    margin-top: 4px;
+    color: #667085;
+    font-size: 12px;
+}
+
+.cafe24-display-add-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding-top: 14px;
+}
+
+#admin-dashboard .cafe24-customer-page {
+    color: #111827;
+}
+
+#admin-dashboard .cafe24-customer-page h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 24px;
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+#admin-dashboard .cafe24-customer-page h2 b {
+    display: inline-flex;
+    align-items: center;
+    height: 25px;
+    padding: 0 10px;
+    border-radius: 14px;
+    background: #1f2f4a;
+    color: #fff;
+    font-size: 13px;
+}
+
+#admin-dashboard .cafe24-customer-page h2 button {
+    height: 28px;
+    border: 1px solid #9aa8c0;
+    border-radius: 16px;
+    background: #fff;
+    color: #1f2f4a;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-customer-page h3 {
+    margin: 26px 0 12px;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-customer-search,
+#admin-dashboard .cafe24-customer-stats,
+#admin-dashboard .cafe24-customer-table {
+    border: 1px solid #d7dce5;
+    background: #fff;
+}
+
+#admin-dashboard .cafe24-customer-form-row {
+    display: grid;
+    grid-template-columns: 170px minmax(0, 1fr);
+    min-height: 52px;
+    border-bottom: 1px solid #e1e5ec;
+}
+
+#admin-dashboard .cafe24-customer-form-row:last-child {
+    border-bottom: 0;
+}
+
+#admin-dashboard .cafe24-customer-form-row > label {
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    border-right: 1px solid #e1e5ec;
+    background: #fbfbfc;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-customer-form-row > div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 12px;
+    flex-wrap: wrap;
+}
+
+#admin-dashboard .cafe24-customer-form-row input,
+#admin-dashboard .cafe24-customer-form-row select,
+#admin-dashboard .cafe24-customer-toolbar select {
+    height: 32px;
+    border: 1px solid #cfd7e4;
+    border-radius: 4px;
+    background: #fff;
+    color: #111827;
+    padding: 0 10px;
+    font-size: 13px;
+}
+
+#admin-dashboard .cafe24-customer-form-row input[type="text"] {
+    width: 340px;
+}
+
+#admin-dashboard .cafe24-customer-form-row .range button {
+    height: 32px;
+    border: 1px solid #cfd7e4;
+    border-radius: 4px;
+    background: #fff;
+    padding: 0 13px;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-customer-form-row .range button.active {
+    border-color: #6f96ff;
+    color: #316cff;
+}
+
+#admin-dashboard .cafe24-customer-form-row .radio label {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: 16px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-customer-stats table,
+#admin-dashboard .cafe24-customer-table table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+#admin-dashboard .cafe24-customer-stats th,
+#admin-dashboard .cafe24-customer-stats td,
+#admin-dashboard .cafe24-customer-table th,
+#admin-dashboard .cafe24-customer-table td {
+    border-right: 1px solid #e0e5ec;
+    border-bottom: 1px solid #e0e5ec;
+    padding: 12px;
+    background: #fff;
+    text-align: center;
+    font-size: 13px;
+}
+
+#admin-dashboard .cafe24-customer-stats th,
+#admin-dashboard .cafe24-customer-table th {
+    background: #fbfbfc;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-customer-tabs {
+    display: flex;
+    gap: 28px;
+    border-bottom: 1px solid #dfe4ec;
+}
+
+#admin-dashboard .cafe24-customer-tabs button {
+    height: 44px;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: #111827;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-customer-tabs button.active {
+    border-color: #316cff;
+    color: #316cff;
+}
+
+#admin-dashboard .cafe24-customer-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 54px;
+    padding: 10px 12px;
+    border: 1px solid #d7dce5;
+    border-top: 0;
+    background: #fff;
+}
+
+#admin-dashboard .cafe24-customer-toolbar select:first-of-type {
+    margin-left: auto;
+    min-width: 260px;
+}
+
+#admin-dashboard .cafe24-customer-toolbar button {
+    height: 34px;
+    border: 1px solid #cfd7e4;
+    border-radius: 4px;
+    background: #fff;
+    padding: 0 12px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-customer-toolbar button.dark {
+    border-color: #3f4a5c;
+    background: #3f4a5c;
+    color: #fff;
+}
+
+#admin-dashboard .cafe24-member-mobile,
+#admin-dashboard .cafe24-bad-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 18px;
+    border: 1px solid #d33;
+    color: #d33;
+    font-size: 11px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-bad-badge {
+    background: #e84822;
+    color: #fff;
+}
+
+#admin-dashboard .cafe24-customer-table .left {
+    text-align: left;
+}
+
+#admin-dashboard .cafe24-customer-table .empty,
+#admin-dashboard .cafe24-customer-stats .empty {
+    color: #111827;
+    text-align: center;
+}
+
+#admin-dashboard .cafe24-customer-stats .tall {
+    height: 250px;
+    vertical-align: middle;
+}
+
+@media (max-width: 1100px) {
+    #admin-dashboard .cafe24-display-form-row,
+    #admin-dashboard .cafe24-display-form-row.split {
+        grid-template-columns: 120px minmax(0, 1fr);
+    }
+    #admin-dashboard .cafe24-display-form-row.split > label:nth-of-type(2) {
+        border-left: 0;
+    }
+    #admin-dashboard .cafe24-display-viewbar,
+    #admin-dashboard .cafe24-display-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+#admin-dashboard .cafe24-display-table-wrap.compact-list .cafe24-main-display-table th,
+#admin-dashboard .cafe24-display-table-wrap.compact-list .cafe24-main-display-table td {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+#admin-dashboard .admin-detail-label {
+    display: flex;
+    align-items: center;
+    min-height: 58px;
+    padding: 12px 16px;
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    background: #f8fafc;
+    color: var(--text-primary);
+    font-size: 13px;
+    font-weight: 900;
+}
+
+#admin-dashboard .admin-detail-field {
+    display: flex;
+    align-items: center;
+    min-height: 58px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-light);
+    background: #fff;
+}
+
+#admin-dashboard #admin-cust-search-rows td:nth-child(2),
+#admin-dashboard #admin-cust-search-rows td:nth-child(3),
+#admin-dashboard #admin-customer-rows td:nth-child(2),
+#admin-dashboard #admin-customer-rows td:nth-child(3) {
+    cursor: pointer;
+}
+
+#admin-dashboard #admin-cust-search-rows td:nth-child(2):hover,
+#admin-dashboard #admin-cust-search-rows td:nth-child(3):hover,
+#admin-dashboard #admin-customer-rows td:nth-child(2):hover,
+#admin-dashboard #admin-customer-rows td:nth-child(3):hover {
+    color: var(--admin-accent);
+    text-decoration: underline;
+}
+
+#admin-dashboard .cafe24-order-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+#admin-dashboard .cafe24-order-searchbar {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr) 56px;
+    gap: 12px;
+}
+
+#admin-dashboard .cafe24-order-searchbar select,
+#admin-dashboard .cafe24-order-searchbar input {
+    height: 48px;
+    border: 1px solid #d7dce5;
+    border-radius: 6px;
+    background: #fff;
+    padding: 0 18px;
+    color: #111827;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+#admin-dashboard .cafe24-order-searchbar input::placeholder {
+    color: #a5adba;
+}
+
+#admin-dashboard .cafe24-order-searchbar button {
+    height: 48px;
+    border: 1px solid #d7dce5;
+    border-radius: 6px;
+    background: #fff;
+    color: #4b5563;
+    font-size: 26px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-order-panel {
+    overflow: hidden;
+    border: 1px solid #e1e6ef;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+}
+
+#admin-dashboard .cafe24-order-panel-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 20px 22px;
+}
+
+#admin-dashboard .cafe24-order-panel-title h2,
+#admin-dashboard .cafe24-order-section-title {
+    margin: 0;
+    color: #111827;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-order-panel-title h2 span {
+    margin-left: 8px;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#admin-dashboard .cafe24-order-panel-title h2 i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    margin-left: 4px;
+    border-radius: 50%;
+    background: #b9c2d2;
+    color: #fff;
+    font-size: 12px;
+    font-style: normal;
+}
+
+#admin-dashboard .cafe24-order-panel-title > button,
+#admin-dashboard .cafe24-order-mini-btn {
+    height: 38px;
+    border: 1px solid #d7dce5;
+    border-radius: 6px;
+    background: #fff;
+    padding: 0 14px;
+    color: #222;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-order-sales-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    border-top: 1px solid #e5e7eb;
+}
+
+#admin-dashboard .cafe24-order-sales-table th,
+#admin-dashboard .cafe24-order-sales-table td {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 18px 20px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#admin-dashboard .cafe24-order-sales-table thead th {
+    background: #fff;
+    color: #444b57;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-order-sales-table tbody tr:first-child {
+    background: #eef8ff;
+    box-shadow: inset 4px 0 0 #2f9bf4;
+}
+
+#admin-dashboard .cafe24-order-sales-table tbody tr:nth-child(2) {
+    background: #fbfeff;
+    box-shadow: inset 4px 0 0 #2f9bf4;
+}
+
+#admin-dashboard .cafe24-order-sales-table tbody th {
+    color: #111827;
+    font-size: 15px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-order-sales-table td button:not(.cafe24-order-mini-btn) {
+    border: 0;
+    background: transparent;
+    color: #168bd6;
+    text-decoration: underline;
+    font-size: 24px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-order-sales-table td.pink button:not(.cafe24-order-mini-btn) {
+    color: #e72862;
+}
+
+#admin-dashboard .cafe24-order-sales-table td em {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 24px;
+    margin-left: 6px;
+    border-radius: 6px;
+    background: #e2f3ff;
+    color: #1188d1;
+    font-style: normal;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-order-sales-table td.pink em {
+    background: #ffe5ee;
+    color: #e72862;
+}
+
+#admin-dashboard .cafe24-order-section-title {
+    padding: 20px 22px 4px;
+}
+
+#admin-dashboard .cafe24-order-work-grid {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 10px;
+    padding: 14px 22px 22px;
+}
+
+#admin-dashboard .cafe24-order-work-card {
+    min-height: 82px;
+    border: 0;
+    border-radius: 8px;
+    background: #f8fafc;
+    padding: 14px 12px;
+    text-align: left;
+    color: #111827;
+}
+
+#admin-dashboard .cafe24-order-work-card span {
+    display: block;
+    color: #4b5563;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-order-work-card strong {
+    display: block;
+    margin-top: 20px;
+    color: #168bd6;
+    text-decoration: underline;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-order-work-card.pink {
+    background: #fff7fa;
+}
+
+#admin-dashboard .cafe24-order-work-card.pink strong,
+#admin-dashboard .cafe24-order-work-card.pink em {
+    color: #e72862;
+}
+
+#admin-dashboard .cafe24-order-work-card em {
+    display: block;
+    margin-top: 6px;
+    color: #4b5563;
+    font-style: normal;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-order-work-grid.compact .cafe24-order-work-card {
+    min-height: 64px;
+}
+
+@media (max-width: 1280px) {
+    #admin-dashboard .cafe24-order-work-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    #admin-dashboard .cafe24-order-searchbar {
+        grid-template-columns: 1fr;
+    }
+    #admin-dashboard .cafe24-order-work-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    #admin-dashboard .cafe24-order-sales-table {
+        min-width: 760px;
+    }
+    #admin-dashboard .cafe24-order-panel {
+        overflow-x: auto;
+    }
+}
+
+#admin-dashboard .cafe24-product-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+#admin-dashboard .cafe24-product-headline {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 430px;
+    gap: 18px;
+    align-items: center;
+}
+
+#admin-dashboard .cafe24-product-headline h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    color: #111827;
+    font-size: 28px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-product-headline h2 button,
+#admin-dashboard .cafe24-guide-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    border: 1px solid #d7dce5;
+    border-radius: 6px;
+    background: #fff;
+    padding: 0 10px;
+    color: #253044;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-product-headline p {
+    margin: 10px 0 0;
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+#admin-dashboard .cafe24-product-top-banner {
+    min-height: 78px;
+    border-radius: 40px;
+    background: #08af5b;
+    color: #fff;
+    padding: 18px 34px;
+}
+
+#admin-dashboard .cafe24-product-top-banner b {
+    display: block;
+    font-size: 18px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-product-top-banner span {
+    display: block;
+    margin-top: 5px;
+    opacity: 0.9;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+#admin-dashboard .cafe24-product-panel,
+#admin-dashboard .cafe24-product-curation,
+#admin-dashboard .cafe24-product-promo,
+#admin-dashboard .cafe24-product-pro {
+    border: 1px solid #e1e6ef;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+}
+
+#admin-dashboard .cafe24-product-panel {
+    padding: 22px;
+}
+
+#admin-dashboard .cafe24-product-panel-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+#admin-dashboard .cafe24-product-panel-title h3,
+#admin-dashboard .cafe24-product-curation h3,
+#admin-dashboard .cafe24-product-promo h3,
+#admin-dashboard .cafe24-product-pro h3 {
+    margin: 0;
+    color: #111827;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-product-panel-title button {
+    border: 0;
+    background: transparent;
+    color: #2563eb;
+    text-decoration: underline;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-product-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+
+#admin-dashboard .cafe24-product-stat {
+    min-height: 92px;
+    border-radius: 8px;
+    background: #f8fafc;
+    padding: 18px;
+}
+
+#admin-dashboard .cafe24-product-stat:first-child {
+    background: #f1f6ff;
+}
+
+#admin-dashboard .cafe24-product-stat span {
+    display: block;
+    color: #4b5563;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-product-stat strong {
+    display: inline-block;
+    margin-top: 12px;
+    color: #168bd6;
+    text-decoration: underline;
+    font-size: 26px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-product-stat em {
+    margin-left: 5px;
+    color: #4b5563;
+    font-style: normal;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+#admin-dashboard .cafe24-product-stat.danger strong {
+    color: #e72862;
+}
+
+#admin-dashboard .cafe24-product-curation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 28px;
+    background: #fbfdff;
+}
+
+#admin-dashboard .cafe24-product-curation p,
+#admin-dashboard .cafe24-product-promo p,
+#admin-dashboard .cafe24-product-pro p {
+    margin: 10px 0 0;
+    color: #4b5563;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+#admin-dashboard .cafe24-product-curation-actions {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+#admin-dashboard .cafe24-product-curation-actions button,
+#admin-dashboard .cafe24-product-pro-actions button {
+    height: 42px;
+    border: 1px solid #8da2ff;
+    border-radius: 6px;
+    background: #fff;
+    padding: 0 18px;
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-product-curation-actions .primary {
+    background: #fff;
+}
+
+#admin-dashboard .cafe24-product-promo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+#admin-dashboard .cafe24-product-promo {
+    min-height: 210px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 34px;
+    overflow: hidden;
+}
+
+#admin-dashboard .cafe24-product-promo.signup {
+    background: #effdf7;
+}
+
+#admin-dashboard .cafe24-product-promo.sale {
+    background: #f4f6ff;
+}
+
+#admin-dashboard .cafe24-product-promo h3 {
+    font-size: 26px;
+}
+
+#admin-dashboard .cafe24-product-login-buttons {
+    display: grid;
+    gap: 10px;
+    min-width: 240px;
+}
+
+#admin-dashboard .cafe24-product-login-buttons button {
+    height: 42px;
+    border: 0;
+    border-radius: 4px;
+    color: #111827;
+    font-weight: 900;
+}
+
+#admin-dashboard .cafe24-product-login-buttons button:first-child {
+    background: #ffe500;
+}
+
+#admin-dashboard .cafe24-product-login-buttons button:last-child {
+    background: #03c75a;
+    color: #fff;
+}
+
+#admin-dashboard .cafe24-product-rocket {
+    font-size: 92px;
+    line-height: 1;
+}
+
+#admin-dashboard .cafe24-product-pro {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 28px 34px;
+    background: #087cff;
+    color: #fff;
+}
+
+#admin-dashboard .cafe24-product-pro h3,
+#admin-dashboard .cafe24-product-pro p {
+    color: #fff;
+}
+
+#admin-dashboard .cafe24-product-pro-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+#admin-dashboard .cafe24-product-pro-actions button {
+    border-color: rgba(255,255,255,0.7);
+    color: #fff;
+    background: rgba(255,255,255,0.12);
+}
+
+@media (max-width: 1200px) {
+    #admin-dashboard .cafe24-product-headline,
+    #admin-dashboard .cafe24-product-promo-grid {
+        grid-template-columns: 1fr;
+    }
+    #admin-dashboard .cafe24-product-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 760px) {
+    #admin-dashboard .cafe24-product-stats,
+    #admin-dashboard .cafe24-product-promo-grid {
+        grid-template-columns: 1fr;
+    }
+    #admin-dashboard .cafe24-product-curation,
+    #admin-dashboard .cafe24-product-promo,
+    #admin-dashboard .cafe24-product-pro {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

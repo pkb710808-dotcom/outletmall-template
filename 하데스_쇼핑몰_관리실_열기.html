@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚙️ HADES SHOP ADMIN GATEWAY</title>
+    <style>
+        /* 프리미엄 다크 모드 게이트웨이 디자인 */
+        body {
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(8px);
+        }
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top: 3px solid #d4af37; /* 골드 칼라 스피너 */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px auto;
+        }
+        h2 {
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        p {
+            font-size: 13px;
+            color: #9ca3af;
+            margin: 0;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <h2>보안 관리실 게이트웨이 작동 중</h2>
+        <p>어드민 세션을 연동하여 본점 관리실로 안전하게 진입하고 있습니다...</p>
+    </div>
+
+    <script>
+        // 🔒 [지능형 경로 판별 Fail-safe 리다이렉터]
+        // - 이 게이트웨이 파일이 '쇼핑몰제작' 폴더에 있는지, 혹은 'minimal-fashion-shop' 하위 폴더에 있는지 
+        // - 파일의 물리적인 위치를 자바스크립트가 스스로 감지하여 100% 정상적인 경로로 안내합니다.
+        
+        var currentPath = window.location.pathname;
+        var targetUrl = "";
+        
+        // 경로 문자열 중에 하위 폴더명인 'minimal-fashion-shop'이 이미 들어가 있는지 분석합니다.
+        if (currentPath.indexOf("minimal-fashion-shop") !== -1) {
+            // 이미 하위 폴더 내부에서 켜진 상태라면, 같은 레벨에 있는 index.html을 바로 띄웁니다.
+            targetUrl = "index.html?admin";
+        } else {
+            // 상위 폴더(쇼핑몰제작)에서 켜진 상태라면, 하위 폴더 경로를 명시하여 띄웁니다.
+            targetUrl = "minimal-fashion-shop/index.html?admin";
+        }
+        
+        setTimeout(function() {
+            window.location.replace(targetUrl);
+        }, 600);
+    </script>
+</body>
+</html>
