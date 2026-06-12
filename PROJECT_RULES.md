@@ -46,3 +46,5 @@
 - ZIP 수동 업로드 사용 금지
 - 모든 수정은 GitHub 저장소에 반영
 - 수정 후 GitHub Commit 시 Netlify 자동 배포
+PROJECT_RULES.md 기준으로 작업해줘.
+수정 후 GitHub 반영 방법도 같이 알려줘.
